@@ -82,3 +82,15 @@ body{
 .card:hover {
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }
+
+.sidenav {
+  height: 100%;
+  width: 25%;
+  position: fixed;
+  z-index: 1;
+  top: 10;
+  right: 8px;
+  background-color: #9f9f9f;
+  overflow-x: hidden;
+  margin-block-end: 10px;
+}
