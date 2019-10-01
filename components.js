@@ -30,12 +30,11 @@ Vue.component('toolbar', {
   
           <!-- tabs for navigation -->
           <template v-slot:extension>
-            <v-tabs v-model="tabs" background-color="orange" fixed-tabs>
-              <v-tab href="#one">Home</v-tab>
-              <v-tab href="#two">Rooms</v-tab>
+            <v-tabs v-model="tabs" background-color="orange" grow>
+              <v-tab href="home.html">Home</v-tab>
+              <v-tab href="rooms.html">Rooms</v-tab>
               <v-tab href="#three">Devices</v-tab>
               <v-tab href="#four">Routines</v-tab>
-              <v-tabs-slider color="white" />
             </v-tabs>
           </template>
         </v-app-bar>`
@@ -73,3 +72,11 @@ Vue.component('toolbar', {
             </v-container>
         </v-navigation-drawer>`
   })
+
+Vue.component('card', {
+  template:
+    `<v-btn  tile width="200" height="150">
+      <v-img src="./resources/images/living_01.jpg" width="200" height="150">
+        <div >Living Room</div>
+    </v-btn>`
+})
