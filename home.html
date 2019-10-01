@@ -11,78 +11,18 @@
 <body>
   <div id="app">
     <v-app id="inspire">
-      <v-app-bar app clipped-right color="black" dark>
-          <v-btn icon>
-              <v-img src="Resources/images/logo.png" width="20px"/>
-            </v-btn>
-            <v-toolbar-title>HOUSE OF HANDS</v-toolbar-title>
-            <div class="flex-grow-1"></div>
-            <v-btn icon>
-              <v-icon>mdi-magnify</v-icon>
-            </v-btn>
-            <v-btn icon>
-              <v-avatar color="grey" size="30px">
-                <i class="material-icons">face</i>
-              </v-avatar>
-            </v-btn>
-
-            <v-menu bottom left>
-                <template v-slot:activator="{ on }">
-                  <v-btn dark icon v-on="on">
-                    <v-icon>mdi-dots-vertical</v-icon>
-                  </v-btn>
-                </template>
-                <v-list>
-                  <v-list-item v-for="(item, i) in options" :key="i" @click="">
-                    <v-list-item-title>{{ item.title }}</v-list-item-title>
-                  </v-list-item>
-                </v-list>
-              </v-menu>
-
-            <template v-slot:extension>
-              <v-tabs v-model="tabs" background-color="orange" fixed-tabs>
-                <v-tab href="#one">Home</v-tab>
-                <v-tab href="#two">Rooms</v-tab>
-                <v-tab href="#three">Devices</v-tab>
-                <v-tab href="#four">Routines</v-tab>
-                <v-tabs-slider color="white"/>
-              </v-tabs>
-            </template>
-      </v-app-bar>
-
-      <v-navigation-drawer v-model="drawerRight" app clipped right permanent>
-        <template v-slot:prepend>
-          <v-list-item two-line>
-            <v-list-item-avatar>
-              <img src="https://randomuser.me/api/portraits/women/81.jpg">
-            </v-list-item-avatar>
-
-            <v-list-item-content>
-              <v-list-item-title>Table Light</v-list-item-title>
-              <v-list-item-subtitle>Kitchen</v-list-item-subtitle>
-            </v-list-item-content>
-            <v-btn icon>
-              <v-icon>mdi-settings</v-icon>
-            </v-btn>
-          </v-list-item>
-        </template>
-
-        <v-divider></v-divider>
-
-        <v-container fluid>
-          <v-switch v-model="switch1" color="orange" label="On"></v-switch>
-          <v-subheader>Color</v-subheader>
-          <v-color-picker hide-canvas hide-inputs flat></v-color-picker>
-          <v-subheader>Brightness</v-subheader>
-          <v-slider v-model="media" prepend-icon="mdi-brightness-6" thumb-label="always" thumb-size="20"></v-slider>
-        </v-container>
-      </v-navigation-drawer>
+      <div>
+        <toolbar></toolbar>
+        <panel></panel>
+      </div>          
 
     </v-app>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+  <script src="components.js"></script>
   <script src="home.js"></script>
+
 </body>
 
 </html>

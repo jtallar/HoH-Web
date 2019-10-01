@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+</head>
+
+<body>
+    <div id="app">
+        <v-app>
+            <v-navigation-drawer v-model="drawerRight" app clipped right permanent>
+                
+                <!-- top bar -->
+                <template v-slot:prepend>
+                    <v-list-item two-line>
+                        <v-list-item-avatar>
+                            <img src="https://randomuser.me/api/portraits/women/81.jpg">
+                        </v-list-item-avatar>
+
+                        <v-list-item-content>
+                            <v-list-item-title>Table Light</v-list-item-title>
+                            <v-list-item-subtitle>Kitchen</v-list-item-subtitle>
+                        </v-list-item-content>
+                        <v-btn icon>
+                            <v-icon>mdi-settings</v-icon>
+                        </v-btn>
+                    </v-list-item>
+                </template>
+
+                <v-divider></v-divider>
+
+                <!-- information container -->
+                <v-container fluid>
+                    <v-switch v-model="switch1" color="orange" label="On"></v-switch>
+                    <v-subheader>Color</v-subheader>
+                    <v-color-picker hide-canvas hide-inputs flat></v-color-picker>
+                    <v-subheader>Brightness</v-subheader>
+                    <v-slider v-model="media" prepend-icon="mdi-brightness-6" thumb-label="always" thumb-size="20">
+                    </v-slider>
+                </v-container>
+            </v-navigation-drawer>
+        </v-app>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+    <script src="test.js"></script>
+</body>
+
+</html>
