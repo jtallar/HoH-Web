@@ -30,17 +30,21 @@ Vue.component('toolbar', {
   
           <!-- tabs for navigation -->
           <template v-slot:extension>
-            <v-tabs grow background-color="orange">
-            <v-tab v-for="tab of tabs" :key="tab.index" :href="tab.dir">
-              {{tab.name}}
-            </v-tab>
+            <v-tabs grow v-model="active_tab" background-color="orange">
+              <v-tab v-for="tab of tabs" :key="tab.index" :href="tab.dir">
+                {{tab.name}}
+              </v-tab>
+
+              <v-tabs-slider color="white" />
+            </v-tabs>
+              
           </template>
         </v-app-bar>`,
   data() {
     return {
       active_tab: 1,
       tabs: [
-        { index: 0, name: 'Home', dir: 'home.html' },
+        { index: 0, name: 'Home', dir: 'home.html'},
         { index: 1, name: 'Rooms', dir: 'rooms.html' },
         { index: 2, name: 'Devices', dir: 'devices.html' },
         { index: 3, name: 'Routines', dir: 'routines.html' }
@@ -109,7 +113,7 @@ Vue.component('card-btn', {
     }
   },
   template:
-    `<v-btn tile :width="getWidth" :height="getHeight" :href="getHref">
+    `<v-btn tile class="ma-3" :width="getWidth" :height="getHeight" :href="getHref">
       <v-img :src="getImg" :width="getWidth" :height="getHeight">
       <div class="text-left grey darken-2 mt-5 pl-3 pa-1">
         <span class="text-uppercase white--text font-weight-light">
