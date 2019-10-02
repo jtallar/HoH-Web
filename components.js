@@ -43,7 +43,7 @@ Vue.component('toolbar', {
         { index: 0, name: 'Home', dir: 'home.html' },
         { index: 1, name: 'Rooms', dir: 'rooms.html' },
         { index: 2, name: 'Devices', dir: 'devices.html' },
-        { index: 3, name: 'Routines', dir: '#tree' }
+        { index: 3, name: 'Routines', dir: 'routines.html' }
       ]
     }
   },
