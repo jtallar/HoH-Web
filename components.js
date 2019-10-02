@@ -42,7 +42,7 @@ Vue.component('toolbar', {
       tabs: [
         { index: 0, name: 'Home', dir: 'home.html' },
         { index: 1, name: 'Rooms', dir: 'rooms.html' },
-        { index: 2, name: 'Devices', dir: '#two' },
+        { index: 2, name: 'Devices', dir: 'devices.html' },
         { index: 3, name: 'Routines', dir: '#tree' }
       ]
     }
@@ -83,7 +83,7 @@ Vue.component('panel', {
         </v-navigation-drawer>`
 })
 
-Vue.component('card', {
+Vue.component('card-btn', {
   props: {
     href: {
       type: Number,
@@ -113,7 +113,7 @@ Vue.component('card', {
       <v-img :src="getImg" :width="getWidth" :height="getHeight">
       <div class="text-left grey darken-2 mt-5 pl-3 pa-1">
         <span class="text-uppercase white--text font-weight-light">
-           {{ title }}      
+           {{ getTitle }}      
         </span>
       </div>
     </v-btn>`,
@@ -134,4 +134,64 @@ Vue.component('card', {
       return this.title; // aca ver de poner max y min caracteres
     }
   }
+})
+
+Vue.component('dev-btn', {
+  props: {
+    name: {
+      type: String,
+      required: true
+    },
+    icon_name: {
+      type: String,
+      required: true
+    },
+    template:
+    `<v-col class="text-center">
+      <v-btn class="mt-4 ma-1" fab :outlined={{ selected }} :width="getSize" :height="getSize" color="grey darken-4" @click="updateView()">
+        <div>
+          <v-img width="55" src="getIcon"></v-img>
+        </div>
+      </v-btn>
+      <div class="text-capitalize black--text font-weight-light mb-4">
+        {{ getName }}
+      </div>
+    </v-col>`
+  },
+  data() {
+    return {
+      selected: false
+    }
+  },
+  methods: {
+    updateView() {
+      this.selected = !this.selected;
+    }
+  },
+  computed: {
+    getSize() {
+      return screen.width / 10; // ver si da limitarlo con max y min
+    },
+    getIcon() {
+      return './resources/icons/web/' + this.icon_name + '.svg';
+    },
+    getName() {
+      return this.name; // aca ver de poner max y min caracteres
+    }
+  }
+})
+
+Vue.component('dev-btn2', {
+      template:
+    `<v-col class="text-center">
+    <v-btn :outlined=false class="mt-4 ma-1" :width="100" :height="100" fab color="grey darken-4" @click=alfo>
+      <div>
+        <v-img width="55" src="./resources/icons/web/air_conditioner_on.svg"></v-img>
+      </div>
+    </v-btn>
+    <div class="text-capitalize black--text font-weight-light mb-4">
+      name here
+    </div>
+  </v-col>`
+
 })
