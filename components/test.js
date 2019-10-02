@@ -46,5 +46,4 @@ var app = new Vue({
         {index: 2, name: 'Devices', dir: '#two'},
         {index: 3, name: 'Routines', dir: '#tree'}
       ]
-    }
   })
