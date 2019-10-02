@@ -145,24 +145,24 @@ Vue.component('dev-btn', {
     icon_name: {
       type: String,
       required: true
-    },
-    template:
-    `<v-col class="text-center">
-      <v-btn class="mt-4 ma-1" fab :outlined={{ selected }} :width="getSize" :height="getSize" color="grey darken-4" @click="updateView()">
-        <div>
-          <v-img width="55" src="getIcon"></v-img>
-        </div>
-      </v-btn>
-      <div class="text-capitalize black--text font-weight-light mb-4">
-        {{ getName }}
-      </div>
-    </v-col>`
+    }
   },
   data() {
     return {
-      selected: false
+      selected: true
     }
   },
+  template:
+    `<v-col class="text-center">
+      <v-btn :outlined="selected" class="mt-4 ma-1" :width="getSize" :height="getSize" fab color="grey darken-4" @click="updateView">
+        <div>
+          <v-img width="getIconSize" src="./resources/icons/web/air_conditioner_on.svg"></v-img>
+        </div>
+      </v-btn>
+      <div class="text-capitalize black--text font-weight-light mb-4">
+        {{ name }}
+      </div>
+    </v-col>`,
   methods: {
     updateView() {
       this.selected = !this.selected;
@@ -175,23 +175,12 @@ Vue.component('dev-btn', {
     getIcon() {
       return './resources/icons/web/' + this.icon_name + '.svg';
     },
+    getIconSize() {
+      return this.getSize / 2;
+    },
     getName() {
       return this.name; // aca ver de poner max y min caracteres
     }
   }
-})
-
-Vue.component('dev-btn2', {
-      template:
-    `<v-col class="text-center">
-    <v-btn :outlined=false class="mt-4 ma-1" :width="100" :height="100" fab color="grey darken-4" @click=alfo>
-      <div>
-        <v-img width="55" src="./resources/icons/web/air_conditioner_on.svg"></v-img>
-      </div>
-    </v-btn>
-    <div class="text-capitalize black--text font-weight-light mb-4">
-      name here
-    </div>
-  </v-col>`
 
 })
