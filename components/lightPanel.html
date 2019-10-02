@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+</head>
+
+<body>
+    <div id="app">
+        <v-app>
+            <v-navigation-drawer v-model="drawerRight" app clipped right permanent color='#E9E9E9'>
+                <!-- top bar -->
+                <template v-slot:prepend>
+                    <v-list-item two-line>
+                        <v-list-item-avatar>
+                            <v-icon>mdi-lightbulb-on</v-icon>
+                        </v-list-item-avatar>
+                        <v-list-item-content>
+                            <v-list-item-title>Table Light</v-list-item-title>
+                            <v-list-item-subtitle>Kitchen</v-list-item-subtitle>
+                        </v-list-item-content>
+                        <v-btn icon>
+                            <v-icon>mdi-settings</v-icon>
+                        </v-btn>
+                    </v-list-item>
+                </template>
+                
+                <v-divider></v-divider>
+
+                <!-- information container -->
+                <v-container fluid>
+                    <v-layout align-center wrap>
+                        <v-layout column align-end mr-2>
+                            <h3>Off</h3>
+                        </v-layout>
+                        <v-layout column>
+                            <v-switch class="align-center justify-center" v-model="switch1" color="orange"></v-switch>
+                        </v-layout>
+                        <v-layout column>
+                            <h3>On</h3>
+                        </v-layout>
+                    </v-layout>
+                    <v-subheader>Color</v-subheader>
+                    <v-color-picker v-model="color" hide-inputs hide-mode-switch mode.sync="rgba" class="mx-auto" flat></v-color-picker>
+                    <v-subheader>Brightness</v-subheader>
+                    <v-slider v-model="media" class="mt-4" prepend-icon="mdi-brightness-6" thumb-label="always" thumb-size="25" color="orange" track-color="black" thumb-color="orange darken-2">
+                    </v-slider>
+                </v-container>
+            </v-navigation-drawer>
+        </v-app>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+    <script src="test.js"></script>
+</body>
+
+</html>

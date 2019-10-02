@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+</head>
+
+<body>
+    <div id="app">
+        <v-app>
+            <v-navigation-drawer v-model="drawerRight" app clipped right permanent color='#E9E9E9'>
+                <!-- top bar -->
+                <template v-slot:prepend>
+                    <v-list-item two-line>
+                        <v-list-item-avatar tile>
+                            <v-img src="../resources/icons/web/oven_on.svg" align-start contain height="40" width="30">
+                            </v-img>
+                        </v-list-item-avatar>
+                        <v-list-item-content>
+                            <v-list-item-title>Oven</v-list-item-title>
+                            <v-list-item-subtitle>Kitchen</v-list-item-subtitle>
+                        </v-list-item-content>
+                        <v-btn icon>
+                            <v-icon>mdi-settings</v-icon>
+                        </v-btn>
+                    </v-list-item>
+                </template>
+
+                <v-divider></v-divider>
+
+                <!-- information container -->
+                <v-container fluid>
+                    <v-layout align-center wrap>
+                        <v-layout column align-end mr-2>
+                            <h3>Off</h3>
+                        </v-layout>
+                        <v-layout column>
+                            <v-switch class="align-center justify-center" v-model="switch1" color="orange"></v-switch>
+                        </v-layout>
+                        <v-layout column>
+                            <h3>On</h3>
+                        </v-layout>
+                    </v-layout>
+                    <v-subheader>Temperature</v-subheader>
+                    <v-slider v-model="value" class="mt-4" step="10" ticks="always" tick-size="4" min="90" max="230"
+                        thumb-label="always" thumb-size="25" color="orange" track-color="black"
+                        thumb-color="orange darken-2"></v-slider>
+                    
+                    <v-subheader>Heat Source</v-subheader>
+                    <v-layout column align-center>
+                        <v-btn-toggle v-model="text" tile color="orange darken-2" group mandatory>
+                            <v-btn value="left">Up</v-btn>
+                            <v-btn value="center">Down</v-btn>
+                            <v-btn value="right">Full</v-btn>
+                        </v-btn-toggle>
+                    </v-layout>
+
+                    <v-subheader>Convection Mode</v-subheader>
+                    <v-layout column align-center>
+                        <v-btn-toggle v-model="text" tile color="orange darken-2" group mandatory>
+                            <v-btn value="left">Off</v-btn>
+                            <v-btn value="center">Eco</v-btn>
+                            <v-btn value="right">Full</v-btn>
+                        </v-btn-toggle>
+                    </v-layout>
+
+                    <v-subheader>Grill Mode</v-subheader>
+                    <v-layout column align-center>
+                        <v-btn-toggle v-model="text" tile color="orange darken-2" group mandatory>
+                            <v-btn value="left">Off</v-btn>
+                            <v-btn value="center">Eco</v-btn>
+                            <v-btn value="right">Full</v-btn>
+                        </v-btn-toggle>
+                    </v-layout>
+                </v-container>
+            </v-navigation-drawer>
+        </v-app>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+    <script src="test.js"></script>
+</body>
+
+</html>
