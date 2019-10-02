@@ -5,28 +5,30 @@
   <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
-  <link href="../main.css" rel="stylesheet">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
 </head>
 
 <body>
   <div id="app">
-    <v-app id="test">
-      
-      <v-btn tile width="200" height="150">
-        <v-img src="../resources/images/living_01.jpg" width="200" height="150">
-          <div class="text-left grey darken-2 mt-5 pl-3">
-            <span class="text-uppercase white--text font-weight-light">
-              Living Room
-            </span>
-          </div>
-      </v-btn>
-      
+    <v-app id="inspire">
+      <toolbar></toolbar>
+      <v-content>
+        <v-container>
+          <v-row justify="center">
+            <v-col v-for="i in 8" cols="auto">
+              <card-btn href="./home.html" title="Rutina" img_name="sleeping_01"></card-btn>
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-content>
+
     </v-app>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
-  <script src="test.js"></script>
+  <script src="components.js"></script>
+  <script src="home.js"></script>
+
 </body>
 
 </html>

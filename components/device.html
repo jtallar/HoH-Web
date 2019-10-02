@@ -12,16 +12,18 @@
 <body>
   <div id="app">
     <v-app id="test">
-      
-      <v-btn tile width="200" height="150">
-        <v-img src="../resources/images/living_01.jpg" width="200" height="150">
-          <div class="text-left grey darken-2 mt-5 pl-3">
-            <span class="text-uppercase white--text font-weight-light">
-              Living Room
-            </span>
+
+      <v-col class="text-center">
+        <v-btn :outlined=false class="mt-4 ma-1" :width="100" :height="100" fab color="grey darken-4">
+          <div>
+            <v-img width="55" src="../resources/icons/web/air_conditioner_on.svg"></v-img>
           </div>
-      </v-btn>
-      
+        </v-btn>
+        <div class="text-capitalize black--text font-weight-light mb-4">
+          name here
+        </div>
+      </v-col>
+
     </v-app>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
