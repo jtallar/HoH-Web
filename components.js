@@ -1,8 +1,8 @@
 // javascript file for used components
 
 Vue.component('toolbar', {
-    template:
-        `<v-app-bar app clipped-right color="black" dark>
+  template:
+    `<v-app-bar app clipped-right color="black" dark>
           <!-- button/avatar/image for logo -->
           <v-btn icon>
             <v-avatar size="35">
@@ -30,19 +30,29 @@ Vue.component('toolbar', {
   
           <!-- tabs for navigation -->
           <template v-slot:extension>
-            <v-tabs v-model="tabs" background-color="orange" grow>
-              <v-tab href="home.html">Home</v-tab>
-              <v-tab href="rooms.html">Rooms</v-tab>
-              <v-tab href="#three">Devices</v-tab>
-              <v-tab href="#four">Routines</v-tab>
-            </v-tabs>
+            <v-tabs grow background-color="orange">
+            <v-tab v-for="tab of tabs" :key="tab.index" :href="tab.dir">
+              {{tab.name}}
+            </v-tab>
           </template>
-        </v-app-bar>`
-  })
-  
-  Vue.component('panel', {
-    template:
-        `<v-navigation-drawer v-model="drawerRight" app clipped right permanent>      
+        </v-app-bar>`,
+  data() {
+    return {
+      active_tab: 2,
+      tabs: [
+        { index: 0, name: 'Home', dir: 'home.html' },
+        { index: 1, name: 'Rooms', dir: 'rooms.html' },
+        { index: 2, name: 'Devices', dir: '#two' },
+        { index: 3, name: 'Routines', dir: '#tree' }
+      ]
+    }
+  },
+
+})
+
+Vue.component('panel', {
+  template:
+    `<v-navigation-drawer v-model="drawerRight" app clipped right permanent>      
             <!-- top bar -->
             <template v-slot:prepend>
                 <v-list-item two-line>
@@ -71,12 +81,50 @@ Vue.component('toolbar', {
                 <v-slider v-model="media" prepend-icon="mdi-brightness-6" thumb-label="always" thumb-size="20"></v-slider>
             </v-container>
         </v-navigation-drawer>`
-  })
+})
 
 Vue.component('card', {
+  props: {
+    ratio: {
+      type: Number,
+      default: 2
+    },
+    title: {
+      type: String,
+      required: true
+    },
+    img_name: {
+      type: String,
+      required: true
+    }
+  },
+  data() {
+    return {
+      minWidth: 100,
+      maxWidth: 400
+    }
+  },
   template:
-    `<v-btn  tile width="200" height="150">
-      <v-img src="./resources/images/living_01.jpg" width="200" height="150">
-        <div >Living Room</div>
-    </v-btn>`
+    `<v-btn tile :width="getWidth" :height="getHeight">
+      <v-img :src="getImg" :width="getWidth" :height="getHeight">
+      <div class="text-left grey darken-2 mt-5 pl-3">
+        <span class="text-uppercase white--text font-weight-light">
+           {{ title }}      
+        </span>
+      </div>
+    </v-btn>`,
+  computed: {
+    getWidth() {
+      return screen.width / 6; // ver si da limitarlo con max y min
+    },
+    getHeight() {
+      return this.getWidth / this.ratio;
+    },
+    getImg() {
+      return './resources/images/' + this.img_name + '.jpg';
+    },
+    getTitle() {
+      return this.title; // aca ver de poner max y min caracteres
+    }
+  }
 })
