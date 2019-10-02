@@ -5,31 +5,40 @@
   <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+  <link href="../main.css" rel="stylesheet">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
 </head>
 
 <body>
   <div id="app">
-    <v-app id="inspire">
-      <toolbar></toolbar>
-      <v-content>
-        <v-container>
-          <v-row justify="center">
-            <v-col v-for="i in 9" cols="auto">
-              <card href="./home.html" title="Living" img_name="living_01"></card>
-            </v-col>
-          </v-row>
-        </v-container>
+    <v-app id="test">
 
-      </v-content>
+      <v-btn class="ma-2" large fab color="indigo">
+        
+        <v-col class="justify-center">
+          <v-row >
+            <v-icon color="white" size=45>mdi-lightbulb</v-icon>
+          </v-row>
+          <v-row>
+            <div class="text-center mt-5 pl-3">
+              <span class="text-lowercase black--text font-weight-light">
+                name here
+              </span>
+            </div>
+          </v-row>
+        </v-col>
+
+
+
+
+      </v-btn>
+
 
     </v-app>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
-  <script src="components.js"></script>
-  <script src="home.js"></script>
-
+  <script src="test.js"></script>
 </body>
 
 </html>

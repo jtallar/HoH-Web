@@ -38,7 +38,7 @@ Vue.component('toolbar', {
         </v-app-bar>`,
   data() {
     return {
-      active_tab: 2,
+      active_tab: 1,
       tabs: [
         { index: 0, name: 'Home', dir: 'home.html' },
         { index: 1, name: 'Rooms', dir: 'rooms.html' },
@@ -85,6 +85,10 @@ Vue.component('panel', {
 
 Vue.component('card', {
   props: {
+    href: {
+      type: Number,
+      required: true
+    },
     ratio: {
       type: Number,
       default: 2
@@ -105,15 +109,18 @@ Vue.component('card', {
     }
   },
   template:
-    `<v-btn tile :width="getWidth" :height="getHeight">
+    `<v-btn tile :width="getWidth" :height="getHeight" :href="getHref">
       <v-img :src="getImg" :width="getWidth" :height="getHeight">
-      <div class="text-left grey darken-2 mt-5 pl-3">
+      <div class="text-left grey darken-2 mt-5 pl-3 pa-1">
         <span class="text-uppercase white--text font-weight-light">
            {{ title }}      
         </span>
       </div>
     </v-btn>`,
   computed: {
+    getHref() {
+      return this.href;
+    },
     getWidth() {
       return screen.width / 6; // ver si da limitarlo con max y min
     },
