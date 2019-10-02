@@ -30,20 +30,24 @@ Vue.component('toolbar', {
   
           <!-- tabs for navigation -->
           <template v-slot:extension>
-            <v-tabs grow background-color="orange">
-            <v-tab v-for="tab of tabs" :key="tab.index" :href="tab.dir">
-              {{tab.name}}
-            </v-tab>
+            <v-tabs grow v-model="active_tab" background-color="orange">
+              <v-tab v-for="tab of tabs" :key="tab.index" :href="tab.dir">
+                {{tab.name}}
+              </v-tab>
+
+              <v-tabs-slider color="white" />
+            </v-tabs>
+              
           </template>
         </v-app-bar>`,
   data() {
     return {
-      active_tab: 2,
+      active_tab: 1,
       tabs: [
-        { index: 0, name: 'Home', dir: 'home.html' },
+        { index: 0, name: 'Home', dir: 'home.html'},
         { index: 1, name: 'Rooms', dir: 'rooms.html' },
-        { index: 2, name: 'Devices', dir: '#two' },
-        { index: 3, name: 'Routines', dir: '#tree' }
+        { index: 2, name: 'Devices', dir: 'devices.html' },
+        { index: 3, name: 'Routines', dir: 'routines.html' }
       ]
     }
   },
@@ -83,8 +87,12 @@ Vue.component('panel', {
         </v-navigation-drawer>`
 })
 
-Vue.component('card', {
+Vue.component('card-btn', {
   props: {
+    href: {
+      type: Number,
+      required: true
+    },
     ratio: {
       type: Number,
       default: 2
@@ -105,15 +113,18 @@ Vue.component('card', {
     }
   },
   template:
-    `<v-btn tile :width="getWidth" :height="getHeight">
+    `<v-btn tile class="ma-3" :width="getWidth" :height="getHeight" :href="getHref">
       <v-img :src="getImg" :width="getWidth" :height="getHeight">
-      <div class="text-left grey darken-2 mt-5 pl-3">
+      <div class="text-left grey darken-2 mt-5 pl-3 pa-1">
         <span class="text-uppercase white--text font-weight-light">
-           {{ title }}      
+           {{ getTitle }}      
         </span>
       </div>
     </v-btn>`,
   computed: {
+    getHref() {
+      return this.href;
+    },
     getWidth() {
       return screen.width / 6; // ver si da limitarlo con max y min
     },
@@ -127,4 +138,53 @@ Vue.component('card', {
       return this.title; // aca ver de poner max y min caracteres
     }
   }
+})
+
+Vue.component('dev-btn', {
+  props: {
+    name: {
+      type: String,
+      required: true
+    },
+    icon_name: {
+      type: String,
+      required: true
+    }
+  },
+  data() {
+    return {
+      selected: true
+    }
+  },
+  template:
+    `<v-col class="text-center">
+      <v-btn :outlined="selected" class="mt-4 ma-1" :width="getSize" :height="getSize" fab color="grey darken-4" @click="updateView">
+        <div>
+          <v-img width="getIconSize" src="./resources/icons/web/air_conditioner_on.svg"></v-img>
+        </div>
+      </v-btn>
+      <div class="text-capitalize black--text font-weight-light mb-4">
+        {{ name }}
+      </div>
+    </v-col>`,
+  methods: {
+    updateView() {
+      this.selected = !this.selected;
+    }
+  },
+  computed: {
+    getSize() {
+      return screen.width / 10; // ver si da limitarlo con max y min
+    },
+    getIcon() {
+      return './resources/icons/web/' + this.icon_name + '.svg';
+    },
+    getIconSize() {
+      return this.getSize / 2;
+    },
+    getName() {
+      return this.name; // aca ver de poner max y min caracteres
+    }
+  }
+
 })
