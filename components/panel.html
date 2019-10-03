@@ -67,23 +67,26 @@
                     <v-subheader>Fan Speed</v-subheader>
                     <v-layout>
                         <v-slider v-model="value" class="mt-4" step="25" ticks="always" tick-size="4" min="25" max="100"
-                        thumb-label="always" thumb-size="25" color="orange" track-color="black"
-                        thumb-color="orange darken-2" :disabled="autoFanSpeed"></v-slider>
-                        <v-checkbox label="Auto" color="orange darken-2" @change="autoFanSpeed = !autoFanSpeed"></v-checkbox>
+                            thumb-label="always" thumb-size="25" color="orange" track-color="black"
+                            thumb-color="orange darken-2" :disabled="autoFanSpeed"></v-slider>
+                        <v-checkbox label="Auto" color="orange darken-2" @change="autoFanSpeed = !autoFanSpeed">
+                        </v-checkbox>
                     </v-layout>
                     <v-subheader>Vertical Wings</v-subheader>
                     <v-layout>
-                        <v-slider v-model="value" class="mt-4" step="22.5" ticks="always" tick-size="4" min="22.5" max="90"
-                        thumb-label="always" thumb-size="25" color="orange" track-color="black"
-                        thumb-color="orange darken-2" :disabled="autoVerWings"></v-slider>
-                        <v-checkbox label="Auto" color="orange darken-2" @change="autoVerWings = !autoVerWings"></v-checkbox>
+                        <v-slider v-model="value" class="mt-4" step="22.5" ticks="always" tick-size="4" min="22.5"
+                            max="90" thumb-label="always" thumb-size="25" color="orange" track-color="black"
+                            thumb-color="orange darken-2" :disabled="autoVerWings"></v-slider>
+                        <v-checkbox label="Auto" color="orange darken-2" @change="autoVerWings = !autoVerWings">
+                        </v-checkbox>
                     </v-layout>
                     <v-subheader>Horizontal Wings</v-subheader>
                     <v-layout>
                         <v-slider v-model="value" class="mt-4" step="45" ticks="always" tick-size="4" min="-90" max="90"
-                        thumb-label="always" thumb-size="25" color="orange" track-color="black"
-                        thumb-color="orange darken-2" :disabled="autoHorWings"></v-slider>
-                        <v-checkbox label="Auto" color="orange darken-2" @change="autoHorWings = !autoHorWings"></v-checkbox>
+                            thumb-label="always" thumb-size="25" color="orange" track-color="black"
+                            thumb-color="orange darken-2" :disabled="autoHorWings"></v-slider>
+                        <v-checkbox label="Auto" color="orange darken-2" @change="autoHorWings = !autoHorWings">
+                        </v-checkbox>
                     </v-layout>
 
 

@@ -44,7 +44,7 @@ Vue.component('toolbar', {
     return {
       active_tab: 1,
       tabs: [
-        { index: 0, name: 'Home', dir: 'home.html'},
+        { index: 0, name: 'Home', dir: 'home.html' },
         { index: 1, name: 'Rooms', dir: 'rooms.html' },
         { index: 2, name: 'Devices', dir: 'devices.html' },
         { index: 3, name: 'Routines', dir: 'routines.html' }
@@ -55,36 +55,61 @@ Vue.component('toolbar', {
 })
 
 Vue.component('panel', {
+  props: {
+    device: {
+      type: String, // HACER ALGO DEPENDIENDO COMO FUNCIONE
+      required: true
+    }
+  },
+  data() {
+    return {
+      favorite: false
+    }
+  },
   template:
-    `<v-navigation-drawer v-model="drawerRight" app clipped right permanent>      
-            <!-- top bar -->
-            <template v-slot:prepend>
-                <v-list-item two-line>
-                    <v-list-item-avatar>
-                        <img src="https://randomuser.me/api/portraits/women/81.jpg">
-                    </v-list-item-avatar>
-  
-                    <v-list-item-content>
-                        <v-list-item-title>Table Light</v-list-item-title>
-                        <v-list-item-subtitle>Kitchen</v-list-item-subtitle>
-                    </v-list-item-content>
-                    <v-btn icon>
-                        <v-icon>mdi-settings</v-icon>
-                    </v-btn>
-                </v-list-item>
-            </template>
-  
-            <v-divider></v-divider>
-  
-            <!-- information container -->
-            <v-container fluid>
-                <v-switch v-model="switch1" color="orange" label="On"></v-switch>
-                <v-subheader>Color</v-subheader>
-                <v-color-picker hide-canvas hide-inputs flat></v-color-picker>
-                <v-subheader>Brightness</v-subheader>
-                <v-slider v-model="media" prepend-icon="mdi-brightness-6" thumb-label="always" thumb-size="20"></v-slider>
-            </v-container>
-        </v-navigation-drawer>`
+    `<v-navigation-drawer v-model="drawerRight" app clipped right permanent color='#E9E9E9' :width="getWidth">
+      <!-- header -->
+      <template v-slot:prepend>
+        <v-list-item two-line>
+          <v-list-item-avatar tile>
+            <v-img :src="getImg" :width="30"/>
+          </v-list-item-avatar>
+          <v-list-item-content>
+            <v-list-item-title class="text-capitalize">air conditioner</v-list-item-title>
+            <v-list-item-subtitle class="text-capitalize">Living Room</v-list-item-subtitle>
+          </v-list-item-content>
+          <v-btn icon @click="toggleFav">
+            <v-icon v-show="favorite">mdi-star</v-icon>
+            <v-icon v-show="!favorite">mdi-star-outline</v-icon>
+          </v-btn>
+          <v-btn icon @click="launchSettings">
+            <v-icon>mdi-settings</v-icon>
+          </v-btn>
+          </v-list-item>
+        </template>
+        <v-divider></v-divider>
+        
+        <!-- information and settings -->
+        <v-container>
+        
+        </v-container>
+      </v-navigation-drawer>`,
+  methods: {
+    toggleFav() {
+      this.favorite = !this.favorite;
+    },
+    launchSettings() {
+      // do something here when motherfucker touches settings
+    }
+  },
+  computed: {
+    getImg() {
+      return './resources/icons/web/vacuum_on.svg';
+    },
+    getWidth() {
+      return screen.width / 5;
+    }
+  }
 })
 
 Vue.component('card-btn', {
@@ -114,7 +139,7 @@ Vue.component('card-btn', {
   },
   template:
     `<v-btn tile class="ma-3" :width="getWidth" :height="getHeight" :href="getHref">
-      <v-img :src="getImg" :width="getWidth" :height="getHeight">
+      <v-img :src="getImg" :width="getWidth" :height="getHeight"/>
       <div class="text-left grey darken-2 mt-5 pl-3 pa-1">
         <span class="text-uppercase white--text font-weight-light">
            {{ getTitle }}      
@@ -158,9 +183,9 @@ Vue.component('dev-btn', {
   },
   template:
     `<v-col class="text-center">
-      <v-btn :outlined="selected" class="mt-4 ma-1" :width="getSize" :height="getSize" fab color="grey darken-4" @click="updateView">
+      <v-btn :outlined="selected" class="mt-4 ma-1" :width="getSize" :height="getSize" fab color="grey darken-4" @click="toggleSelected">
         <div>
-          <v-img width="getIconSize" src="./resources/icons/web/air_conditioner_on.svg"></v-img>
+          <v-img width="getIconSize" src="./resources/icons/web/air_conditioner_on.svg"/>
         </div>
       </v-btn>
       <div class="text-capitalize black--text font-weight-light mb-4">
@@ -168,7 +193,7 @@ Vue.component('dev-btn', {
       </div>
     </v-col>`,
   methods: {
-    updateView() {
+    toggleSelected() {
       this.selected = !this.selected;
     }
   },
@@ -186,5 +211,4 @@ Vue.component('dev-btn', {
       return this.name; // aca ver de poner max y min caracteres
     }
   }
-
 })
