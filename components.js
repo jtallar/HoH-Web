@@ -67,7 +67,7 @@ Vue.component('panel', {
     }
   },
   template:
-    `<v-navigation-drawer v-model="drawerRight" app clipped right permanent color='#E9E9E9' :width="getWidth">
+    `<v-navigation-drawer v-model="drawerRight" app clipped right permanent color='#E9E9E9' width="getWidth">
       <!-- header -->
       <template v-slot:prepend>
         <v-list-item two-line>
@@ -139,12 +139,13 @@ Vue.component('card-btn', {
   },
   template:
     `<v-btn tile class="ma-3" :width="getWidth" :height="getHeight" :href="getHref">
-      <v-img :src="getImg" :width="getWidth" :height="getHeight"/>
-      <div class="text-left grey darken-2 mt-5 pl-3 pa-1">
-        <span class="text-uppercase white--text font-weight-light">
-           {{ getTitle }}      
-        </span>
-      </div>
+      <v-img :src="getImg" :width="getWidth" :height="getHeight">
+        <div class="text-left grey darken-2 mt-5 pl-3 pa-1">
+          <span class="text-uppercase white--text font-weight-light">
+            {{ getTitle }}      
+          </span>
+        </div>
+      </v-img>
     </v-btn>`,
   computed: {
     getHref() {
@@ -212,3 +213,5 @@ Vue.component('dev-btn', {
     }
   }
 })
+
+Vue.component({})
