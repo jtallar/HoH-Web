@@ -5,6 +5,16 @@ var app = new Vue({
     vuetify: new Vuetify(),
     data: {
       color: '#FFF100',
+      favorite: false,
+      room: 'Living Room',
+      chargingBase: 'Bathroom',
+      charging: false,
+      playVac: true,
+      playMusic: true,
+      playlist: false,
+      autoFanSpeed: false,
+      autoHorWings: false,
+      autoVerWings: false,
     },
       items: [
         {
@@ -35,6 +45,7 @@ var app = new Vue({
           src: 'kitchen1.jpg',
         },
       ],
+      
       overlay: false,
       snackbarCan: false,
       snackbarOk: false,

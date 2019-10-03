@@ -15,13 +15,18 @@
                 <!-- top bar -->
                 <template v-slot:prepend>
                     <v-list-item two-line>
-                        <v-list-item-avatar>
-                            <v-icon>mdi-lightbulb-on</v-icon>
+                        <v-list-item-avatar tile>
+                            <v-img src="../resources/icons/web/lamp_on.svg" align-start contain height="40" width="30">
+                            </v-img>
                         </v-list-item-avatar>
                         <v-list-item-content>
                             <v-list-item-title>Table Light</v-list-item-title>
                             <v-list-item-subtitle>Kitchen</v-list-item-subtitle>
                         </v-list-item-content>
+                        <v-btn icon>
+                            <v-icon v-show="favorite">mdi-star</v-icon>
+                            <v-icon v-show="!favorite">mdi-star-outline</v-icon>
+                        </v-btn>
                         <v-btn icon>
                             <v-icon>mdi-settings</v-icon>
                         </v-btn>

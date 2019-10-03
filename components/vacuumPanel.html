@@ -16,12 +16,13 @@
                 <template v-slot:prepend>
                     <v-list-item two-line>
                         <v-list-item-avatar tile>
-                            <v-img src="../resources/icons/web/oven_on.svg" align-start contain height="40" width="30">
+                            <v-img src="../resources/icons/web/vacuum_on.svg" align-start contain height="40"
+                                width="30">
                             </v-img>
                         </v-list-item-avatar>
                         <v-list-item-content>
-                            <v-list-item-title>Oven</v-list-item-title>
-                            <v-list-item-subtitle>Kitchen</v-list-item-subtitle>
+                            <v-list-item-title>Vacuum</v-list-item-title>
+                            <v-list-item-subtitle>{{room}}</v-list-item-subtitle>
                         </v-list-item-content>
                         <v-btn icon>
                             <v-icon v-show="favorite">mdi-star</v-icon>
@@ -48,37 +49,36 @@
                             <h3>On</h3>
                         </v-layout>
                     </v-layout>
-                    <v-subheader>Temperature</v-subheader>
-                    <v-slider v-model="value" class="mt-4" step="10" ticks="always" tick-size="4" min="90" max="230"
-                        thumb-label="always" thumb-size="25" color="orange" track-color="black"
-                        thumb-color="orange darken-2"></v-slider>
-                    
-                    <v-subheader>Heat Source</v-subheader>
+
+                    <v-layout align-center wrap ma-3>
+                        <v-layout column>
+                            <v-btn icon>
+                                <v-icon v-show="playVac" @click="playVac = !playVac" size="60">mdi-play-circle</v-icon>
+                                <v-icon v-show="!playVac" @click="playVac = !playVac" size="60">mdi-pause-circle
+                                </v-icon>
+                            </v-btn>
+                        </v-layout>
+                        <v-layout column>
+                            <v-btn class="my-2" color="orange darken-2" block @click="charging = !charging" width="100">
+                                <h3 v-show="!charging">GO CHARGE</h3>
+                                <h3 v-show="charging">CHARGING</h3>
+                            </v-btn>
+                        </v-layout>
+                    </v-layout>
+
+                    <v-subheader>Mode</v-subheader>
                     <v-layout column align-center>
                         <v-btn-toggle v-model="text" tile color="orange darken-2" group mandatory>
-                            <v-btn>Up</v-btn>
-                            <v-btn>Down</v-btn>
-                            <v-btn>Full</v-btn>
+                            <v-btn>Vacuum</v-btn>
+                            <v-btn>Mop</v-btn>
                         </v-btn-toggle>
                     </v-layout>
 
-                    <v-subheader>Convection Mode</v-subheader>
-                    <v-layout column align-center>
-                        <v-btn-toggle v-model="text" tile color="orange darken-2" group mandatory>
-                            <v-btn>Off</v-btn>
-                            <v-btn>Eco</v-btn>
-                            <v-btn>Full</v-btn>
-                        </v-btn-toggle>
-                    </v-layout>
+                    <v-subheader>Room to Clean</v-subheader>
+                    <v-select :items="['Living Room', 'Kitchen', 'Bathroom']" :value="room" required></v-select>
 
-                    <v-subheader>Grill Mode</v-subheader>
-                    <v-layout column align-center>
-                        <v-btn-toggle v-model="text" tile color="orange darken-2" group mandatory>
-                            <v-btn>Off</v-btn>
-                            <v-btn>Eco</v-btn>
-                            <v-btn>Full</v-btn>
-                        </v-btn-toggle>
-                    </v-layout>
+                    <v-subheader>Charging Base in</v-subheader>
+                    <v-select :items="['Living Room', 'Kitchen', 'Bathroom']" :value="chargingBase" required></v-select>
                 </v-container>
             </v-navigation-drawer>
         </v-app>
