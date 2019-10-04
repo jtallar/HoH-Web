@@ -90,7 +90,7 @@ Vue.component('panel', {
         <v-divider></v-divider>
         
         <!-- information and settings -->
-        <panel-light/>
+        <panel-oven/>
       </v-navigation-drawer>`,
   methods: {
     toggleFav() {
@@ -228,7 +228,7 @@ Vue.component('panel-light', {
   },
   watch: { // here we set the new values
     state(newVal, oldVal) {
-      
+
     },
     color(newVal, oldVal) {
 
@@ -250,10 +250,96 @@ Vue.component('panel-light', {
           <h3>On</h3>
         </v-layout>
       </v-layout>
+
       <v-subheader>Color</v-subheader>
       <v-color-picker v-model="color" hide-inputs hide-mode-switch mode.sync="rgba" class="mx-auto" flat></v-color-picker>
+      
       <v-subheader>Brightness</v-subheader>
-      <v-slider v-model="brightness" class="mt-4" prepend-icon="mdi-brightness-6" thumb-label="always" thumb-size="25" color="orange" track-color="black" thumb-color="orange darken-2"></v-slider>
+      <v-slider v-model="brightness" class="mt-4" prepend-icon="mdi-brightness-6" 
+        thumb-label="always" thumb-size="25" color="orange" track-color="black" thumb-color="orange darken-2"></v-slider>
+    </v-container>`,
+  mounted: function() {
+      // here we extract all the data
+  }
+})
+
+Vue.component('panel-oven', {
+  props: {
+    device: {
+      type: String,
+      required: true
+    }
+  },
+  data () {
+    return {
+      state: false,
+      temperature: 90,
+      heat_source: 2, // takes values from 0 to 2
+      convection_mode: 2,
+      grill_mode: 2
+    }
+  },
+  watch: { // here we set the new values
+    state(newVal, oldVal) {
+      
+    },
+    temperature(newVal, oldVal) {
+
+    },
+    heat_source(newVal, oldVal) {
+
+    },
+    convection_mode(newVal, oldVal) {
+
+    },
+    grill_mode(newVal, oldVal) {
+
+    }
+  },
+  template:
+    `<v-container fluid>
+      <v-layout align-center wrap>
+        <v-layout column align-end mr-2>
+          <h3>Off</h3>
+        </v-layout>
+        <v-layout column>
+          <v-switch class="align-center justify-center" v-model="state" color="orange"></v-switch>
+        </v-layout>
+        <v-layout column>
+          <h3>On</h3>
+        </v-layout>
+      </v-layout>
+      <v-subheader>Temperature</v-subheader>
+      <v-slider v-model="temperature" class="mt-4" step="10" ticks="always" tick-size="4" min="90" max="230"
+        thumb-label="always" thumb-size="25" color="orange" track-color="black"
+        thumb-color="orange darken-2"></v-slider>
+    
+      <v-subheader>Heat Source</v-subheader>
+      <v-layout column align-center>
+        <v-btn-toggle v-model="heat_source" tile color="orange darken-2" group mandatory>
+          <v-btn>Up</v-btn>
+          <v-btn>Down</v-btn>
+          <v-btn>Full</v-btn>
+        </v-btn-toggle>
+      </v-layout>
+
+      <v-subheader>Convection Mode</v-subheader>
+      <v-layout column align-center>
+        <v-btn-toggle v-model="convection_mode" tile color="orange darken-2" group mandatory>
+          <v-btn>Off</v-btn>
+          <v-btn>Eco</v-btn>
+          <v-btn>Full</v-btn>
+        </v-btn-toggle>
+      </v-layout>
+
+      <v-subheader>Grill Mode</v-subheader>
+      <v-layout column align-center>
+        <v-btn-toggle v-model="grill_mode" tile color="orange darken-2" group mandatory>
+          <v-btn>Off</v-btn>
+          <v-btn>Eco</v-btn>
+          <v-btn>Full</v-btn>
+        </v-btn-toggle>
+      </v-layout>
     </v-container>`,
   mounted: function() {
       // here we extract all the data
