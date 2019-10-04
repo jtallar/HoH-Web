@@ -90,7 +90,7 @@ Vue.component('panel', {
         <v-divider></v-divider>
         
         <!-- information and settings -->
-        <panel-oven/>
+        <panel-speaker/>
       </v-navigation-drawer>`,
   methods: {
     toggleFav() {
@@ -219,7 +219,7 @@ Vue.component('panel-light', {
       required: true
     }
   },
-  data () {
+  data() {
     return {
       state: false,
       color: '#FFF100',
@@ -258,8 +258,8 @@ Vue.component('panel-light', {
       <v-slider v-model="brightness" class="mt-4" prepend-icon="mdi-brightness-6" 
         thumb-label="always" thumb-size="25" color="orange" track-color="black" thumb-color="orange darken-2"></v-slider>
     </v-container>`,
-  mounted: function() {
-      // here we extract all the data
+  mounted: function () {
+    // here we extract all the data
   }
 })
 
@@ -270,18 +270,18 @@ Vue.component('panel-oven', {
       required: true
     }
   },
-  data () {
+  data() {
     return {
       state: false,
       temperature: 90,
       heat_source: 2, // takes values from 0 to 2
-      convection_mode: 2,
-      grill_mode: 2
+      convection_mode: 2, // same
+      grill_mode: 2 // same
     }
   },
   watch: { // here we set the new values
     state(newVal, oldVal) {
-      
+
     },
     temperature(newVal, oldVal) {
 
@@ -341,7 +341,127 @@ Vue.component('panel-oven', {
         </v-btn-toggle>
       </v-layout>
     </v-container>`,
-  mounted: function() {
-      // here we extract all the data
+  mounted: function () {
+    // here we extract all the data
+  }
+})
+
+Vue.component('panel-speaker', {
+  props: {
+    device: {
+      type: String,
+      required: true
+    }
+  },
+  data() {
+    return {
+      state: false,
+      playlist: true,
+      elapsed_time: '2:05', // should be a number
+      song_name: 'No Song in Queue',
+      song_artist: 'Unknown Artist',
+      play: true,
+      volume: 5,
+      genres: ['Reggae', 'Reggaeton', 'Rock', 'Cumbia', 'Pop', 'Jazz', 'Folklore'],
+      genre: 'Rock'
+    }
+  },
+  watch: { // here we set the new values
+    state(newVal, oldVal) {
+
+    },
+    play(newVal, oldVal) { 
+      // se podria hacer aca el play ya que tiene v-model
+    },
+    volume(newVal, oldVal) {
+      // update volume
+    },
+    genre(newVal, oldVal) {
+
+    }
+  },
+  template:
+    `<v-container fluid>
+      <v-layout align-center wrap>
+        <v-layout column align-end mr-2>
+          <h3>Off</h3>
+        </v-layout>
+        <v-layout column>
+          <v-switch class="align-center justify-center" v-model="state" color="orange"></v-switch>
+        </v-layout>
+        <v-layout column>
+          <h3>On</h3>
+        </v-layout>
+      </v-layout>
+
+      <v-list-item three-line>
+        <v-list-item-content>
+          <v-list-subtitle>{{ getTime }}</v-list-subtitle>
+          <v-list-item-title>{{ song_name }}</v-list-item-title>
+          <v-list-item-subtitle>{{ song_artist }}</v-list-item-subtitle>
+        </v-list-item-content>
+        <v-btn icon width="50" height="50">
+          <v-icon v-show="playlist" @click="playlist = !playlist" size="40">mdi-playlist-plus</v-icon>
+          <v-icon v-show="!playlist" @click="playlist = !playlist" size="40">mdi-playlist-check</v-icon>
+        </v-btn>
+      </v-list-item>
+
+      <v-layout align-center wrap ma-3>
+        <v-layout column mr-3>
+          <v-btn icon @click="skipPrevious()">
+            <v-icon size="60">mdi-skip-previous-circle</v-icon>
+          </v-btn>
+        </v-layout>
+
+        <v-layout column>
+          <v-btn icon @click="playPause()">
+            <v-icon v-show="play" size="60">mdi-play-circle</v-icon>
+            <v-icon v-show="!play" size="60">mdi-pause-circle</v-icon>
+          </v-btn>
+        </v-layout>
+
+        <v-layout column ml-3 mr-3>
+          <v-btn icon @click="skipNext()">
+            <v-icon size="60">mdi-skip-next-circle</v-icon>
+          </v-btn>
+        </v-layout>
+
+        <v-layout column align-end>
+          <v-btn icon @click="stop()">
+            <v-icon size="60">mdi-stop-circle</v-icon>
+          </v-btn>
+        </v-layout>
+      </v-layout>
+
+      <v-subheader>Volume</v-subheader>
+      <v-slider v-model="volume" class="mt-4" prepend-icon="mdi-volume-medium" thumb-label="always"
+        thumb-size="25" color="orange" track-color="black" thumb-color="orange darken-2"></v-slider>
+      
+      <v-select v-model="genre" :items="genres" :label="Genre" required ></v-select>
+    </v-container>`,
+  methods: {
+    skipPrevious() {
+      // do something here to skip song
+      // update values
+    },
+    skipNext() {
+      // same 
+    },
+    playPause() {
+      this.play = !this.play; 
+      // sennd play to back
+    },
+    stop() {
+      this.play = false;
+      // send stop to back
+    }
+  },
+  computed: {
+    getTime() {
+      return this.elapsed_time; // here to do conversion secs to something printable
+    }
+  },
+  mounted: function () {
+    // here we extract all the data
   }
 })
