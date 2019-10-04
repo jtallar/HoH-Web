@@ -90,9 +90,7 @@ Vue.component('panel', {
         <v-divider></v-divider>
         
         <!-- information and settings -->
-        <v-container>
-        
-        </v-container>
+        <panel-light/>
       </v-navigation-drawer>`,
   methods: {
     toggleFav() {
@@ -214,4 +212,50 @@ Vue.component('dev-btn', {
   }
 })
 
-Vue.component({})
+Vue.component('panel-light', {
+  props: {
+    device: {
+      type: String,
+      required: true
+    }
+  },
+  data () {
+    return {
+      state: false,
+      color: '#FFF100',
+      brightness: 10
+    }
+  },
+  watch: { // here we set the new values
+    state(newVal, oldVal) {
+      
+    },
+    color(newVal, oldVal) {
+
+    },
+    brightness(newVal, oldVal) {
+
+    }
+  },
+  template:
+    `<v-container fluid>
+      <v-layout align-center wrap>
+        <v-layout column align-end mr-2>
+          <h3>Off</h3>
+        </v-layout>
+        <v-layout column>
+          <v-switch class="align-center justify-center" v-model="state" color="orange"></v-switch>
+        </v-layout>
+        <v-layout column>
+          <h3>On</h3>
+        </v-layout>
+      </v-layout>
+      <v-subheader>Color</v-subheader>
+      <v-color-picker v-model="color" hide-inputs hide-mode-switch mode.sync="rgba" class="mx-auto" flat></v-color-picker>
+      <v-subheader>Brightness</v-subheader>
+      <v-slider v-model="brightness" class="mt-4" prepend-icon="mdi-brightness-6" thumb-label="always" thumb-size="25" color="orange" track-color="black" thumb-color="orange darken-2"></v-slider>
+    </v-container>`,
+  mounted: function() {
+      // here we extract all the data
+  }
+})
