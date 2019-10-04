@@ -79,8 +79,8 @@ Vue.component('panel', {
             <v-list-item-subtitle class="text-capitalize">Living Room</v-list-item-subtitle>
           </v-list-item-content>
           <v-btn icon @click="toggleFav">
-            <v-icon v-show="favorite">mdi-star</v-icon>
-            <v-icon v-show="!favorite">mdi-star-outline</v-icon>
+            <v-icon v-show="favorite" @click="favorite = !favorite">mdi-star</v-icon>
+            <v-icon v-show="!favorite" @click="favorite = !favorite">mdi-star-outline</v-icon>
           </v-btn>
           <v-btn icon @click="launchSettings">
             <v-icon>mdi-settings</v-icon>
@@ -370,7 +370,7 @@ Vue.component('panel-speaker', {
     state(newVal, oldVal) {
 
     },
-    play(newVal, oldVal) { 
+    play(newVal, oldVal) {
       // se podria hacer aca el play ya que tiene v-model
     },
     volume(newVal, oldVal) {
@@ -400,9 +400,9 @@ Vue.component('panel-speaker', {
           <v-list-item-title>{{ song_name }}</v-list-item-title>
           <v-list-item-subtitle>{{ song_artist }}</v-list-item-subtitle>
         </v-list-item-content>
-        <v-btn icon width="50" height="50">
-          <v-icon v-show="playlist" @click="playlist = !playlist" size="40">mdi-playlist-plus</v-icon>
-          <v-icon v-show="!playlist" @click="playlist = !playlist" size="40">mdi-playlist-check</v-icon>
+        <v-btn icon width="50" height="50" @click="playlist()" >
+          <v-icon v-show="playlist" size="40">mdi-playlist-plus</v-icon>
+          <v-icon v-show="!playlist" size="40">mdi-playlist-check</v-icon>
         </v-btn>
       </v-list-item>
 
@@ -448,17 +448,286 @@ Vue.component('panel-speaker', {
       // same 
     },
     playPause() {
-      this.play = !this.play; 
+      this.play = !this.play;
       // sennd play to back
     },
     stop() {
       this.play = false;
+      // send stop to back
+    },
+    playlist() {
+      this.playlist = !this.playlist;
       // send stop to back
     }
   },
   computed: {
     getTime() {
       return this.elapsed_time; // here to do conversion secs to something printable
+    }
+  },
+  mounted: function () {
+    // here we extract all the data
+  }
+})
+
+Vue.component('panel-door', {
+  props: {
+    device: {
+      type: String,
+      required: true
+    }
+  },
+  data() {
+    return {
+      closed: 0, // 0: closed, 1: open
+      locked: false
+    }
+  },
+  template:
+    `<v-container fluid>
+      <v-layout align-center>
+        <v-layout column>
+          <v-btn-toggle v-model="closed" tile color="orange darken-2" group mandatory>
+            <v-btn>Closed</v-btn>
+            <v-btn>Open</v-btn>
+          </v-btn-toggle>
+        </v-layout>
+        <v-layout column>
+          <v-btn icon @click="lock()">
+            <v-icon v-show="lockDoor" size="40">mdi-lock</v-icon>
+            <v-icon v-show="!lockDoor" size="40">mdi-lock-open-outline</v-icon>
+          </v-btn>
+        </v-layout>
+      </v-layout>
+    </v-container>`,
+  methods: {
+      lock() {
+        this.lockDoor = !this.lockDoor;
+        // send stop to back
+      }
+  },
+  mounted: function () {
+    // here we extract all the data
+  }
+})
+
+Vue.component('panel-window', {
+  props: {
+    device: {
+      type: String,
+      required: true
+    }
+  },
+  data() {
+    return {
+      closed: 0, // 0: closed, 1: open
+    }
+  },
+  template:
+    `<v-container fluid>
+      <v-layout column align-center>
+        <v-btn-toggle v-model="text" tile color="orange darken-2" group mandatory>
+            <v-btn>Closed</v-btn>
+            <v-btn>Open</v-btn>
+        </v-btn-toggle>
+      </v-layout>
+    </v-container>`,
+  mounted: function () {
+    // here we extract all the data
+  }
+})
+
+Vue.component('panel-airconditioner', {
+  props: {
+    device: {
+      type: String,
+      required: true
+    }
+  },
+  data() {
+    return {
+      state: false,
+      temperature: 24,
+      mode: 2, // takes values from 0 to 2
+      fan_speed: 25, // 25, 50, 75, 100
+      auto_fan_speed: false,
+      vertical_wings: 90, // 22.5, 45, 77.5, 90 (VER SI SE REDONDEA LOS QUE TIENEN COMA)
+      auto_vertical_wings: false,
+      horizontal_wings: 0, // -90, -45, 0, 45, 90
+      auto_horizontal_wings: false,
+    }
+  },
+  watch: { // here we set the new values
+    state(newVal, oldVal) {
+
+    },
+    temperature(newVal, oldVal) {
+
+    },
+    mode(newVal, oldVal) {
+
+    },
+    fan_speed(newVal, oldVal) {
+
+    },
+    auto_fan_speed(newVal, oldVal) {
+
+    },
+    vertical_wings(newVal, oldVal) {
+
+    },
+    auto_vertical_wings(newVal, oldVal) {
+
+    },
+    horizontal_wings(newVal, oldVal) {
+
+    },
+    auto_horizontal_wings(newVal, oldVal) {
+
+    }
+  },
+  template:
+    `<v-container fluid>
+      <v-layout align-center wrap>
+        <v-layout column align-end mr-2>
+          <h3>Off</h3>
+        </v-layout>
+        <v-layout column>
+          <v-switch class="align-center justify-center" v-model="state" color="orange"></v-switch>
+        </v-layout>
+        <v-layout column>
+          <h3>On</h3>
+        </v-layout>
+      </v-layout>
+      <v-subheader>Temperature</v-subheader>
+      <v-slider v-model="temperature" class="mt-4" step="1" ticks="always" tick-size="4" min="18" max="38"
+          thumb-label="always" thumb-size="25" color="orange" track-color="black" thumb-color="orange darken-2"></v-slider>
+    
+      <v-subheader>Mode</v-subheader>
+      <v-layout column align-center>
+          <v-btn-toggle v-model="mode" tile color="orange darken-2" group mandatory>
+              <v-btn>Cold</v-btn>
+              <v-btn>Vent</v-btn>
+              <v-btn>Heat</v-btn>
+          </v-btn-toggle>
+      </v-layout>
+
+      <v-subheader>Fan Speed</v-subheader>
+      <v-layout>
+          <v-slider v-model="fan_speed" class="mt-4" step="25" ticks="always" tick-size="4" min="25" max="100"
+          thumb-label="always" thumb-size="25" color="orange" track-color="black"
+          thumb-color="orange darken-2" :disabled="autoFanSpeed"></v-slider>
+          <v-checkbox label="Auto" color="orange darken-2" @change="autoFanSpeed = !autoFanSpeed"></v-checkbox>
+      </v-layout>
+      <v-subheader>Vertical Wings</v-subheader>
+      <v-layout>
+          <v-slider v-model="vertical_wings" class="mt-4" step="22.5" ticks="always" tick-size="4" min="22.5" max="90"
+          thumb-label="always" thumb-size="25" color="orange" track-color="black"
+          thumb-color="orange darken-2" :disabled="autoVerWings"></v-slider>
+          <v-checkbox label="Auto" color="orange darken-2" @change="autoVerWings = !autoVerWings"></v-checkbox>
+      </v-layout>
+      <v-subheader>Horizontal Wings</v-subheader>
+      <v-layout>
+          <v-slider v-model="horizontal_wings" class="mt-4" step="45" ticks="always" tick-size="4" min="-90" max="90"
+          thumb-label="always" thumb-size="25" color="orange" track-color="black"
+          thumb-color="orange darken-2" :disabled="autoHorWings"></v-slider>
+          <v-checkbox label="Auto" color="orange darken-2" @change="autoHorWings = !autoHorWings"></v-checkbox>
+      </v-layout>
+    </v-container>`,
+  mounted: function () {
+    // here we extract all the data
+  }
+})
+
+Vue.component('panel-vacuum', {
+  props: {
+    device: {
+      type: String,
+      required: true
+    }
+  },
+  data() {
+    return {
+      state: false,
+      play: false,
+      charging: false,
+      mode: 0, // 0: vacuum, 1: mop
+      room: 'Living Room',
+      charging_base: 'Bathroom',
+      rooms: ['Living Room', 'Kitchen', 'Bathroom']
+    }
+  },
+  watch: { // here we set the new values
+    state(newVal, oldVal) {
+
+    },
+    play(newVal, oldVal) {
+      // se podria hacer aca el play ya que tiene v-model
+    },
+    charging(newVal, oldVal) {
+      // update volume
+    },
+    mode(newVal, oldVal) {
+
+    },
+    room(newVal, oldVal) {
+
+    },
+    charging_base(newVal, oldVal) {
+
+    }
+  },
+  template:
+    `<v-container fluid>
+      <v-layout align-center wrap>
+        <v-layout column align-end mr-2>
+          <h3>Off</h3>
+        </v-layout>
+        <v-layout column>
+          <v-switch class="align-center justify-center" v-model="state" color="orange"></v-switch>
+        </v-layout>
+        <v-layout column>
+          <h3>On</h3>
+        </v-layout>
+      </v-layout>
+
+      <v-layout align-center wrap ma-3>
+        <v-layout column>
+            <v-btn icon @click="playPause()">
+                <v-icon v-show="play" size="60">mdi-play-circle</v-icon>
+                <v-icon v-show="!play" size="60">mdi-pause-circle</v-icon>
+            </v-btn>
+        </v-layout>
+        <v-layout column>
+            <v-btn class="my-2" color="orange darken-2" block @click="charging()" width="100">
+                <h3 v-show="!charging">GO CHARGE</h3>
+                <h3 v-show="charging">CHARGING</h3>
+            </v-btn>
+        </v-layout>
+      </v-layout>
+
+      <v-subheader>Mode</v-subheader>
+      <v-layout column align-center>
+          <v-btn-toggle v-model="mode" tile color="orange darken-2" group mandatory>
+              <v-btn>Vacuum</v-btn>
+              <v-btn>Mop</v-btn>
+          </v-btn-toggle>
+      </v-layout>
+
+      <v-subheader>Room to Clean</v-subheader>
+      <v-select v-model="room" :items="rooms" :value="room" required></v-select>
+
+      <v-subheader>Charging Base in</v-subheader>
+      <v-select v-model="charging_base" :items="rooms" :value="charging_base" required></v-select>
+    </v-container>`,
+  methods: {
+    playPause() {
+      this.play = !this.play;
+      // sennd play to back
+    },
+    charging() {
+      this.charging = !this.charging;
+      // send stop to back
     }
   },
   mounted: function () {

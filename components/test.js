@@ -15,6 +15,7 @@ var app = new Vue({
       autoFanSpeed: false,
       autoHorWings: false,
       autoVerWings: false,
+      lockDoor: false,
     },
       items: [
         {

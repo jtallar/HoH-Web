@@ -21,8 +21,8 @@
                             </v-img>
                         </v-list-item-avatar>
                         <v-list-item-content>
-                            <v-list-item-title>Vacuum</v-list-item-title>
-                            <v-list-item-subtitle>{{room}}</v-list-item-subtitle>
+                            <v-list-item-title>Air Conditioner</v-list-item-title>
+                            <v-list-item-subtitle>Living Room</v-list-item-subtitle>
                         </v-list-item-content>
                         <v-btn icon>
                             <v-icon v-show="favorite">mdi-star</v-icon>
@@ -50,34 +50,41 @@
                         </v-layout>
                     </v-layout>
 
-                    <v-layout align-center wrap ma-3>
-                        <v-layout column>
-                            <v-btn icon @click="playVac = !playVac">
-                                <v-icon v-show="playVac" size="60">mdi-play-circle</v-icon>
-                                <v-icon v-show="!playVac" size="60">mdi-pause-circle</v-icon>
-                            </v-btn>
-                        </v-layout>
-                        <v-layout column>
-                            <v-btn class="my-2" color="orange darken-2" block @click="charging = !charging" width="100">
-                                <h3 v-show="!charging">GO CHARGE</h3>
-                                <h3 v-show="charging">CHARGING</h3>
-                            </v-btn>
-                        </v-layout>
-                    </v-layout>
+                    <v-subheader>Temperature</v-subheader>
+                    <v-slider v-model="temperature" class="mt-4" step="1" ticks="always" tick-size="4" min="18" max="38"
+                        thumb-label="always" thumb-size="25" color="orange" track-color="black"
+                        thumb-color="orange darken-2"></v-slider>
 
                     <v-subheader>Mode</v-subheader>
                     <v-layout column align-center>
                         <v-btn-toggle v-model="mode" tile color="orange darken-2" group mandatory>
-                            <v-btn>Vacuum</v-btn>
-                            <v-btn>Mop</v-btn>
+                            <v-btn>Cold</v-btn>
+                            <v-btn>Vent</v-btn>
+                            <v-btn>Heat</v-btn>
                         </v-btn-toggle>
                     </v-layout>
 
-                    <v-subheader>Room to Clean</v-subheader>
-                    <v-select :items="['Living Room', 'Kitchen', 'Bathroom']" :value="room" required></v-select>
-
-                    <v-subheader>Charging Base in</v-subheader>
-                    <v-select :items="['Living Room', 'Kitchen', 'Bathroom']" :value="chargingBase" required></v-select>
+                    <v-subheader>Fan Speed</v-subheader>
+                    <v-layout>
+                        <v-slider v-model="fan_speed" class="mt-4" step="25" ticks="always" tick-size="4" min="25" max="100"
+                        thumb-label="always" thumb-size="25" color="orange" track-color="black"
+                        thumb-color="orange darken-2" :disabled="autoFanSpeed"></v-slider>
+                        <v-checkbox label="Auto" color="orange darken-2" @change="autoFanSpeed = !autoFanSpeed"></v-checkbox>
+                    </v-layout>
+                    <v-subheader>Vertical Wings</v-subheader>
+                    <v-layout>
+                        <v-slider v-model="vertical_wings" class="mt-4" step="22.5" ticks="always" tick-size="4" min="22.5" max="90"
+                        thumb-label="always" thumb-size="25" color="orange" track-color="black"
+                        thumb-color="orange darken-2" :disabled="autoVerWings"></v-slider>
+                        <v-checkbox label="Auto" color="orange darken-2" @change="autoVerWings = !autoVerWings"></v-checkbox>
+                    </v-layout>
+                    <v-subheader>Horizontal Wings</v-subheader>
+                    <v-layout>
+                        <v-slider v-model="horizontal_wings" class="mt-4" step="45" ticks="always" tick-size="4" min="-90" max="90"
+                        thumb-label="always" thumb-size="25" color="orange" track-color="black"
+                        thumb-color="orange darken-2" :disabled="autoHorWings"></v-slider>
+                        <v-checkbox label="Auto" color="orange darken-2" @change="autoHorWings = !autoHorWings"></v-checkbox>
+                    </v-layout>
                 </v-container>
             </v-navigation-drawer>
         </v-app>
