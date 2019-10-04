@@ -79,8 +79,8 @@ Vue.component('panel', {
             <v-list-item-subtitle class="text-capitalize">Living Room</v-list-item-subtitle>
           </v-list-item-content>
           <v-btn icon @click="toggleFav">
-            <v-icon v-show="favorite" @click="favorite = !favorite">mdi-star</v-icon>
-            <v-icon v-show="!favorite" @click="favorite = !favorite">mdi-star-outline</v-icon>
+            <v-icon v-show="favorite">mdi-star</v-icon>
+            <v-icon v-show="!favorite">mdi-star-outline</v-icon>
           </v-btn>
           <v-btn icon @click="launchSettings">
             <v-icon>mdi-settings</v-icon>
