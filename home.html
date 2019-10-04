@@ -11,11 +11,50 @@
 <body>
   <div id="app">
     <v-app id="inspire">
-      <div>
-        <toolbar></toolbar>
-        <panel></panel>
-      </div>          
+      <toolbar></toolbar>
+      <panel device=""></panel>
+      <v-content>
+        <v-container fluid class="pa-2">
+          <v-row>
+            <v-col cols="6">
+              <v-card raised>
+                <v-card-title>Favorite Rooms</v-card-title>
+                <v-row justify="center">
+                  <v-col v-for="i in 4" cols="auto">
+                    <card-btn href="./home.html" title="Living" img_name="living_01"></card-btn>
+                  </v-col>
+                </v-row>
+              </v-card>
+              <v-card class="mt-4" raised>
+                <v-card-title>Favorite Routines</v-card-title>
+                <v-row justify="center">
+                  <v-col v-for="i in 2" cols="auto">
+                    <card-btn href="./home.html" title="Living" img_name="kitchen_01"></card-btn>
+                  </v-col>
+                </v-row>
+              </v-card>
+            </v-col>
+            <v-col cols="5">
+              <v-card raised>
+                <v-card-title>Favorite Devices</v-card-title>
+                <v-row justify="center">
+                  <v-col v-for="i in 4" cols="auto">
+                      <dev-btn name="prueba" icon_name="lamp_on"></dev-btn>
+                  </v-col>
+                </v-row>
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-content>
 
+      <!-- "Light"
+        "Vacuum"
+        "Air Conditioner"
+        "Door"
+        "Window"
+        "Speaker"
+        "Oven" -->
       <!-- aca iria un v-content -->
 
     </v-app>

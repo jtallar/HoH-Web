@@ -12,13 +12,36 @@
   <div id="app">
     <v-app id="inspire">
       <toolbar></toolbar>
+      <panel device=""></panel>
       <v-content>
         <v-container>
-          <v-row justify="center">
-            <v-col v-for="i in 7" cols="auto">
-              <dev-btn name="prueba" icon_name="lamp_on"></dev-btn>
-            </v-col>
+          <v-row class="align-center" >
+            <v-btn icon href="./deviceCategories.html">
+              <v-icon size="40">mdi-arrow-left</v-icon>
+            </v-btn>
+            <h1>Air Conditioners</h1>
           </v-row>
+          <v-row>
+            <v-row>
+              <h2 class="grey--text">Living Room</h2>
+            </v-row>
+            <v-row>
+              <v-col v-for="i in 7" cols="auto">
+                <dev-btn name="prueba" icon_name="lamp_on"></dev-btn>
+              </v-col>
+            </v-row>
+          </v-row>
+          <v-row>
+            <v-row>
+              <h2 class="grey--text">Kitchen</h2>
+            </v-row>
+            <v-row>
+              <v-col v-for="i in 7" cols="auto">
+                <dev-btn name="prueba" icon_name="lamp_on"></dev-btn>
+              </v-col>
+            </v-row>
+          </v-row>
+            
         </v-container>
 
       </v-content>

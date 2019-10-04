@@ -6,7 +6,7 @@ Vue.component('toolbar', {
           <!-- button/avatar/image for logo -->
           <v-btn icon>
             <v-avatar size="35">
-              <v-img src="/resources/images/logo.png"></v-img>
+              <v-img src="./resources/images/logo.png"></v-img>
             </v-avatar>
           </v-btn>
   
@@ -46,7 +46,7 @@ Vue.component('toolbar', {
       tabs: [
         { index: 0, name: 'Home', dir: 'home.html' },
         { index: 1, name: 'Rooms', dir: 'rooms.html' },
-        { index: 2, name: 'Devices', dir: 'devices.html' },
+        { index: 2, name: 'Devices', dir: 'deviceCategories.html' },
         { index: 3, name: 'Routines', dir: 'routines.html' }
       ]
     }
@@ -67,12 +67,12 @@ Vue.component('panel', {
     }
   },
   template:
-    `<v-navigation-drawer v-model="drawerRight" app clipped right permanent color='#E9E9E9' width="getWidth">
+    `<v-navigation-drawer app clipped right permanent color='#E9E9E9' width="getWidth">
       <!-- header -->
       <template v-slot:prepend>
         <v-list-item two-line>
           <v-list-item-avatar tile>
-            <v-img :src="getImg" :width="30"/>
+            <v-img :src="getImg" contain/>
           </v-list-item-avatar>
           <v-list-item-content>
             <v-list-item-title class="text-capitalize">air conditioner</v-list-item-title>
@@ -85,13 +85,13 @@ Vue.component('panel', {
           <v-btn icon @click="launchSettings">
             <v-icon>mdi-settings</v-icon>
           </v-btn>
-          </v-list-item>
-        </template>
-        <v-divider></v-divider>
+        </v-list-item>
+      </template>
+      <v-divider></v-divider>
         
-        <!-- information and settings -->
-        <panel-speaker/>
-      </v-navigation-drawer>`,
+      <!-- information and settings -->
+      <component :is="getPanelContent"></component>
+    </v-navigation-drawer>`,
   methods: {
     toggleFav() {
       this.favorite = !this.favorite;
@@ -102,7 +102,44 @@ Vue.component('panel', {
   },
   computed: {
     getImg() {
-      return './resources/icons/web/vacuum_on.svg';
+      switch (this.device) {
+        case "Light":
+          return './resources/icons/web/lamp_on.svg';
+        case "Vacuum":
+          return './resources/icons/web/vacuum_on.svg';
+        case "Air Conditioner":
+          return './resources/icons/web/air_conditioner_on.svg';
+        case "Door":
+          return './resources/icons/web/door_closed.svg';
+        case "Window":
+          return './resources/icons/web/window_closed.svg';
+        case "Speaker":
+          return './resources/icons/web/speaker_playing.svg';
+        case "Oven":
+          return './resources/icons/web/oven_on.svg';
+        default:
+          return './resources/icons/generic/close.svg';
+      }
+    },
+    getPanelContent() {
+      switch (this.device) {
+        case "Light":
+          return "panel-light";
+        case "Vacuum":
+          return "panel-vacuum";
+        case "Air Conditioner":
+          return "panel-airconditioner";
+        case "Door":
+          return "panel-door";
+        case "Window":
+          return "panel-window";
+        case "Speaker":
+          return "panel-speaker";
+        case "Oven":
+          return "panel-oven";
+        default:
+          return "panel-none";
+      }
     },
     getWidth() {
       return screen.width / 5;
@@ -145,6 +182,7 @@ Vue.component('card-btn', {
         </div>
       </v-img>
     </v-btn>`,
+
   computed: {
     getHref() {
       return this.href;
@@ -400,7 +438,7 @@ Vue.component('panel-speaker', {
           <v-list-item-title>{{ song_name }}</v-list-item-title>
           <v-list-item-subtitle>{{ song_artist }}</v-list-item-subtitle>
         </v-list-item-content>
-        <v-btn icon width="50" height="50" @click="playlist()" >
+        <v-btn icon width="50" height="50" @click="addPlaylist()" >
           <v-icon v-show="playlist" size="40">mdi-playlist-plus</v-icon>
           <v-icon v-show="!playlist" size="40">mdi-playlist-check</v-icon>
         </v-btn>
@@ -415,8 +453,8 @@ Vue.component('panel-speaker', {
 
         <v-layout column>
           <v-btn icon @click="playPause()">
-            <v-icon v-show="play" size="60">mdi-play-circle</v-icon>
-            <v-icon v-show="!play" size="60">mdi-pause-circle</v-icon>
+            <v-icon v-show="!play" size="60">mdi-play-circle</v-icon>
+            <v-icon v-show="play" size="60">mdi-pause-circle</v-icon>
           </v-btn>
         </v-layout>
 
@@ -455,7 +493,7 @@ Vue.component('panel-speaker', {
       this.play = false;
       // send stop to back
     },
-    playlist() {
+    addPlaylist() {
       this.playlist = !this.playlist;
       // send stop to back
     }
@@ -494,17 +532,20 @@ Vue.component('panel-door', {
         </v-layout>
         <v-layout column>
           <v-btn icon @click="lock()">
-            <v-icon v-show="lockDoor" size="40">mdi-lock</v-icon>
-            <v-icon v-show="!lockDoor" size="40">mdi-lock-open-outline</v-icon>
+            <v-icon v-show="locked" size="40">mdi-lock</v-icon>
+            <v-icon v-show="!locked" size="40">mdi-lock-open-outline</v-icon>
           </v-btn>
         </v-layout>
       </v-layout>
     </v-container>`,
   methods: {
-      lock() {
-        this.lockDoor = !this.lockDoor;
-        // send stop to back
+    lock() {
+      this.locked = !this.locked;
+      if (this.locked){
+        this.closed = 0;
       }
+      // send stop to back
+    }
   },
   mounted: function () {
     // here we extract all the data
@@ -613,26 +654,38 @@ Vue.component('panel-airconditioner', {
       </v-layout>
 
       <v-subheader>Fan Speed</v-subheader>
-      <v-layout>
+      <v-row>
+        <v-col cols="8">
           <v-slider v-model="fan_speed" class="mt-4" step="25" ticks="always" tick-size="4" min="25" max="100"
           thumb-label="always" thumb-size="25" color="orange" track-color="black"
-          thumb-color="orange darken-2" :disabled="autoFanSpeed"></v-slider>
-          <v-checkbox label="Auto" color="orange darken-2" @change="autoFanSpeed = !autoFanSpeed"></v-checkbox>
-      </v-layout>
+          thumb-color="orange darken-2" :disabled="auto_fan_speed"></v-slider>
+        </v-col>
+        <v-col>
+          <v-checkbox label="Auto" color="orange darken-2" @change="auto_fan_speed = !auto_fan_speed"></v-checkbox>
+        </v-col>
+      </v-row>
       <v-subheader>Vertical Wings</v-subheader>
-      <v-layout>
+      <v-row>
+        <v-col cols="8">
           <v-slider v-model="vertical_wings" class="mt-4" step="22.5" ticks="always" tick-size="4" min="22.5" max="90"
           thumb-label="always" thumb-size="25" color="orange" track-color="black"
-          thumb-color="orange darken-2" :disabled="autoVerWings"></v-slider>
-          <v-checkbox label="Auto" color="orange darken-2" @change="autoVerWings = !autoVerWings"></v-checkbox>
-      </v-layout>
+          thumb-color="orange darken-2" :disabled="auto_vertical_wings"></v-slider>
+        </v-col>
+        <v-col>
+          <v-checkbox label="Auto" color="orange darken-2" @change="auto_vertical_wings = !auto_vertical_wings"></v-checkbox>
+        </v-col>
+      </v-row>
       <v-subheader>Horizontal Wings</v-subheader>
-      <v-layout>
+      <v-row>
+        <v-col cols="8">
           <v-slider v-model="horizontal_wings" class="mt-4" step="45" ticks="always" tick-size="4" min="-90" max="90"
           thumb-label="always" thumb-size="25" color="orange" track-color="black"
-          thumb-color="orange darken-2" :disabled="autoHorWings"></v-slider>
-          <v-checkbox label="Auto" color="orange darken-2" @change="autoHorWings = !autoHorWings"></v-checkbox>
-      </v-layout>
+          thumb-color="orange darken-2" :disabled="auto_horizontal_wings"></v-slider>
+        </v-col>
+        <v-col>
+          <v-checkbox label="Auto" color="orange darken-2" @change="auto_horizontal_wings = !auto_horizontal_wings"></v-checkbox>
+        </v-col>
+      </v-row>
     </v-container>`,
   mounted: function () {
     // here we extract all the data
@@ -692,14 +745,14 @@ Vue.component('panel-vacuum', {
       </v-layout>
 
       <v-layout align-center wrap ma-3>
-        <v-layout column>
+        <v-layout column ml-5>
             <v-btn icon @click="playPause()">
                 <v-icon v-show="play" size="60">mdi-play-circle</v-icon>
                 <v-icon v-show="!play" size="60">mdi-pause-circle</v-icon>
             </v-btn>
         </v-layout>
         <v-layout column>
-            <v-btn class="my-2" color="orange darken-2" block @click="charging()" width="100">
+            <v-btn class="my-2" color="orange darken-2" block @click="goToCharge()" width="100">
                 <h3 v-show="!charging">GO CHARGE</h3>
                 <h3 v-show="charging">CHARGING</h3>
             </v-btn>
@@ -725,11 +778,34 @@ Vue.component('panel-vacuum', {
       this.play = !this.play;
       // sennd play to back
     },
-    charging() {
+    goToCharge() {
       this.charging = !this.charging;
       // send stop to back
     }
   },
+  mounted: function () {
+    // here we extract all the data
+  }
+})
+
+Vue.component('panel-none', {
+  props: {
+    device: {
+      type: String,
+      required: true
+    }
+  },
+  data() {
+    return {
+      closed: 0, // 0: closed, 1: open
+    }
+  },
+  template:
+    `<v-container fluid>
+      <v-layout column align-center>
+        <h2>Select a device</h2>
+      </v-layout>
+    </v-container>`,
   mounted: function () {
     // here we extract all the data
   }
