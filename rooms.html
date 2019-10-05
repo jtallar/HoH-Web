@@ -5,20 +5,44 @@
   <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+  <link href="./main.css" rel="stylesheet">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
 </head>
 
 <body>
-  <div id="app">
+  <div v-cloak id="app">
     <v-app id="inspire">
       <toolbar></toolbar>
+      <panel device=""></panel>
       <v-content>
         <v-container>
-          <v-row justify="center">
-            <v-col v-for="i in 7" cols="auto">
-              <card-btn href="./home.html" title="Living" img_name="living_01"></card-btn>
-            </v-col>
+          <v-row class="align-center" >
+            <v-btn icon href="./roomSelection.html">
+              <v-icon size="40">mdi-arrow-left</v-icon>
+            </v-btn>
+            <h1>Living Room</h1>
           </v-row>
+          <v-row>
+            <v-row>
+              <h2 class="grey--text">Lights</h2>
+            </v-row>
+            <v-row>
+              <v-col v-for="dev in devices" cols="auto">
+                <dev-btn :name="dev.name" :cat="dev.cat" :room="dev.room"></dev-btn>
+              </v-col>
+            </v-row>
+          </v-row>
+          <v-row>
+            <v-row>
+              <h2 class="grey--text">Speakers</h2>
+            </v-row>
+            <v-row>
+              <v-col v-for="i in 7" cols="auto">
+                <dev-btn name="prueba" cat="Air Conditioner" room="Living Room"></dev-btn>
+              </v-col>
+            </v-row>
+          </v-row>
+            
         </v-container>
 
       </v-content>
@@ -28,7 +52,7 @@
   <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
   <script src="components.js"></script>
-  <script src="home.js"></script>
+  <script src="rooms.js"></script>
 
 </body>
 

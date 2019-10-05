@@ -4,7 +4,7 @@ Vue.component('toolbar', {
   template:
     `<v-app-bar app clipped-right color="black" dark>
           <!-- button/avatar/image for logo -->
-          <v-btn icon>
+          <v-btn icon href="./home.html">
             <v-avatar size="35">
               <v-img src="./resources/images/logo.png"></v-img>
             </v-avatar>
@@ -45,7 +45,7 @@ Vue.component('toolbar', {
       active_tab: 1,
       tabs: [
         { index: 0, name: 'Home', dir: 'home.html' },
-        { index: 1, name: 'Rooms', dir: 'rooms.html' },
+        { index: 1, name: 'Rooms', dir: 'roomSelection.html' },
         { index: 2, name: 'Devices', dir: 'deviceCategories.html' },
         { index: 3, name: 'Routines', dir: 'routines.html' }
       ]
@@ -63,11 +63,14 @@ Vue.component('panel', {
   },
   data() {
     return {
+      devName: "",
+      devCat: "",
+      devRoom: "",
       favorite: false
     }
   },
   template:
-    `<v-navigation-drawer app clipped right permanent color='#E9E9E9' width="getWidth">
+    `<v-navigation-drawer app clipped right permanent color='#E9E9E9' :width="getWidth">
       <!-- header -->
       <template v-slot:prepend>
         <v-list-item two-line>
@@ -75,8 +78,8 @@ Vue.component('panel', {
             <v-img :src="getImg" contain/>
           </v-list-item-avatar>
           <v-list-item-content>
-            <v-list-item-title class="text-capitalize">air conditioner</v-list-item-title>
-            <v-list-item-subtitle class="text-capitalize">Living Room</v-list-item-subtitle>
+            <v-list-item-title class="text-capitalize">{{ devName }}</v-list-item-title>
+            <v-list-item-subtitle class="text-capitalize">{{ devRoom }}</v-list-item-subtitle>
           </v-list-item-content>
           <v-btn icon @click="toggleFav">
             <v-icon v-show="favorite">mdi-star</v-icon>
@@ -102,7 +105,7 @@ Vue.component('panel', {
   },
   computed: {
     getImg() {
-      switch (this.device) {
+      switch (this.devCat) {
         case "Light":
           return './resources/icons/web/lamp_on.svg';
         case "Vacuum":
@@ -122,7 +125,7 @@ Vue.component('panel', {
       }
     },
     getPanelContent() {
-      switch (this.device) {
+      switch (this.devCat) {
         case "Light":
           return "panel-light";
         case "Vacuum":
@@ -144,6 +147,19 @@ Vue.component('panel', {
     getWidth() {
       return screen.width / 5;
     }
+  },
+  mounted() {
+    this.$root.$on('Device Selected', (devName, devRoom, devCat) => {
+      this.devName = devName;
+      this.devCat = devCat;
+      this.devRoom = devRoom;
+      console.log('Message recieved with ' + this.devName + ' ; ' + this.devCat + ' ; ' + this.devRoom);
+    });
+    this.$root.$on('Device Deselected', () => {
+      this.devName = "";
+      this.devCat = "";
+      this.devRoom = "";
+    });
   }
 })
 
@@ -208,21 +224,25 @@ Vue.component('dev-btn', {
       type: String,
       required: true
     },
-    icon_name: {
+    cat: {
+      type: String,
+      required: true
+    },
+    room: {
       type: String,
       required: true
     }
   },
   data() {
     return {
-      selected: true
+      selected: false
     }
   },
   template:
     `<v-col class="text-center">
-      <v-btn :outlined="selected" class="mt-4 ma-1" :width="getSize" :height="getSize" fab color="grey darken-4" @click="toggleSelected">
+      <v-btn :outlined="!selected" class="mt-4 ma-1" :width="getSize" :height="getSize" fab color="grey darken-4" @click="toggleSelected">
         <div>
-          <v-img width="getIconSize" src="./resources/icons/web/air_conditioner_on.svg"/>
+          <v-img width="getIconSize" :src="getImg"/>
         </div>
       </v-btn>
       <div class="text-capitalize black--text font-weight-light mb-4">
@@ -232,6 +252,11 @@ Vue.component('dev-btn', {
   methods: {
     toggleSelected() {
       this.selected = !this.selected;
+      if (this.selected) {
+        this.$root.$emit('Device Selected', this.name, this.room, this.cat);
+      } else {
+        this.$root.$emit('Device Deselected');
+      }
     }
   },
   computed: {
@@ -246,6 +271,26 @@ Vue.component('dev-btn', {
     },
     getName() {
       return this.name; // aca ver de poner max y min caracteres
+    },
+    getImg() {
+      switch (this.cat) {
+        case "Light":
+          return './resources/icons/web/lamp_on.svg';
+        case "Vacuum":
+          return './resources/icons/web/vacuum_on.svg';
+        case "Air Conditioner":
+          return './resources/icons/web/air_conditioner_on.svg';
+        case "Door":
+          return './resources/icons/web/door_closed.svg';
+        case "Window":
+          return './resources/icons/web/window_closed.svg';
+        case "Speaker":
+          return './resources/icons/web/speaker_playing.svg';
+        case "Oven":
+          return './resources/icons/web/oven_on.svg';
+        default:
+          return './resources/icons/generic/close.svg';
+      }
     }
   }
 })
@@ -434,18 +479,18 @@ Vue.component('panel-speaker', {
 
       <v-list-item three-line>
         <v-list-item-content>
-          <v-list-subtitle>{{ getTime }}</v-list-subtitle>
+          <v-list-item-subtitle>{{ getTime }}</v-list-item-subtitle>
           <v-list-item-title>{{ song_name }}</v-list-item-title>
           <v-list-item-subtitle>{{ song_artist }}</v-list-item-subtitle>
         </v-list-item-content>
-        <v-btn icon width="50" height="50" @click="addPlaylist()" >
+        <v-btn icon @click="addPlaylist()" >
           <v-icon v-show="playlist" size="40">mdi-playlist-plus</v-icon>
           <v-icon v-show="!playlist" size="40">mdi-playlist-check</v-icon>
         </v-btn>
       </v-list-item>
 
       <v-layout align-center wrap ma-3>
-        <v-layout column mr-3>
+        <v-layout column>
           <v-btn icon @click="skipPrevious()">
             <v-icon size="60">mdi-skip-previous-circle</v-icon>
           </v-btn>
@@ -458,7 +503,7 @@ Vue.component('panel-speaker', {
           </v-btn>
         </v-layout>
 
-        <v-layout column ml-3 mr-3>
+        <v-layout column>
           <v-btn icon @click="skipNext()">
             <v-icon size="60">mdi-skip-next-circle</v-icon>
           </v-btn>
@@ -475,7 +520,7 @@ Vue.component('panel-speaker', {
       <v-slider v-model="volume" class="mt-4" prepend-icon="mdi-volume-medium" thumb-label="always"
         thumb-size="25" color="orange" track-color="black" thumb-color="orange darken-2"></v-slider>
       
-      <v-select v-model="genre" :items="genres" :label="Genre" required ></v-select>
+      <v-select v-model="genre" :items="genres" required ></v-select>
     </v-container>`,
   methods: {
     skipPrevious() {

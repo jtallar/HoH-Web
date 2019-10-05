@@ -4,6 +4,7 @@ var app = new Vue({
     el: '#app',
     vuetify: new Vuetify(),
     data: {
+      selected: false,
       color: '#FFF100',
       favorite: false,
       room: 'Living Room',
