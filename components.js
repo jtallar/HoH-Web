@@ -266,7 +266,7 @@ Vue.component('sel-dev', {
     }
   },
   computed: {
-    
+
   },
   mounted() {
     this.$root.$on('Device Selected', (name, room, cat) => { // change for id
@@ -890,7 +890,7 @@ Vue.component('panel-vacuum', {
       // send stop to back
     }
   },
-  async mounted () {
+  async mounted() {
     var aux = await api.room.getAll().then(data => data.result);
     for (i of aux) {
       this.rooms.push(i.name);
@@ -899,35 +899,54 @@ Vue.component('panel-vacuum', {
   }
 })
 
+// fetch('http://127.0.0.1:8080/api/rooms')
+// .then((response) => {
+//   if (!response.ok) {
+//     throw Error(response.statusText);
+//   }
+//   return response.json();
+// })
+// .then((data) => {
+//   console.log(data.result);
+//   for (index in data.result) {
+//     this.rooms[index] = data.result[index].name;
+//     console.log(this.rooms);
+//   }
+
+// })
+// .catch(function(error) {
+//   console.log('Unexpected error: \n' + error);
+// })
+
 var api = class {
   static get baseUrl() {
     return "http://127.0.0.1:8080/api/";
   }
 
   static get timeout() {
-    return 60 * 1000;
+    return 10000; // 10 seg
   }
 
   static fetch(url, init) {
-    return new Promise(function(resolve, reject) {
-      var timeout = setTimeout(function() {
+    return new Promise((solve, reject) => {
+      var timeout = setTimeout(() => {
         reject(new Error('Time out'));
       }, api.timeout);
 
       fetch(url, init)
-      .then(function(response) {
-        clearTimeout(timeout);
-          if (!response.ok)
+        .then((response) => {
+          clearTimeout(timeout);
+          if (!response.ok) {
             reject(new Error(response.statusText));
-
+          }
           return response.json();
-      })
-      .then(function(data) {
-          resolve(data);
-      })
-      .catch(function(error) {
+        })
+        .then((data) => {
+          solve(data);
+        })
+        .catch((error) => {
           reject(error);
-      });
+        });
     });
   }
 }
@@ -938,7 +957,7 @@ api.room = class {
   }
 
   static add(room) {
-   return api.fetch(api.room.url, {
+    return api.fetch(api.room.url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json; charset=utf-8'
@@ -960,7 +979,7 @@ api.room = class {
   static delete(id) {
     return api.fetch(api.room.url + id, {
       method: 'DELETE',
-    }); 
+    });
   }
 
   static get(id) {
@@ -1051,7 +1070,7 @@ Vue.component('add-room', {
       image: 0,
       floors: ['First', 'Second', 'Other'],
       floor: 'First',
-      
+
     }
   },
   watch: { // here we set the new values
@@ -1114,7 +1133,7 @@ Vue.component('add-room', {
           <v-card-actions>
               <div class="flex-grow-1"></div>
               <v-btn color="red darken-1" text @click="overlay = false; snackbarCan = true">Cancel</v-btn>
-              <v-btn color="green darken-1" text @click="overlay = false; snackbarOk = true">Create</v-btn>
+              <v-btn color="green darken-1" text @click="accept()">Create</v-btn>
           </v-card-actions>
       </v-card>
       </v-overlay>
@@ -1127,8 +1146,15 @@ Vue.component('add-room', {
       </v-snackbar>
     </v-container>`,
   methods: {
-    accept() {
+    async accept() {
       // send form to back
+      overlay = false; 
+      snackbarOk = true;
+      var aux = await api.room.add({
+        "name": this.room,
+        "image": this.images[this.image],
+        "meta": {}
+      }).then(data => data.result);
     }
   },
   mounted: function () {
