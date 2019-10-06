@@ -12,19 +12,19 @@
 <body>
   <div v-cloak id="app">
     <v-app id="inspire">
-      <toolbar></toolbar>
+      <toolbar :tab="1"></toolbar>
       <panel device=""></panel>
       <v-content>
         <v-container>
           <v-row class="align-center" >
-            <v-btn icon href="devices.html">
+            <v-btn icon href="rooms.html">
               <v-icon size="40">mdi-arrow-left</v-icon>
             </v-btn>
-            <h1>Air Conditioners</h1>
+            <h1>Living Room</h1>
           </v-row>
           <v-row>
             <v-row>
-              <h2 class="grey--text">Living Room</h2>
+              <h2 class="grey--text">Lights</h2>
             </v-row>
             <v-row>
               <v-col v-for="dev in devices" cols="auto">
@@ -34,7 +34,7 @@
           </v-row>
           <v-row>
             <v-row>
-              <h2 class="grey--text">Kitchen</h2>
+              <h2 class="grey--text">Speakers</h2>
             </v-row>
             <v-row>
               <v-col v-for="i in 7" cols="auto">
@@ -45,14 +45,16 @@
             
         </v-container>
 
+        <add-btn></add-btn>
+
       </v-content>
 
     </v-app>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
-  <script src="source/components.js"></script>
-  <script src="source/devices.js"></script>
+  <script src="components.js"></script>
+  <script src="source/rooms.js"></script>
 
 </body>
 

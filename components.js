@@ -23,7 +23,7 @@ Vue.component('toolbar', {
           <!-- button/avatar/image for logo -->
           <v-btn icon href="./home.html">
             <v-avatar size="35">
-              <v-img src="resources/images/logo.png"></v-img>
+              <v-img src="./resources/images/logo.png"></v-img>
             </v-avatar>
           </v-btn>
   
@@ -120,21 +120,21 @@ Vue.component('panel', {
     getImg() {
       switch (this.devCat) {
         case "Light":
-          return 'resources/icons/web/lamp_on.svg';
+          return './resources/icons/web/lamp_on.svg';
         case "Vacuum":
-          return 'resources/icons/web/vacuum_on.svg';
+          return './resources/icons/web/vacuum_on.svg';
         case "Air Conditioner":
-          return 'resources/icons/web/air_conditioner_on.svg';
+          return './resources/icons/web/air_conditioner_on.svg';
         case "Door":
-          return 'resources/icons/web/door_closed.svg';
+          return './resources/icons/web/door_closed.svg';
         case "Window":
-          return 'resources/icons/web/window_closed.svg';
+          return './resources/icons/web/window_closed.svg';
         case "Speaker":
-          return 'resources/icons/web/speaker_playing.svg';
+          return './resources/icons/web/speaker_playing.svg';
         case "Oven":
-          return 'resources/icons/web/oven_on.svg';
+          return './resources/icons/web/oven_on.svg';
         default:
-          return 'resources/icons/generic/close.svg';
+          return './resources/icons/generic/close.svg';
       }
     },
     getPanelContent() {
@@ -231,7 +231,7 @@ Vue.component('card-btn', {
       return this.getWidth / this.ratio;
     },
     getImg() {
-      return 'resources/images/' + this.img_name + '.jpg';
+      return './resources/images/' + this.img_name + '.jpg';
     },
     getTitle() {
       return this.title; // aca ver de poner max y min caracteres
@@ -329,7 +329,7 @@ Vue.component('dev-btn', {
       return screen.width / 13; // ver si da limitarlo con max y min
     },
     getIcon() {
-      return 'resources/icons/web/' + this.icon_name + '.svg';
+      return './resources/icons/web/' + this.icon_name + '.svg';
     },
     getIconSize() {
       return this.getSize / 2;
@@ -340,21 +340,21 @@ Vue.component('dev-btn', {
     getImg() {
       switch (this.cat) {
         case "Light":
-          return 'resources/icons/web/lamp_on.svg';
+          return './resources/icons/web/lamp_on.svg';
         case "Vacuum":
-          return 'resources/icons/web/vacuum_on.svg';
+          return './resources/icons/web/vacuum_on.svg';
         case "Air Conditioner":
-          return 'resources/icons/web/air_conditioner_on.svg';
+          return './resources/icons/web/air_conditioner_on.svg';
         case "Door":
-          return 'resources/icons/web/door_closed.svg';
+          return './resources/icons/web/door_closed.svg';
         case "Window":
-          return 'resources/icons/web/window_closed.svg';
+          return './resources/icons/web/window_closed.svg';
         case "Speaker":
-          return 'resources/icons/web/speaker_playing.svg';
+          return './resources/icons/web/speaker_playing.svg';
         case "Oven":
-          return 'resources/icons/web/oven_on.svg';
+          return './resources/icons/web/oven_on.svg';
         default:
-          return 'resources/icons/generic/close.svg';
+          return './resources/icons/generic/close.svg';
       }
     }
   },
@@ -1121,7 +1121,7 @@ Vue.component('add-room', {
                           <v-row>
                           <v-col v-for="(item, i) in images" :key="i" cols="12" md="2">
                               <v-item v-slot:default="{ active, toggle }">
-                              <v-img :src="\`resources/images/\${item}\`"
+                              <v-img :src="\`./resources/images/\${item}\`"
                                   height="150" width="300" class="text-right pa-2" @click="toggle">
                                   <v-btn icon dark >
                                   <v-icon color="orange darken-2 ">
