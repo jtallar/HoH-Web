@@ -890,12 +890,28 @@ Vue.component('panel-vacuum', {
       // send stop to back
     }
   },
-  async mounted () {
-    var aux = await api.room.getAll().then(data => data.result);
-    for (i of aux) {
-      this.rooms.push(i.name);
-    }
+  mounted() {
+    let vm = this;
+
+    fetch('http://127.0.0.1:8080/api/rooms')
+      .then(function (response) {
+        if (!response.ok) {
+          throw Error(response.statusText);
+        }
+        return response.json();
+      })
+      .then(function (data) {
+        for (index in data.result) {
+          this.$set(this, 'categories', data);
+        }
+
+      })
+      .catch(function (error) {
+        console.log('Unexpected error: \n' + error);
+      })
     console.log(this.rooms);
+    console.log(this.rooms[0]);
+
   }
 })
 
