@@ -166,7 +166,7 @@ Vue.component('panel', {
 Vue.component('card-btn', {
   props: {
     href: {
-      type: Number,
+      type: String,
       required: true
     },
     ratio: {
@@ -242,7 +242,7 @@ Vue.component('dev-btn', {
     `<v-col class="text-center">
       <v-btn :outlined="!selected" class="mt-4 ma-1" :width="getSize" :height="getSize" fab color="grey darken-4" @click="toggleSelected">
         <div>
-          <v-img width="getIconSize" :src="getImg"/>
+          <v-img :width="getIconSize" :src="getImg"/>
         </div>
       </v-btn>
       <div class="text-capitalize black--text font-weight-light mb-4">
@@ -292,6 +292,11 @@ Vue.component('dev-btn', {
           return './resources/icons/generic/close.svg';
       }
     }
+  },
+  mounted() {
+    this.$root.$on('Device Selected', (name, room, cat) => {
+      if (this.selected && name !== this.name) this.selected = !this.selected;
+    });
   }
 })
 
