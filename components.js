@@ -221,6 +221,50 @@ Vue.component('card-btn', {
   }
 })
 
+Vue.component('sel-dev', {
+  props: {
+    name: {
+      type: String,
+      required: true
+    },
+    cat: {
+      type: String,
+      required: true
+    },
+    room: {
+      type: String,
+      required: true
+    }
+  },
+  data() {
+    return {
+      selected: false,
+      devices: ['Light 1', 'Light 2', 'Oven', 'Aire Aconditioner'],
+      device: 'Light 1',
+    }
+  },
+  template:
+    `<v-select v-model="device" :items="devices" :value="device" label="Device" required @change="toggleSelected()"></v-text-field> `,
+  methods: {
+    toggleSelected() {
+      this.selected = !this.selected;
+      if (this.selected) {
+        this.$root.$emit('Device Selected', this.name, this.room, this.cat);
+      } else {
+        this.$root.$emit('Device Deselected');
+      }
+    }
+  },
+  computed: {
+
+  },
+  mounted() {
+    this.$root.$on('Device Selected', (name, room, cat) => { // change for id
+      if (this.selected && name !== this.name) this.selected = !this.selected;
+    });
+  }
+})
+
 Vue.component('dev-btn', {
   props: {
     name: {
@@ -920,6 +964,7 @@ Vue.component('add-room', {
       image: 0,
       floors: ['First', 'Second', 'Other'],
       floor: 'First',
+      
     }
   },
   watch: { // here we set the new values
@@ -1027,7 +1072,7 @@ Vue.component('panel-none', {
   }
 })
 
-Vue.component('add-room', {
+Vue.component('add-routine', {
   data() {
     return {
       name: ' ',
@@ -1035,10 +1080,13 @@ Vue.component('add-room', {
       snackbarCan: false,
       snackbarOk: false,
       sheet: false,
-      images: ['bedroom_01.jpg','bathroom_02.jpg','game_room_01.jpg','garage_01.jpg','kitchen_01.jpg','living_01.jpg','living_02.jpg','entertainement_01.jpg','kitchen1.jpg'],
       image: 0,
       floors: ['First', 'Second', 'Other'],
       floor: 'First',
+      rooms: ['Living Room', 'Kitchen', 'Bathroom', 'Garage', 'Bedroom','Entertainement'],
+      room: 'Living Room',
+      devices: ['Light 1', 'Light 2', 'Oven', 'Aire Aconditioner'],
+      device: 'Light 1'
     }
   },
   watch: { // here we set the new values
@@ -1062,9 +1110,15 @@ Vue.component('add-room', {
                   <v-col cols="12" >
                   <v-select v-model="floor" :items="floors" :value="floor" label="Floor" required></v-select>
                   </v-col>
+                  <v-col cols="12">
+                  <v-text-field v-model="room" :items="rooms" :value="room" label="Room" required></v-text-field>
+                  </v-col>
+                  <v-col cols="12" >
+                  <v-text-field v-model="device" :items="devices" :value="device" label="Device" required></v-text-field>
+                  </v-col>
                   <v-col cols="12" >
                   <v-btn color="orange" dark @click="sheet = !sheet">
-                      Select image...
+                      Set actions...
                   </v-btn>
                   </v-col>
               </v-row>
@@ -1146,7 +1200,7 @@ Vue.component('add-btn', {
           </template>
           <span v-show="getContext=='add-device'">Add Device</span>
           <span v-show="getContext=='add-room'">Add Room</span>
-          <span v-show="getContext=='add-room'">Add Routine</span>
+          <span v-show="getContext=='add-routine'">Add Routine</span>
 
       </v-tooltip>
       
@@ -1160,7 +1214,7 @@ Vue.component('add-btn', {
           return 'add-room';
         case 'device':
           return 'add-device';
-        case 'rotuine':
+        case 'routine':
           return 'add-routine';
         default:
             console.log('error');

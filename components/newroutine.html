@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+  <link href="./main.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+</head>
+
+<body>
+  <div v-cloak id="app">
+    <v-app id="inspire">
+      <toolbar></toolbar>
+      <panel device="Light"></panel>
+      <v-content>
+        <v-container>
+            <v-card light>
+                <v-card-title>
+                    <span class="headline">Add Routine</span>
+                </v-card-title>
+                
+                <v-card-text>
+                    <v-container>
+                    <v-row>
+                        <v-col cols="12">
+                        <v-text-field v-model="name" label="Name" required></v-text-field>
+                        </v-col>
+                        <v-col cols="12" >
+                        <v-select v-model="floor" :items="floors" :value="floor" label="Floor" required></v-select>
+                        </v-col>
+                        <v-col cols="12">
+                        <v-select v-model="room" :items="rooms" :value="room" label="Room" required></v-text-field>
+                        </v-col>
+                        <v-col cols="12" >
+                          <sel-dev name="Pedro" cat="Light" room="Living" ></sel-dev>
+                        </v-col>
+                    </v-row>
+                    </v-container>
+                </v-card-text>   
+                <v-snackbar v-model="snackbarOk" > Successfully created!
+                        <v-btn color="green" text @click="snackbarOk = false"> OK </v-btn>
+                </v-snackbar>
+                <v-snackbar v-model="snackbarCan" > Operation cancelled!
+                        <v-btn color="red" text @click="snackbarCan = false"> OK </v-btn>
+                </v-snackbar>
+            </v-card>
+        </v-container>
+      </v-content>
+    </v-app>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+  <script src="../components.js"></script>
+  <script src="test.js"></script>
+</body>
+</html>
