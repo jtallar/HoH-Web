@@ -14,15 +14,17 @@
     <v-app id="inspire">
       <toolbar></toolbar>
       <v-content>
+        
         <v-container>
           <v-row justify="center">
             <v-col v-for="i in 7" cols="auto">
               <card-btn href="./rooms.html" title="Living Room" img_name="living_01"></card-btn>
             </v-col>
           </v-row>
+          <add-btn context='Room'> </add-btn>
         </v-container>
 
-        <add-btn></add-btn>
+        
         
       </v-content>
 
