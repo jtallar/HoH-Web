@@ -13,49 +13,22 @@
   <div v-cloak id="app">
     <v-app id="inspire">
       <toolbar :tab="1"></toolbar>
-      <panel device=""></panel>
       <v-content>
         <v-container>
-          <v-row class="align-center" >
-            <v-btn icon href="./roomSelection.html">
-              <v-icon size="40">mdi-arrow-left</v-icon>
-            </v-btn>
-            <h1>Living Room</h1>
+          <v-row justify="center">
+            <v-col v-for="i in 7" cols="auto"> 
+              <card-btn href="./room.html" title="Living Room" img_name="living_01"></card-btn>
+            </v-col>
           </v-row>
-          <v-row>
-            <v-row>
-              <h2 class="grey--text">Lights</h2>
-            </v-row>
-            <v-row>
-              <v-col v-for="dev in devices" cols="auto">
-                <dev-btn :name="dev.name" :cat="dev.cat" :room="dev.room"></dev-btn>
-              </v-col>
-            </v-row>
-          </v-row>
-          <v-row>
-            <v-row>
-              <h2 class="grey--text">Speakers</h2>
-            </v-row>
-            <v-row>
-              <v-col v-for="i in 7" cols="auto">
-                <dev-btn name="prueba" cat="Air Conditioner" room="Living Room"></dev-btn>
-              </v-col>
-            </v-row>
-          </v-row>
-            
         </v-container>
-
-        <add-btn></add-btn>
-
+        <add-btn context="room"> </add-btn>
       </v-content>
-
     </v-app>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
   <script src="components.js"></script>
-  <script src="rooms.js"></script>
-
+  <script src="home.js"></script>
 </body>
 
 </html>
