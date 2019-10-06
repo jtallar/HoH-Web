@@ -21,7 +21,14 @@
             </v-col>
           </v-row>
         </v-container>
-        <add-btn context="routine"> </add-btn>
+        <v-tooltip bottom>
+            <template v-slot:activator="{ on }" >
+                <v-btn absolute dark fab right v-on="on" x-large class="mx-2" fab dark color="orange darken-2" href="newroutine.html">
+                    <v-icon dark>mdi-plus</v-icon>
+                </v-btn>
+            </template>
+            <span>Add Routine</span>
+        </v-tooltip>      
       </v-content>
     </v-app>
   </div>

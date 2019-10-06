@@ -15,26 +15,30 @@
       <toolbar></toolbar>
       <panel device="Light"></panel>
       <v-content>
-        <v-container>
+        <v-container> 
             <v-card light>
                 <v-card-title>
                     <span class="headline">Add Routine</span>
                 </v-card-title>
-                
                 <v-card-text>
                     <v-container>
                     <v-row>
                         <v-col cols="12">
-                        <v-text-field v-model="name" label="Name" required></v-text-field>
+                          <v-text-field v-model="name" label="Name" required></v-text-field>
                         </v-col>
                         <v-col cols="12" >
-                        <v-select v-model="floor" :items="floors" :value="floor" label="Floor" required></v-select>
+                          <v-select v-model="floor" :items="floors" :value="floor" label="Floor" required></v-select>
                         </v-col>
                         <v-col cols="12">
-                        <v-select v-model="room" :items="rooms" :value="room" label="Room" required></v-text-field>
+                          <v-select v-model="room" :items="rooms" :value="room" label="Room" required></v-text-field>
                         </v-col>
                         <v-col cols="12" >
-                          <sel-dev name="Pedro" cat="Light" room="Living" ></sel-dev>
+                          <sel-dev :name="name" :room="room" cat="Light" ></sel-dev>
+                        </v-col>
+                        <v-col cols="12" >
+                            <div class="text-right">
+                              <v-btn dark  right v-on="on" x-large color="orange darken-2" @click="snackbarOk = true"> CREATE </v-btn>
+                            </div>
                         </v-col>
                     </v-row>
                     </v-container>
@@ -52,7 +56,7 @@
   </div>
   <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
-  <script src="../components.js"></script>
-  <script src="test.js"></script>
+  <script src="components.js"></script>
+  <script src="components/test.js"></script>
 </body>
 </html>
