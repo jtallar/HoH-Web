@@ -71,9 +71,9 @@ Vue.component('panel', {
   },
   data() {
     return {
-      devName: "",
+      devName: "No Device Selected",
       devCat: "",
-      devRoom: "",
+      devRoom: "Please Select a Device",
       favorite: false,
       selected: false
     }
@@ -166,9 +166,9 @@ Vue.component('panel', {
       console.log('Message recieved with ' + this.devName + ' ; ' + this.devCat + ' ; ' + this.devRoom);
     });
     this.$root.$on('Device Deselected', () => {
-      this.devName = "";
+      this.devName = "No Device Selected";
       this.devCat = "";
-      this.devRoom = "";
+      this.devRoom = "Please Select a Device";
       this.selected = false;
     });
   }
@@ -200,15 +200,17 @@ Vue.component('card-btn', {
     }
   },
   template:
-    `<v-btn tile class="ma-3" :width="getWidth" :height="getHeight" :href="getHref">
-      <v-img :src="getImg" :width="getWidth" :height="getHeight">
-        <div class="text-left grey darken-2 mt-5 pl-3 pa-1">
-          <span class="text-uppercase white--text font-weight-light">
-            {{ getTitle }}      
-          </span>
-        </div>
-      </v-img>
-    </v-btn>`,
+    `<v-col class="text-center">
+      <v-btn tile class="ma-3" :width="getWidth" :height="getHeight" :href="getHref">
+        <v-img :src="getImg" :width="getWidth" :height="getHeight">
+          <div class="text-left grey darken-2 mt-5 pl-3 pa-1">
+            <span class="text-uppercase white--text font-weight-light">
+              {{ getTitle }}      
+            </span>
+          </div>
+        </v-img>
+      </v-btn>
+    </v-col>`,
 
   computed: {
     getHref() {
@@ -251,12 +253,12 @@ Vue.component('dev-btn', {
   },
   template:
     `<v-col class="text-center">
-      <v-btn :outlined="!selected" class="mt-4 ma-1" :width="getSize" :height="getSize" fab color="grey darken-4" @click="toggleSelected">
+      <v-btn :outlined="!selected" class="ma-1" :width="getSize" :height="getSize" fab color="grey darken-4" @click="toggleSelected">
         <div>
           <v-img :width="getIconSize" :src="getImg"/>
         </div>
       </v-btn>
-      <div class="text-capitalize black--text font-weight-light mb-4">
+      <div class="text-capitalize black--text font-weight-light mb-1">
         {{ name }}
       </div>
     </v-col>`,
@@ -1046,9 +1048,32 @@ Vue.component('panel-none', {
   },
   template:
     `<v-container fluid>
-      <v-layout column align-center>
-        <h2>Select a device</h2>
-      </v-layout>
+      <div class="mt-5 ma-1 title font-weight-bold">Hello Julian Ajax!</div>
+      <div class="mb-5 ma-1 ">Welcome to your smart house! Here we have some tips for you.</div>
+      
+      <v-card dark class="mt-5 mb-5 ma-1">
+        <v-card-title>Add a Device</v-card-title>
+        <v-card-text>Search for the + button in the bottom right part of 
+        any page and start adding new Devices</v-card-text>
+      </v-card>
+      
+      <v-card dark class="mb-5 ma-1">
+        <v-card-title>Device Settings</v-card-title>
+        <v-card-text>Here in this panel are going to be shown the settings of the device 
+        selected. Click on one to get started!</v-card-text>
+      </v-card>
+       
+      <v-card dark class="mb-5 ma-1">
+        <v-card-title>Tabs</v-card-title>
+        <v-card-text>There are some tabs so you can find your devices faster! 
+        Just click on them and choose the category you need.</v-card-text>
+      </v-card>
+        
+      <v-card dark class="mb-5 ma-1">
+        <v-card-title>Search</v-card-title>
+        <v-card-text>If you can't find a specific device, routine or room
+        you can search it by cicking in the search icon on the top right of the page.</v-card-text>
+      </v-card>  
     </v-container>`,
   mounted: function () {
     // here we extract all the data
