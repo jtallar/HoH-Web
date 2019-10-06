@@ -66,7 +66,8 @@ Vue.component('panel', {
       devName: "",
       devCat: "",
       devRoom: "",
-      favorite: false
+      favorite: false,
+      selected: false
     }
   },
   template:
@@ -75,18 +76,18 @@ Vue.component('panel', {
       <template v-slot:prepend>
         <v-list-item two-line>
           <v-list-item-avatar tile>
-            <v-img :src="getImg" contain/>
+            <v-img v-show="selected" :src="getImg" contain/>
           </v-list-item-avatar>
           <v-list-item-content>
             <v-list-item-title class="text-capitalize">{{ devName }}</v-list-item-title>
             <v-list-item-subtitle class="text-capitalize">{{ devRoom }}</v-list-item-subtitle>
           </v-list-item-content>
           <v-btn icon @click="toggleFav">
-            <v-icon v-show="favorite">mdi-star</v-icon>
-            <v-icon v-show="!favorite">mdi-star-outline</v-icon>
+            <v-icon v-show="favorite && selected">mdi-star</v-icon>
+            <v-icon v-show="!favorite && selected">mdi-star-outline</v-icon>
           </v-btn>
           <v-btn icon @click="launchSettings">
-            <v-icon>mdi-settings</v-icon>
+            <v-icon v-show="selected">mdi-settings</v-icon>
           </v-btn>
         </v-list-item>
       </template>
@@ -153,12 +154,14 @@ Vue.component('panel', {
       this.devName = devName;
       this.devCat = devCat;
       this.devRoom = devRoom;
+      this.selected = true;
       console.log('Message recieved with ' + this.devName + ' ; ' + this.devCat + ' ; ' + this.devRoom);
     });
     this.$root.$on('Device Deselected', () => {
       this.devName = "";
       this.devCat = "";
       this.devRoom = "";
+      this.selected = false;
     });
   }
 })
