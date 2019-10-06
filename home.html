@@ -18,22 +18,22 @@
         <v-container>
           <div class="mt-4 ml-4 mb-2 title font-weight-bold">Favorites Devices</div>
           <v-slide-group light>
-            <v-slide-item v-for="dev in favDevices" :key="dev">
-              <dev-btn :name="dev.name" :cat="dev.cat" :room="dev.room"></dev-btn>
+            <v-slide-item v-for="device in favDevices" :key="device">
+              <dev-btn :name="device.name" :cat="device.cat" :room="device.room"></dev-btn>
             </v-slide-item>
           </v-slide-group>
 
           <div class="mt-4 ml-4 mb-2 title font-weight-bold">Favorites Devices</div>
           <v-slide-group light>
-            <v-slide-item v-for="i in 10" :key="i">
-              <card-btn href="./home.html" title="Living" img_name="living_01"></card-btn>
+            <v-slide-item v-for="room in favRooms" :key="room">
+              <card-btn href="./room.html" :title="room.title" :img_name="room.img_name"></card-btn>
             </v-slide-item>
           </v-slide-group>
 
           <div class="mt-4 ml-4 mb-2 title font-weight-bold">Favorites Devices</div>
           <v-slide-group light>
-            <v-slide-item v-for="i in 3" :key="i">
-              <card-btn href="./home.html" title="Living" img_name="living_01"></card-btn>
+            <v-slide-item v-for="routine in favRoutines" :key="i">
+              <card-btn href="./routine.html" :title="routine.title" :img_name="routine.img_name"></card-btn>
             </v-slide-item>
           </v-slide-group>
         </v-container>

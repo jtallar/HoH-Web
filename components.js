@@ -107,6 +107,10 @@ Vue.component('panel', {
   methods: {
     toggleFav() {
       this.favorite = !this.favorite;
+      if (favorite) favDevices.push({
+        devName, devCat, devRoom
+      });
+      console.log(favDevices);
     },
     launchSettings() {
       // do something here when motherfucker touches settings
