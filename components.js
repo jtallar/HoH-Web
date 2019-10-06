@@ -755,7 +755,7 @@ Vue.component('panel-vacuum', {
       mode: 0, // 0: vacuum, 1: mop
       room: 'Living Room',
       charging_base: 'Bathroom',
-      rooms: ['Living Room', 'Kitchen', 'Bathroom']
+      rooms: []
     }
   },
   watch: { // here we set the new values
@@ -831,8 +831,28 @@ Vue.component('panel-vacuum', {
       // send stop to back
     }
   },
-  mounted: function () {
-    // here we extract all the data
+  mounted () {    
+    let vm = this;
+
+    fetch('http://127.0.0.1:8080/api/rooms')
+    .then(function(response) {
+      if (!response.ok) {
+        throw Error(response.statusText);
+      }
+      return response.json();
+    })
+    .then(function(data) {
+      for (index in data.result) {
+        vm.rooms[index] = data.result[index].name;
+      }
+      
+    })
+    .catch(function(error) {
+      console.log('Unexpected error: \n' + error);
+    })
+    console.log(this.rooms);
+    console.log(this.rooms[0]);
+    
   }
 })
 
