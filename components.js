@@ -971,7 +971,7 @@ Vue.component('add-device', {
                           <v-row>
                           <v-col v-for="(item, i) in items" :key="i" cols="12" md="2">
                               <v-item v-slot:default="{ active, toggle }">
-                              <v-img :src="`../resources/images/${images}`"
+                              <v-img :src="\`../resources/images/${images}\`"
                                   height="150" width="300" class="text-right pa-2" @click="toggle">
                                   <v-btn icon dark >
                                   <v-icon color="orange darken-2 ">
