@@ -1,6 +1,23 @@
 // javascript file for used components
 
 Vue.component('toolbar', {
+  props: {
+    tab: {
+      type: Number,
+      required: true
+    }
+  },
+  data() {
+    return {
+      active_tab: undefined,
+      tabs: [
+        { index: 0, name: 'Home', dir: 'home.html' },
+        { index: 1, name: 'Rooms', dir: 'roomSelection.html' },
+        { index: 2, name: 'Devices', dir: 'deviceCategories.html' },
+        { index: 3, name: 'Routines', dir: 'routines.html' }
+      ]
+    }
+  },
   template:
     `<v-app-bar app clipped-right color="black" dark>
           <!-- button/avatar/image for logo -->
@@ -32,7 +49,7 @@ Vue.component('toolbar', {
           <template v-slot:extension>
             <v-tabs grow v-model="active_tab" background-color="orange">
               <v-tab v-for="tab of tabs" :key="tab.index" :href="tab.dir">
-                {{tab.name}}
+                {{ tab.name }}
               </v-tab>
 
               <v-tabs-slider color="white" />
@@ -40,18 +57,9 @@ Vue.component('toolbar', {
               
           </template>
         </v-app-bar>`,
-  data() {
-    return {
-      active_tab: 1,
-      tabs: [
-        { index: 0, name: 'Home', dir: 'home.html' },
-        { index: 1, name: 'Rooms', dir: 'roomSelection.html' },
-        { index: 2, name: 'Devices', dir: 'deviceCategories.html' },
-        { index: 3, name: 'Routines', dir: 'routines.html' }
-      ]
-    }
-  },
-
+  mounted() {
+    this.active_tab = this.tabs[this.tab].dir;
+  }
 })
 
 Vue.component('panel', {
@@ -594,7 +602,7 @@ Vue.component('panel-door', {
   methods: {
     lock() {
       this.locked = !this.locked;
-      if (this.locked){
+      if (this.locked) {
         this.closed = 0;
       }
       // send stop to back
@@ -836,28 +844,28 @@ Vue.component('panel-vacuum', {
       // send stop to back
     }
   },
-  mounted () {    
+  mounted() {
     let vm = this;
 
     fetch('http://127.0.0.1:8080/api/rooms')
-    .then(function(response) {
-      if (!response.ok) {
-        throw Error(response.statusText);
-      }
-      return response.json();
-    })
-    .then(function(data) {
-      for (index in data.result) {
-        this.$set(this, 'rooms', data);
-      }
-      
-    })
-    .catch(function(error) {
-      console.log('Unexpected error: \n' + error);
-    })
+      .then(function (response) {
+        if (!response.ok) {
+          throw Error(response.statusText);
+        }
+        return response.json();
+      })
+      .then(function (data) {
+        for (index in data.result) {
+          this.$set(this, 'categories', data);
+        }
+
+      })
+      .catch(function (error) {
+        console.log('Unexpected error: \n' + error);
+      })
     console.log(this.rooms);
     console.log(this.rooms[0]);
-    
+
   }
 })
 
@@ -865,10 +873,10 @@ Vue.component('add-device', {
 
   data() {
     return {
-      rooms: ['Living Room', 'Kitchen', 'Bathroom', 'Garage', 'Bedroom','Entertainement'],
+      rooms: ['Living Room', 'Kitchen', 'Bathroom', 'Garage', 'Bedroom', 'Entertainement'],
       room: 'Living Room',
       types: ['Light', 'Oven', 'Door', 'Window', 'Air Aconditioner', 'Vacuum', 'Speaker'],
-      type:'Light',
+      type: 'Light',
       name: ' ',
       overlay: true,
       snackbarCan: false,
@@ -936,7 +944,7 @@ Vue.component('add-room', {
       snackbarCan: false,
       snackbarOk: false,
       sheet: false,
-      images: ['bedroom_01.jpg','bathroom_02.jpg','game_room_01.jpg','garage_01.jpg','kitchen_01.jpg','living_01.jpg','living_02.jpg','entertainement_01.jpg','kitchen1.jpg'],
+      images: ['bedroom_01.jpg', 'bathroom_02.jpg', 'game_room_01.jpg', 'garage_01.jpg', 'kitchen_01.jpg', 'living_01.jpg', 'living_02.jpg', 'entertainement_01.jpg', 'kitchen1.jpg'],
       image: 0,
       floors: ['First', 'Second', 'Other'],
       floor: 'First',
@@ -1055,7 +1063,7 @@ Vue.component('add-room', {
       snackbarCan: false,
       snackbarOk: false,
       sheet: false,
-      images: ['bedroom_01.jpg','bathroom_02.jpg','game_room_01.jpg','garage_01.jpg','kitchen_01.jpg','living_01.jpg','living_02.jpg','entertainement_01.jpg','kitchen1.jpg'],
+      images: ['bedroom_01.jpg', 'bathroom_02.jpg', 'game_room_01.jpg', 'garage_01.jpg', 'kitchen_01.jpg', 'living_01.jpg', 'living_02.jpg', 'entertainement_01.jpg', 'kitchen1.jpg'],
       image: 0,
       floors: ['First', 'Second', 'Other'],
       floor: 'First',
@@ -1176,14 +1184,14 @@ Vue.component('add-btn', {
   computed: {
     getContext() {
       switch (this.context) {
-        case 'room':  
+        case 'room':
           return 'add-room';
         case 'device':
           return 'add-device';
         case 'rotuine':
           return 'add-routine';
         default:
-            console.log('error');
+          console.log('error');
       }
     }
   },
