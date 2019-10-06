@@ -848,7 +848,7 @@ Vue.component('panel-vacuum', {
     })
     .then(function(data) {
       for (index in data.result) {
-        vm.rooms[index] = data.result[index].name;
+        this.$set(this, 'rooms', data);
       }
       
     })
