@@ -19,7 +19,7 @@ Vue.component('toolbar', {
     }
   },
   template:
-    `<v-app-bar app clipped-right color="black" dark>
+    `<v-app-bar app clipped-right color="black" dark >
           <!-- button/avatar/image for logo -->
           <v-btn icon href="./home.html">
             <v-avatar size="35">
@@ -79,10 +79,10 @@ Vue.component('panel', {
     }
   },
   template:
-    `<v-navigation-drawer app clipped right permanent color='#E9E9E9' :width="getWidth">
+    `<v-navigation-drawer bottom app floating clipped right permanent color='#E9E9E9' :width="getWidth">
       <!-- header -->
-      <template v-slot:prepend>
-        <v-list-item two-line>
+      <template v-slot:prepend >
+        <v-list-item two-line class="mb-2 mt-1">
           <v-list-item-avatar tile>
             <v-img v-show="selected" :src="getImg" contain/>
           </v-list-item-avatar>
@@ -99,7 +99,7 @@ Vue.component('panel', {
           </v-btn>
         </v-list-item>
       </template>
-      <v-divider></v-divider>
+      <v-divider class="mx-5"></v-divider>
         
       <!-- information and settings -->
       <component :is="getPanelContent"></component>
@@ -305,7 +305,7 @@ Vue.component('dev-btn', {
   },
   template:
     `<v-col class="text-center">
-      <v-btn :outlined="!selected" class="ma-1" :width="getSize" :height="getSize" fab color="grey darken-4" @click="toggleSelected">
+      <v-btn class="mb-1" :outlined="!selected" :width="getSize" :height="getSize" fab color="grey darken-4" @click="toggleSelected">
         <div>
           <v-img :width="getIconSize" :src="getImg"/>
         </div>
@@ -1231,10 +1231,10 @@ Vue.component('add-btn', {
     }
   },
   template:
-    `<v-container fluid>
+    `<v-container>
       <v-tooltip top>
           <template v-slot:activator="{ on }" >
-            <v-btn fixed dark fab bottom right v-on="on" x-large class="mx-2 ma-5" color="orange darken-2" @click="overlay = true">
+            <v-btn fixed fab dark bottom right v-on="on" x-large class="mx-2 mt-5" color="orange darken-2" @click="overlay = true">
               <v-icon dark>mdi-plus</v-icon>
             </v-btn>
         </template>
