@@ -1108,10 +1108,6 @@ Vue.component('add-routine', {
       snackbarCan: false,
       snackbarOk: false,
       sheet: false,
-<<<<<<< HEAD
-=======
-      images: ['bedroom_01.jpg', 'bathroom_02.jpg', 'game_room_01.jpg', 'garage_01.jpg', 'kitchen_01.jpg', 'living_01.jpg', 'living_02.jpg', 'entertainement_01.jpg', 'kitchen1.jpg'],
->>>>>>> 256e279093095a8652f88c0d46a1f0566d6e1ed8
       image: 0,
       floors: ['First', 'Second', 'Other'],
       floor: 'First',
