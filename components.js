@@ -1343,7 +1343,7 @@ Vue.component('add-room', {
                           <v-row>
                           <v-col v-for="(item, i) in images" :key="i" cols="12" md="2">
                               <v-item v-slot:default="{ active, toggle }">
-                              <v-img :src="\`resources/images/\${item}\`"
+                              <v-img :src="\`./resources/images/\${item}\`"
                                   height="150" width="300" class="text-right pa-2" @click="toggle">
                                   <v-btn icon dark >
                                   <v-icon color="orange darken-2 ">
