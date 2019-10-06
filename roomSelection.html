@@ -14,26 +14,21 @@
     <v-app id="inspire">
       <toolbar :tab="1"></toolbar>
       <v-content>
-        
         <v-container>
           <v-row justify="center">
-            <v-col v-for="i in 7" cols="auto">
+            <v-col v-for="i in 7" cols="auto"> 
               <card-btn href="./rooms.html" title="Living Room" img_name="living_01"></card-btn>
             </v-col>
           </v-row>
         </v-container>
-
         <add-btn context="room"> </add-btn>
-
       </v-content>
-
     </v-app>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
   <script src="components.js"></script>
   <script src="home.js"></script>
-
 </body>
 
 </html>
