@@ -12,13 +12,11 @@ new Vue({
       { title: 'Help' }
     ],
     categories: [
-      { title: 'Air Conditioners', img: 'light_01' },
-      { title: 'Doors', img: 'light_01' },
-      { title: 'Lights', img: 'light_01' },
-      { title: 'Ovens', img: 'light_01' },
-      { title: 'Speakers', img: 'light_01' },
-      { title: 'Vacuums', img: 'light_01' },
-      { title: 'Windows & Blinds', img: 'light_01' }
+      { title: 'Lighting', img: 'light_01' },
+      { title: 'Apliances', img: 'apliances_01' },
+      { title: 'Entertainement', img: 'entertainement_01' },
+      { title: 'Air Conditioners', img: 'air_conditioner_01' },
+      { title: 'Doors & Windows', img: 'house_02' }
     ]
   })
   

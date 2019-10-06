@@ -297,7 +297,7 @@ Vue.component('dev-btn', {
     }
   },
   mounted() {
-    this.$root.$on('Device Selected', (name, room, cat) => {
+    this.$root.$on('Device Selected', (name, room, cat) => { // change for id
       if (this.selected && name !== this.name) this.selected = !this.selected;
     });
   }
