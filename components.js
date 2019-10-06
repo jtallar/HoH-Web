@@ -1,6 +1,23 @@
 // javascript file for used components
 
 Vue.component('toolbar', {
+  props: {
+    tab: {
+      type: Number,
+      required: true
+    }
+  },
+  data() {
+    return {
+      active_tab: undefined,
+      tabs: [
+        { index: 0, name: 'Home', dir: 'home.html' },
+        { index: 1, name: 'Rooms', dir: 'roomSelection.html' },
+        { index: 2, name: 'Devices', dir: 'deviceCategories.html' },
+        { index: 3, name: 'Routines', dir: 'routines.html' }
+      ]
+    }
+  },
   template:
     `<v-app-bar app clipped-right color="black" dark>
           <!-- button/avatar/image for logo -->
@@ -32,7 +49,7 @@ Vue.component('toolbar', {
           <template v-slot:extension>
             <v-tabs grow v-model="active_tab" background-color="orange">
               <v-tab v-for="tab of tabs" :key="tab.index" :href="tab.dir">
-                {{tab.name}}
+                {{ tab.name }}
               </v-tab>
 
               <v-tabs-slider color="white" />
@@ -40,18 +57,9 @@ Vue.component('toolbar', {
               
           </template>
         </v-app-bar>`,
-  data() {
-    return {
-      active_tab: 1,
-      tabs: [
-        { index: 0, name: 'Home', dir: 'home.html' },
-        { index: 1, name: 'Rooms', dir: 'roomSelection.html' },
-        { index: 2, name: 'Devices', dir: 'deviceCategories.html' },
-        { index: 3, name: 'Routines', dir: 'routines.html' }
-      ]
-    }
-  },
-
+  mounted() {
+    this.active_tab = this.tabs[this.tab].dir;
+  }
 })
 
 Vue.component('panel', {
@@ -63,9 +71,9 @@ Vue.component('panel', {
   },
   data() {
     return {
-      devName: "",
+      devName: "No Device Selected",
       devCat: "",
-      devRoom: "",
+      devRoom: "Please Select a Device",
       favorite: false,
       selected: false
     }
@@ -158,9 +166,9 @@ Vue.component('panel', {
       console.log('Message recieved with ' + this.devName + ' ; ' + this.devCat + ' ; ' + this.devRoom);
     });
     this.$root.$on('Device Deselected', () => {
-      this.devName = "";
+      this.devName = "No Device Selected";
       this.devCat = "";
-      this.devRoom = "";
+      this.devRoom = "Please Select a Device";
       this.selected = false;
     });
   }
@@ -192,15 +200,17 @@ Vue.component('card-btn', {
     }
   },
   template:
-    `<v-btn tile class="ma-3" :width="getWidth" :height="getHeight" :href="getHref">
-      <v-img :src="getImg" :width="getWidth" :height="getHeight">
-        <div class="text-left grey darken-2 mt-5 pl-3 pa-1">
-          <span class="text-uppercase white--text font-weight-light">
-            {{ getTitle }}      
-          </span>
-        </div>
-      </v-img>
-    </v-btn>`,
+    `<v-col class="text-center">
+      <v-btn tile class="ma-3" :width="getWidth" :height="getHeight" :href="getHref">
+        <v-img :src="getImg" :width="getWidth" :height="getHeight">
+          <div class="text-left grey darken-2 mt-5 pl-3 pa-1">
+            <span class="text-uppercase white--text font-weight-light">
+              {{ getTitle }}      
+            </span>
+          </div>
+        </v-img>
+      </v-btn>
+    </v-col>`,
 
   computed: {
     getHref() {
@@ -218,6 +228,50 @@ Vue.component('card-btn', {
     getTitle() {
       return this.title; // aca ver de poner max y min caracteres
     }
+  }
+})
+
+Vue.component('sel-dev', {
+  props: {
+    name: {
+      type: String,
+      required: true
+    },
+    cat: {
+      type: String,
+      required: true
+    },
+    room: {
+      type: String,
+      required: true
+    }
+  },
+  data() {
+    return {
+      selected: false,
+      devices: ['Light 1', 'Light 2', 'Oven', 'Air Aconditioner'],
+      device: 'Light 1',
+    }
+  },
+  template:
+    `<v-select v-model="device" :items="devices" :value="cat" label="Device" required @change="toggleSelected()"></v-text-field> `,
+  methods: {
+    toggleSelected() {
+      this.selected = !this.selected;
+      if (this.selected) {
+        this.$root.$emit('Device Selected', this.name, this.room, this.cat);
+      } else {
+        this.$root.$emit('Device Deselected');
+      }
+    }
+  },
+  computed: {
+    
+  },
+  mounted() {
+    this.$root.$on('Device Selected', (name, room, cat) => { // change for id
+      if (this.selected && name !== this.name) this.selected = !this.selected;
+    });
   }
 })
 
@@ -243,12 +297,12 @@ Vue.component('dev-btn', {
   },
   template:
     `<v-col class="text-center">
-      <v-btn :outlined="!selected" class="mt-4 ma-1" :width="getSize" :height="getSize" fab color="grey darken-4" @click="toggleSelected">
+      <v-btn :outlined="!selected" class="ma-1" :width="getSize" :height="getSize" fab color="grey darken-4" @click="toggleSelected">
         <div>
           <v-img :width="getIconSize" :src="getImg"/>
         </div>
       </v-btn>
-      <div class="text-capitalize black--text font-weight-light mb-4">
+      <div class="text-capitalize black--text font-weight-light mb-1">
         {{ name }}
       </div>
     </v-col>`,
@@ -594,7 +648,7 @@ Vue.component('panel-door', {
   methods: {
     lock() {
       this.locked = !this.locked;
-      if (this.locked){
+      if (this.locked) {
         this.closed = 0;
       }
       // send stop to back
@@ -836,12 +890,37 @@ Vue.component('panel-vacuum', {
       // send stop to back
     }
   },
+<<<<<<< HEAD
   async mounted () {
     var aux = await api.room.getAll().then(data => data.result);
     for (i of aux) {
       this.rooms.push(i.name);
     }
     console.log(this.rooms);
+=======
+  mounted() {
+    let vm = this;
+
+    fetch('http://127.0.0.1:8080/api/rooms')
+      .then(function (response) {
+        if (!response.ok) {
+          throw Error(response.statusText);
+        }
+        return response.json();
+      })
+      .then(function (data) {
+        for (index in data.result) {
+          this.$set(this, 'categories', data);
+        }
+
+      })
+      .catch(function (error) {
+        console.log('Unexpected error: \n' + error);
+      })
+    console.log(this.rooms);
+    console.log(this.rooms[0]);
+
+>>>>>>> 70c00493b94b066039c61504fac3f494a642a8db
   }
 })
 
@@ -922,10 +1001,10 @@ Vue.component('add-device', {
 
   data() {
     return {
-      rooms: ['Living Room', 'Kitchen', 'Bathroom', 'Garage', 'Bedroom','Entertainement'],
+      rooms: ['Living Room', 'Kitchen', 'Bathroom', 'Garage', 'Bedroom', 'Entertainement'],
       room: 'Living Room',
       types: ['Light', 'Oven', 'Door', 'Window', 'Air Aconditioner', 'Vacuum', 'Speaker'],
-      type:'Light',
+      type: 'Light',
       name: ' ',
       overlay: true,
       snackbarCan: false,
@@ -993,10 +1072,11 @@ Vue.component('add-room', {
       snackbarCan: false,
       snackbarOk: false,
       sheet: false,
-      images: ['bedroom_01.jpg','bathroom_02.jpg','game_room_01.jpg','garage_01.jpg','kitchen_01.jpg','living_01.jpg','living_02.jpg','entertainement_01.jpg','kitchen1.jpg'],
+      images: ['bedroom_01.jpg', 'bathroom_02.jpg', 'game_room_01.jpg', 'garage_01.jpg', 'kitchen_01.jpg', 'living_01.jpg', 'living_02.jpg', 'entertainement_01.jpg', 'kitchen1.jpg'],
       image: 0,
       floors: ['First', 'Second', 'Other'],
       floor: 'First',
+      
     }
   },
   watch: { // here we set the new values
@@ -1095,106 +1175,33 @@ Vue.component('panel-none', {
   },
   template:
     `<v-container fluid>
-      <v-layout column align-center>
-        <h2>Select a device</h2>
-      </v-layout>
-    </v-container>`,
-  mounted: function () {
-    // here we extract all the data
-  }
-})
-
-Vue.component('add-room', {
-  data() {
-    return {
-      name: ' ',
-      overlay: true,
-      snackbarCan: false,
-      snackbarOk: false,
-      sheet: false,
-      images: ['bedroom_01.jpg','bathroom_02.jpg','game_room_01.jpg','garage_01.jpg','kitchen_01.jpg','living_01.jpg','living_02.jpg','entertainement_01.jpg','kitchen1.jpg'],
-      image: 0,
-      floors: ['First', 'Second', 'Other'],
-      floor: 'First',
-    }
-  },
-  watch: { // here we set the new values
-
-  },
-  template:
-    `<v-container fluid>
-
-      <v-overlay :value="overlay">
-      <v-card light>
-          <v-card-title>
-              <span class="headline">Add Routine</span>
-          </v-card-title>
-          
-          <v-card-text>
-              <v-container>
-              <v-row>
-                  <v-col cols="12">
-                  <v-text-field v-model="name" label="Name" required></v-text-field>
-                  </v-col>
-                  <v-col cols="12" >
-                  <v-select v-model="floor" :items="floors" :value="floor" label="Floor" required></v-select>
-                  </v-col>
-                  <v-col cols="12" >
-                  <v-btn color="orange" dark @click="sheet = !sheet">
-                      Select image...
-                  </v-btn>
-                  </v-col>
-              </v-row>
-              </v-container>
-          </v-card-text>
-          
-          <v-bottom-sheet v-model="sheet">
-          <v-sheet  dark class="text-center" height="500px">
-              <v-card dark max-width="15000" class="mx-auto">
-                  <v-container class="pa-1">
-                      <v-item-group v-model="image">
-                          <v-row>
-                          <v-col v-for="(item, i) in images" :key="i" cols="12" md="2">
-                              <v-item v-slot:default="{ active, toggle }">
-                              <v-img :src="\`resources/images/\${item}\`"
-                                  height="150" width="300" class="text-right pa-2" @click="toggle">
-                                  <v-btn icon dark >
-                                  <v-icon color="orange darken-2 ">
-                                      {{ active ? 'mdi-check-circle' : 'mdi-circle-outline' }}
-                                  </v-icon>
-                                  </v-btn>
-                              </v-img>
-                              </v-item>
-                          </v-col>
-                          </v-row>
-                          <div class="flex-grow-1"></div>
-                          <v-btn class="my-2" color="orange darken-2" @click="sheet = false">SELECT</v-btn>
-                      </v-item-group>
-                  </v-container>
-              </v-card>
-          </v-sheet>
-          </v-bottom-sheet>
-
-          <v-card-actions>
-              <div class="flex-grow-1"></div>
-              <v-btn color="red darken-1" text @click="overlay = false; snackbarCan = true">Cancel</v-btn>
-              <v-btn color="green darken-1" text @click="overlay = false; snackbarOk = true">Create</v-btn>
-          </v-card-actions>
+      <div class="mt-5 ma-1 title font-weight-bold">Hello Julian Ajax!</div>
+      <div class="mb-5 ma-1 ">Welcome to your smart house! Here we have some tips for you.</div>
+      
+      <v-card dark class="mt-5 mb-5 ma-1">
+        <v-card-title>Add a Device</v-card-title>
+        <v-card-text>Search for the + button in the bottom right part of 
+        any page and start adding new Devices</v-card-text>
       </v-card>
-      </v-overlay>
-
-      <v-snackbar v-model="snackbarOk" > Successfully created!
-              <v-btn color="green" text @click="snackbarOk = false"> OK </v-btn>
-      </v-snackbar>
-      <v-snackbar v-model="snackbarCan" > Operation cancelled!
-              <v-btn color="red" text @click="snackbarCan = false"> OK </v-btn>
-      </v-snackbar>
+      
+      <v-card dark class="mb-5 ma-1">
+        <v-card-title>Device Settings</v-card-title>
+        <v-card-text>Here in this panel are going to be shown the settings of the device 
+        selected. Click on one to get started!</v-card-text>
+      </v-card>
+       
+      <v-card dark class="mb-5 ma-1">
+        <v-card-title>Tabs</v-card-title>
+        <v-card-text>There are some tabs so you can find your devices faster! 
+        Just click on them and choose the category you need.</v-card-text>
+      </v-card>
+        
+      <v-card dark class="mb-5 ma-1">
+        <v-card-title>Search</v-card-title>
+        <v-card-text>If you can't find a specific device, routine or room
+        you can search it by cicking in the search icon on the top right of the page.</v-card-text>
+      </v-card>  
     </v-container>`,
-  methods: {
-    accept() {
-      // send form to back
-    }
-  },
   mounted: function () {
     // here we extract all the data
   }
@@ -1223,8 +1230,6 @@ Vue.component('add-btn', {
           </template>
           <span v-show="getContext=='add-device'">Add Device</span>
           <span v-show="getContext=='add-room'">Add Room</span>
-          <span v-show="getContext=='add-room'">Add Routine</span>
-
       </v-tooltip>
       
       <component v-show="overlay" :is="getContext"> </component>
@@ -1233,14 +1238,12 @@ Vue.component('add-btn', {
   computed: {
     getContext() {
       switch (this.context) {
-        case 'room':  
+        case 'room':
           return 'add-room';
         case 'device':
           return 'add-device';
-        case 'rotuine':
-          return 'add-routine';
         default:
-            console.log('error');
+          console.log('error');
       }
     }
   },

@@ -12,52 +12,32 @@
 <body>
   <div v-cloak id="app">
     <v-app id="inspire">
-      <toolbar></toolbar>
+      <toolbar :tab="0"></toolbar>
       <panel device=""></panel>
       <v-content>
-        
-        <v-container fluid class="ma-5">
-          <v-card class="ma-4 ml-5" raised>
-            <v-card-title>Favorite Devices</v-card-title>
-            <v-row justify="center">
-              <v-col v-for="dev in favDevices" cols="auto">
-                <dev-btn :name="dev.name" :cat="dev.cat" :room="dev.room"></dev-btn>
-              </v-col>
-            </v-row>
-          </v-card>
-          
-          <v-card class="ma-4" raised>
-            <v-card-title>Favorite Rooms</v-card-title>
-            <v-row justify="center">
-              <v-col v-for="i in 4" cols="auto">
-                <card-btn href="./home.html" title="Living" img_name="living_01"></card-btn>
-              </v-col>
-            </v-row>
-          </v-card>
+        <v-container>
+          <div class="mt-4 ml-4 mb-2 title font-weight-bold">Favorites Devices</div>
+          <v-slide-group light>
+            <v-slide-item v-for="dev in favDevices" :key="dev">
+              <dev-btn :name="dev.name" :cat="dev.cat" :room="dev.room"></dev-btn>
+            </v-slide-item>
+          </v-slide-group>
 
-          <v-card class="ma-4" raised>
-            <v-card-title>Favorite Routines</v-card-title>
-            <v-row justify="center">
-              <v-col v-for="i in 2" cols="auto">
-                <card-btn href="./home.html" title="Living" img_name="kitchen_01"></card-btn>
-              </v-col>
-            </v-row>
-          </v-card>
+          <div class="mt-4 ml-4 mb-2 title font-weight-bold">Favorites Devices</div>
+          <v-slide-group light>
+            <v-slide-item v-for="i in 10" :key="i">
+              <card-btn href="./home.html" title="Living" img_name="living_01"></card-btn>
+            </v-slide-item>
+          </v-slide-group>
 
-
-
+          <div class="mt-4 ml-4 mb-2 title font-weight-bold">Favorites Devices</div>
+          <v-slide-group light>
+            <v-slide-item v-for="i in 3" :key="i">
+              <card-btn href="./home.html" title="Living" img_name="living_01"></card-btn>
+            </v-slide-item>
+          </v-slide-group>
         </v-container>
       </v-content>
-
-      <!-- "Light"
-        "Vacuum"
-        "Air Conditioner"
-        "Door"
-        "Window"
-        "Speaker"
-        "Oven" -->
-      <!-- aca iria un v-content -->
-
     </v-app>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
