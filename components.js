@@ -264,7 +264,7 @@ Vue.component('dev-btn', {
   },
   computed: {
     getSize() {
-      return screen.width / 10; // ver si da limitarlo con max y min
+      return screen.width / 13; // ver si da limitarlo con max y min
     },
     getIcon() {
       return './resources/icons/web/' + this.icon_name + '.svg';

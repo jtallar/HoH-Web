@@ -15,37 +15,37 @@
       <toolbar></toolbar>
       <panel device=""></panel>
       <v-content>
-        <v-container fluid class="pa-2">
-          <v-row>
-            <v-col cols="auto">
-              <v-card raised>
-                <v-card-title>Favorite Rooms</v-card-title>
-                <v-row justify="center">
-                  <v-col v-for="i in 4" cols="auto">
-                    <card-btn href="./home.html" title="Living" img_name="living_01"></card-btn>
-                  </v-col>
-                </v-row>
-              </v-card>
-              <v-card class="mt-4" raised>
-                <v-card-title>Favorite Routines</v-card-title>
-                <v-row justify="center">
-                  <v-col v-for="i in 2" cols="auto">
-                    <card-btn href="./home.html" title="Living" img_name="kitchen_01"></card-btn>
-                  </v-col>
-                </v-row>
-              </v-card>
-            </v-col>
-            <v-col cols="5">
-              <v-card raised>
-                <v-card-title>Favorite Devices</v-card-title>
-                <v-row justify="center">
-                  <v-col v-for="dev in favDevices" cols="auto">
-                    <dev-btn :name="dev.name" :cat="dev.cat" :room="dev.room"></dev-btn>
-                  </v-col>
-                </v-row>
-              </v-card>
-            </v-col>
-          </v-row>
+        
+        <v-container fluid class="ma-5">
+          <v-card class="ma-4 ml-5" raised>
+            <v-card-title>Favorite Devices</v-card-title>
+            <v-row justify="center">
+              <v-col v-for="dev in favDevices" cols="auto">
+                <dev-btn :name="dev.name" :cat="dev.cat" :room="dev.room"></dev-btn>
+              </v-col>
+            </v-row>
+          </v-card>
+          
+          <v-card class="ma-4" raised>
+            <v-card-title>Favorite Rooms</v-card-title>
+            <v-row justify="center">
+              <v-col v-for="i in 4" cols="auto">
+                <card-btn href="./home.html" title="Living" img_name="living_01"></card-btn>
+              </v-col>
+            </v-row>
+          </v-card>
+
+          <v-card class="ma-4" raised>
+            <v-card-title>Favorite Routines</v-card-title>
+            <v-row justify="center">
+              <v-col v-for="i in 2" cols="auto">
+                <card-btn href="./home.html" title="Living" img_name="kitchen_01"></card-btn>
+              </v-col>
+            </v-row>
+          </v-card>
+
+
+
         </v-container>
       </v-content>
 
