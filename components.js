@@ -822,7 +822,7 @@ Vue.component('panel-vacuum', {
 
       <v-subheader>Room to Clean</v-subheader>
       <v-select v-model="room" :items="rooms" :value="room" required></v-select>
-
+      
       <v-subheader>Charging Base in</v-subheader>
       <v-select v-model="charging_base" :items="rooms" :value="charging_base" required></v-select>
     </v-container>`,
@@ -836,30 +836,87 @@ Vue.component('panel-vacuum', {
       // send stop to back
     }
   },
-  mounted () {    
-    let vm = this;
-
-    fetch('http://127.0.0.1:8080/api/rooms')
-    .then(function(response) {
-      if (!response.ok) {
-        throw Error(response.statusText);
-      }
-      return response.json();
-    })
-    .then(function(data) {
-      for (index in data.result) {
-        this.$set(this, 'rooms', data);
-      }
-      
-    })
-    .catch(function(error) {
-      console.log('Unexpected error: \n' + error);
-    })
+  async mounted () {
+    var aux = await api.room.getAll().then(data => data.result);
+    for (i of aux) {
+      this.rooms.push(i.name);
+    }
     console.log(this.rooms);
-    console.log(this.rooms[0]);
-    
   }
 })
+
+var api = class {
+  static get baseUrl() {
+    return "http://127.0.0.1:8080/api/";
+  }
+
+  static get timeout() {
+    return 60 * 1000;
+  }
+
+  static fetch(url, init) {
+    return new Promise(function(resolve, reject) {
+      var timeout = setTimeout(function() {
+        reject(new Error('Time out'));
+      }, api.timeout);
+
+      fetch(url, init)
+      .then(function(response) {
+        clearTimeout(timeout);
+          if (!response.ok)
+            reject(new Error(response.statusText));
+
+          return response.json();
+      })
+      .then(function(data) {
+          resolve(data);
+      })
+      .catch(function(error) {
+          reject(error);
+      });
+    });
+  }
+}
+
+api.room = class {
+  static get url() {
+    return api.baseUrl + "rooms/";
+  }
+
+  static add(room) {
+   return api.fetch(api.room.url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8'
+      },
+      body: JSON.stringify(room)
+    });
+  }
+
+  static modify(room) {
+    return api.fetch(api.room.url + room.id, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8'
+      },
+      body: JSON.stringify(room)
+    });
+  }
+
+  static delete(id) {
+    return api.fetch(api.room.url + id, {
+      method: 'DELETE',
+    }); 
+  }
+
+  static get(id) {
+    return api.fetch(api.room.url + id);
+  }
+
+  static getAll() {
+    return api.fetch(api.room.url);
+  }
+}
 
 Vue.component('add-device', {
 
