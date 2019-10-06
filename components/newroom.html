@@ -12,6 +12,7 @@
 <body>
   <div id="app">
     <v-app id="test"><br>
+        
         <v-tooltip bottom>
             <template v-slot:activator="{ on }">
                 <v-btn v-on="on" x-large class="mx-2" fab dark color="blue" @click="overlay = !overlay">
@@ -34,8 +35,7 @@
                     <v-text-field label="Name" required></v-text-field>
                     </v-col>
                     <v-col cols="12" >
-                    <v-select :items="['First', 'Second', 'Other']"
-                        label="Floor" required></v-select>
+                    <v-select :items="['First', 'Second', 'Other']" label="Floor" required></v-select>
                     </v-col>
                     <v-col cols="12" >
                     <v-btn color="orange" dark @click="sheet = !sheet">
@@ -47,7 +47,7 @@
             </v-card-text>
             
             <v-bottom-sheet v-model="sheet">
-            <v-sheet  dark class="text-center" height="500px">
+                <v-sheet  dark class="text-center" height="500px">
                     <v-card dark max-width="15000" class="mx-auto">
                         <v-container class="pa-1">
                             <v-item-group v-model="selected">
@@ -64,19 +64,13 @@
                                     </v-img>
                                     </v-item>
                                 </v-col>
-                                
-
                                 </v-row>
                                 <div class="flex-grow-1"></div>
-
                                 <v-btn class="my-2" color="orange darken-2" @click="sheet = !sheet">SELECT</v-btn>
-
                             </v-item-group>
                         </v-container>
                     </v-card>
-
-
-            </v-sheet>
+                </v-sheet>
             </v-bottom-sheet>
 
             <v-card-actions>

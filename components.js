@@ -833,6 +833,182 @@ Vue.component('panel-vacuum', {
   }
 })
 
+Vue.component('add-device', {
+  props: {
+    device: {
+      type: String,
+      required: true
+    }
+  },
+  data() {
+    return {
+      rooms: ['Living Room', 'Kitchen', 'Bathroom', 'Garage', 'Bedroom','Entertainement'],
+      room: 'Living Room',
+      types: ['Light', 'Oven', 'Door', 'Window', 'Air Aconditioner', 'Vacuum', 'Speaker'],
+      type:'Light',
+      name: ' ',
+      overlay: false,
+      snackbarCan: false,
+      snackbarOk: false
+    }
+  },
+  watch: { // here we set the new values
+
+  },
+  template:
+    `<v-container fluid>
+
+        <v-overlay :value="overlay">
+            <v-card light>
+                <v-card-title>
+                    <span class="headline">Add Device</span>
+                </v-card-title>
+                <v-card-text>
+                    <v-container>
+                    <v-row>
+                        <v-col cols="12">
+                        <v-text-field v-model="name" label="Name" required></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="6">
+                            <v-select v-model="room" :items="rooms" :value="room" label="Room" required></v-select>
+                        </v-col>
+                        <v-col cols="12" sm="6">
+                            <v-select v-model="type" :items="types" :value="type" label="Type" required></v-select>
+                        </v-col>
+                    </v-row>
+                    </v-container>
+                </v-card-text>
+                <v-card-actions>
+                    <div class="flex-grow-1"></div>
+                    <v-btn color="red darken-1" text @click="overlay = false; snackbarCan = true">Cancel</v-btn>
+                    <v-btn color="black darken-1" text @click="overlay = false; snackbarOk = true">Create</v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-overlay>
+
+        <v-snackbar @click="accept()" v-model="snackbarOk" :multi-line="multiLine"> Successfully created!
+                <v-btn color="green" text @click="snackbarOk = false"> OK </v-btn>
+        </v-snackbar>
+
+        <v-snackbar v-model="snackbarCan" :multi-line="multiLine"> Operation cancelled!
+                <v-btn color="red" text @click="snackbarCan = false"> OK </v-btn>
+        </v-snackbar>
+     
+    </v-container>`,
+  methods: {
+    accept() {
+      // send form to back
+    }
+  },
+  mounted: function () {
+    // here we extract all the data
+  }
+})
+
+Vue.component('add-device', {
+  props: {
+    device: {
+      type: String,
+      required: true
+    }
+  },
+  data() {
+    return {
+      name: ' ',
+      overlay: false,
+      snackbarCan: false,
+      snackbarOk: false,
+      sheet: false,
+      images: ['bedroom_01.jpg','bathroom_02.jpg','game_room_01.jpg','garage_01.jpg','kitchen_01.jpg','living_01.jpg','living_02.jpg','entertainement_01.jpg','kitchen1.jpg'],
+      image: undefined,
+      floors: ['First', 'Second', 'Other'],
+      floor: 'First',
+    }
+  },
+  watch: { // here we set the new values
+
+  },
+  template:
+    `<v-container fluid>
+
+      <v-overlay :value="overlay">
+      <v-card light>
+          <v-card-title>
+              <span class="headline">Add Room</span>
+          </v-card-title>
+          
+          <v-card-text>
+              <v-container>
+              <v-row>
+                  <v-col cols="12">
+                  <v-text-field v-model="name" label="Name" required></v-text-field>
+                  </v-col>
+                  <v-col cols="12" >
+                  <v-select v-model="floor" :items="floors" :value="floor" label="Floor" required></v-select>
+                  </v-col>
+                  <v-col cols="12" >
+                  <v-btn color="orange" dark @click="sheet = !sheet">
+                      Select image...
+                  </v-btn>
+                  </v-col>
+              </v-row>
+              </v-container>
+          </v-card-text>
+          
+          <v-bottom-sheet v-model="sheet">
+          <v-sheet  dark class="text-center" height="500px">
+              <v-card dark max-width="15000" class="mx-auto">
+                  <v-container class="pa-1">
+                      <v-item-group v-model="image">
+                          <v-row>
+                          <v-col v-for="(item, i) in items" :key="i" cols="12" md="2">
+                              <v-item v-slot:default="{ active, toggle }">
+                              <v-img :src="`../resources/images/${images}`"
+                                  height="150" width="300" class="text-right pa-2" @click="toggle">
+                                  <v-btn icon dark >
+                                  <v-icon color="orange darken-2 ">
+                                      {{ active ? 'mdi-check-circle' : 'mdi-circle-outline' }}
+                                  </v-icon>
+                                  </v-btn>
+                              </v-img>
+                              </v-item>
+                          </v-col>
+                          </v-row>
+                          <div class="flex-grow-1"></div>
+                          <v-btn class="my-2" color="orange darken-2" @click="sheet = !sheet">SELECT</v-btn>
+                      </v-item-group>
+                  </v-container>
+              </v-card>
+          </v-sheet>
+          </v-bottom-sheet>
+
+          <v-card-actions>
+              <div class="flex-grow-1"></div>
+              <v-btn color="red darken-1" text @click="overlay = false; snackbarCan = true">Cancel</v-btn>
+              <v-btn color="green darken-1" text @click="overlay = false; snackbarOk = true">Create</v-btn>
+          </v-card-actions>
+      </v-card>
+      </v-overlay>
+
+      <v-snackbar v-model="snackbarOk" :multi-line="multiLine"> Successfully created!
+              <v-btn color="green" text @click="snackbarOk = false"> OK </v-btn>
+      </v-snackbar>
+      <v-snackbar v-model="snackbarCan" :multi-line="multiLine"> Operation cancelled!
+              <v-btn color="red" text @click="snackbarCan = false"> OK </v-btn>
+      </v-snackbar>
+
+     
+    </v-container>`,
+  methods: {
+    accept() {
+      // send form to back
+    }
+  },
+  mounted: function () {
+    // here we extract all the data
+  }
+})
+
 Vue.component('panel-none', {
   props: {
     device: {
@@ -855,3 +1031,31 @@ Vue.component('panel-none', {
     // here we extract all the data
   }
 })
+
+Vue.component('add-btn', {
+  props: {
+    device: {
+    }
+  },
+  data() {
+    return {
+    }
+  },
+  template:
+    `<v-container fluid>
+      
+      <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+              <v-btn v-on="on" x-large class="mx-2" fab dark color="orange darken-2" @click="overlay = !overlay">
+                  <v-icon dark>mdi-plus</v-icon>
+              </v-btn>
+          </template>
+          <span>Add Device</span>
+      </v-tooltip>
+    
+    </v-container>`,
+  mounted: function () {
+    // here we extract all the data
+  }
+})
+

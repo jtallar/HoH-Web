@@ -16,7 +16,7 @@ var app = new Vue({
       autoHorWings: false,
       autoVerWings: false,
       lockDoor: false,
-    },
+    
       items: [
         {
           src: 'bedroom_01.jpg',
@@ -58,4 +58,5 @@ var app = new Vue({
         {index: 2, name: 'Devices', dir: '#two'},
         {index: 3, name: 'Routines', dir: '#tree'}
       ]
+    }
   })
