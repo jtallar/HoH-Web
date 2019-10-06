@@ -66,7 +66,8 @@ Vue.component('panel', {
       devName: "",
       devCat: "",
       devRoom: "",
-      favorite: false
+      favorite: false,
+      selected: false
     }
   },
   template:
@@ -75,18 +76,18 @@ Vue.component('panel', {
       <template v-slot:prepend>
         <v-list-item two-line>
           <v-list-item-avatar tile>
-            <v-img :src="getImg" contain/>
+            <v-img v-show="selected" :src="getImg" contain/>
           </v-list-item-avatar>
           <v-list-item-content>
             <v-list-item-title class="text-capitalize">{{ devName }}</v-list-item-title>
             <v-list-item-subtitle class="text-capitalize">{{ devRoom }}</v-list-item-subtitle>
           </v-list-item-content>
           <v-btn icon @click="toggleFav">
-            <v-icon v-show="favorite">mdi-star</v-icon>
-            <v-icon v-show="!favorite">mdi-star-outline</v-icon>
+            <v-icon v-show="favorite && selected">mdi-star</v-icon>
+            <v-icon v-show="!favorite && selected">mdi-star-outline</v-icon>
           </v-btn>
           <v-btn icon @click="launchSettings">
-            <v-icon>mdi-settings</v-icon>
+            <v-icon v-show="selected">mdi-settings</v-icon>
           </v-btn>
         </v-list-item>
       </template>
@@ -153,12 +154,14 @@ Vue.component('panel', {
       this.devName = devName;
       this.devCat = devCat;
       this.devRoom = devRoom;
+      this.selected = true;
       console.log('Message recieved with ' + this.devName + ' ; ' + this.devCat + ' ; ' + this.devRoom);
     });
     this.$root.$on('Device Deselected', () => {
       this.devName = "";
       this.devCat = "";
       this.devRoom = "";
+      this.selected = false;
     });
   }
 })
@@ -166,7 +169,7 @@ Vue.component('panel', {
 Vue.component('card-btn', {
   props: {
     href: {
-      type: Number,
+      type: String,
       required: true
     },
     ratio: {
@@ -242,7 +245,7 @@ Vue.component('dev-btn', {
     `<v-col class="text-center">
       <v-btn :outlined="!selected" class="mt-4 ma-1" :width="getSize" :height="getSize" fab color="grey darken-4" @click="toggleSelected">
         <div>
-          <v-img width="getIconSize" :src="getImg"/>
+          <v-img :width="getIconSize" :src="getImg"/>
         </div>
       </v-btn>
       <div class="text-capitalize black--text font-weight-light mb-4">
@@ -292,6 +295,11 @@ Vue.component('dev-btn', {
           return './resources/icons/generic/close.svg';
       }
     }
+  },
+  mounted() {
+    this.$root.$on('Device Selected', (name, room, cat) => {
+      if (this.selected && name !== this.name) this.selected = !this.selected;
+    });
   }
 })
 
