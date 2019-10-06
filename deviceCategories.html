@@ -14,14 +14,12 @@
     <v-app id="inspire">
       <toolbar :tab="2"></toolbar>
       <v-content>
-        <v-container>
-          <v-row justify="center">
-            <v-col v-for="cat in categories" cols="auto">
-              <card-btn href="./devices.html" :title="cat.title" :img_name="cat.img"></card-btn>
-            </v-col>
-          </v-row>
-        </v-container>
-        
+        <v-row justify="center" class="mt-5">
+          <v-col v-for="cat in categories" cols="auto">
+            <card-btn href="./devices.html" :width="4" :title="cat.title" :img_name="cat.img"></card-btn>
+          </v-col>
+        </v-row>
+
         <add-btn context="device"> </add-btn>
 
       </v-content>

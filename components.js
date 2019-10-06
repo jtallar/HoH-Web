@@ -191,6 +191,10 @@ Vue.component('card-btn', {
     img_name: {
       type: String,
       required: true
+    },
+    width: {
+      type: Number,
+      default: 6
     }
   },
   data() {
@@ -217,7 +221,7 @@ Vue.component('card-btn', {
       return this.href;
     },
     getWidth() {
-      return screen.width / 6; // ver si da limitarlo con max y min
+      return screen.width / this.width; // ver si da limitarlo con max y min
     },
     getHeight() {
       return this.getWidth / this.ratio;
@@ -896,6 +900,8 @@ Vue.component('panel-vacuum', {
       this.rooms.push(i.name);
     }
     console.log(this.rooms);
+    console.log(this.rooms[0]);
+
   }
 })
 
@@ -1222,19 +1228,16 @@ Vue.component('add-btn', {
   },
   template:
     `<v-container fluid>
-      
-      <v-tooltip bottom>
+      <v-tooltip top>
           <template v-slot:activator="{ on }" >
-              <v-btn absolute dark fab right v-on="on" x-large class="mx-2" fab dark color="orange darken-2" @click="overlay = true">
-                  <v-icon dark>mdi-plus</v-icon>
-              </v-btn>
-          </template>
-          <span v-show="getContext=='add-device'">Add Device</span>
-          <span v-show="getContext=='add-room'">Add Room</span>
+            <v-btn fixed dark fab bottom right v-on="on" x-large class="mx-2 ma-5" color="orange darken-2" @click="overlay = true">
+              <v-icon dark>mdi-plus</v-icon>
+            </v-btn>
+        </template>
+        <span v-show="getContext=='add-device'">Add Device</span>
+        <span v-show="getContext=='add-room'">Add Room</span>
       </v-tooltip>
-      
       <component v-show="overlay" :is="getContext"> </component>
-    
     </v-container>`,
   computed: {
     getContext() {
