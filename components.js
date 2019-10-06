@@ -913,7 +913,7 @@ Vue.component('add-device', {
   }
 })
 
-Vue.component('add-device', {
+Vue.component('add-room', {
   props: {
     device: {
       type: String,
@@ -1042,7 +1042,9 @@ Vue.component('panel-none', {
 
 Vue.component('add-btn', {
   props: {
-    device: {
+    context: {
+      type: String,
+      required: true
     }
   },
   data() {
@@ -1060,8 +1062,22 @@ Vue.component('add-btn', {
           </template>
           <span>Add Device</span>
       </v-tooltip>
+      
+      <component :is="getContext"></component>
     
     </v-container>`,
+  computed: {
+    getContext() {
+      switch (this.context) {
+        case 'Room':  
+          return 'add-room';
+        case 'Device':
+          return 'add-device';
+        default:
+            console.log('error');
+      }
+    }
+  },
   mounted: function () {
     // here we extract all the data
   }
