@@ -36,6 +36,16 @@ api.room = class {
     return api.baseUrl + "rooms/";
   }
 
+  /* Room model
+  {
+    "id": "4ec10fa6991b9754",
+    "name": "dasdsadsa",
+    "meta": {
+      "image": "game_room_01.jpg",
+      "favorite": false
+    }
+  }
+  */
   /* Create a new room */
   static add(room) {
     return api.fetch(api.room.url, {
@@ -95,6 +105,33 @@ api.device = class {
     return api.baseUrl + "devices/";
   }
 
+  /* Device model FULL
+  {
+    "id": "06aff9e3be2fb763",
+    "name": "table ladsamp",
+    "type": {
+      "id": "go46xmbqeomjrsjr",
+      "name": "lamp"
+    },
+    "state": {
+      "status": "off",
+      "color": "FFFFFF",
+      "brightness": 100
+    },
+    "meta": {
+      "favorite": false
+    }
+  }
+  */
+  /* CREATE Device model
+  {
+    "type": {
+      "id": "go46xmbqeomjrsjr"
+    },
+    "name": "table ladsamp",
+    "meta": {"favorite":false}
+  }
+  */
   /* Create a new device */
   static add(device) {
     return api.fetch(api.device.url, {

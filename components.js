@@ -159,7 +159,7 @@ api.device = class {
 
 api.deviceType = class {
   static get url() {
-    return api.baseUrl + "devicestypes/";
+    return api.baseUrl + "devicetypes/";
   }
 
   /* Retrieves all deviceTypes */
@@ -633,7 +633,7 @@ Vue.component('panel-light', {
       <v-slider v-model="brightness" class="mt-4" prepend-icon="mdi-brightness-6" 
         thumb-label="always" thumb-size="25" color="orange" track-color="black" thumb-color="orange darken-2"></v-slider>
     </v-container>`,
-  mounted: function () {
+  mounted () {
     // here we extract all the data
   }
 })
@@ -716,7 +716,7 @@ Vue.component('panel-oven', {
         </v-btn-toggle>
       </v-layout>
     </v-container>`,
-  mounted: function () {
+  mounted () {
     // here we extract all the data
   }
 })
@@ -840,7 +840,7 @@ Vue.component('panel-speaker', {
       return this.elapsed_time; // here to do conversion secs to something printable
     }
   },
-  mounted: function () {
+  mounted () {
     // here we extract all the data
   }
 })
@@ -884,7 +884,7 @@ Vue.component('panel-door', {
       // send stop to back
     }
   },
-  mounted: function () {
+  mounted () {
     // here we extract all the data
   }
 })
@@ -910,7 +910,7 @@ Vue.component('panel-window', {
         </v-btn-toggle>
       </v-layout>
     </v-container>`,
-  mounted: function () {
+  mounted () {
     // here we extract all the data
   }
 })
@@ -1024,7 +1024,7 @@ Vue.component('panel-airconditioner', {
         </v-col>
       </v-row>
     </v-container>`,
-  mounted: function () {
+  mounted () {
     // here we extract all the data
   }
 })
@@ -1127,101 +1127,8 @@ Vue.component('panel-vacuum', {
     }
     console.log(this.rooms);
     console.log(this.rooms[0]);
-
   }
 })
-
-// fetch('http://127.0.0.1:8080/api/rooms')
-// .then((response) => {
-//   if (!response.ok) {
-//     throw Error(response.statusText);
-//   }
-//   return response.json();
-// })
-// .then((data) => {
-//   console.log(data.result);
-//   for (index in data.result) {
-//     this.rooms[index] = data.result[index].name;
-//     console.log(this.rooms);
-//   }
-
-// })
-// .catch(function(error) {
-//   console.log('Unexpected error: \n' + error);
-// })
-
-// var api = class {
-//   static get baseUrl() {
-//     return "http://127.0.0.1:8080/api/";
-//   }
-
-//   static get timeout() {
-//     return 10000; // 10 seg
-//   }
-
-//   static fetch(url, init) {
-//     return new Promise((solve, reject) => {
-//       var timeout = setTimeout(() => {
-//         reject(new Error('Time out'));
-//       }, api.timeout);
-
-//       fetch(url, init)
-//         .then((response) => {
-//           clearTimeout(timeout);
-//           if (!response.ok) {
-//             reject(new Error(response.statusText));
-//           }
-//           return response.json();
-//         })
-//         .then((data) => {
-//           solve(data);
-//         })
-//         .catch((error) => {
-//           reject(error);
-//         });
-//     });
-//   }
-// }
-
-// api.room = class {
-//   static get url() {
-//     return api.baseUrl + "rooms/";
-//   }
-
-//   static add(room) {
-//     return api.fetch(api.room.url, {
-//       method: 'POST',
-//       headers: {
-//         'Content-Type': 'application/json; charset=utf-8'
-//       },
-//       body: JSON.stringify(room)
-//     });
-//   }
-
-//   static modify(room) {
-//     return api.fetch(api.room.url + room.id, {
-//       method: 'PUT',
-//       headers: {
-//         'Content-Type': 'application/json; charset=utf-8'
-//       },
-//       body: JSON.stringify(room)
-//     });
-//   }
-
-//   static delete(id) {
-//     return api.fetch(api.room.url + id, {
-//       method: 'DELETE',
-//     });
-//   }
-
-//   static get(id) {
-//     return api.fetch(api.room.url + id);
-//   }
-
-//   static getAll() {
-//     return api.fetch(api.room.url);
-//   }
-// }
 
 Vue.component('add-device', {
 
@@ -1229,7 +1136,7 @@ Vue.component('add-device', {
     return {
       rooms: ['Living Room', 'Kitchen', 'Bathroom', 'Garage', 'Bedroom', 'Entertainement'],
       room: 'Living Room',
-      types: ['Light', 'Oven', 'Door', 'Window', 'Air Aconditioner', 'Vacuum', 'Speaker'],
+      types: [],
       type: 'Light',
       name: ' ',
       overlay: true,
@@ -1258,7 +1165,7 @@ Vue.component('add-device', {
                             <v-select v-model="room" :items="rooms" :value="room" label="Room" required></v-select>
                         </v-col>
                         <v-col cols="12" sm="6">
-                            <v-select v-model="type" :items="types" :value="type" label="Type" required></v-select>
+                            <v-select v-model="type" :items="types.name" :value="type" label="Type" required></v-select>
                         </v-col>
                     </v-row>
                     </v-container>
@@ -1285,24 +1192,33 @@ Vue.component('add-device', {
       // send form to back
     }
   },
-  mounted: function () {
+  async mounted () {
     // here we extract all the data
+    var aux = await api.deviceType.getAllTypes().then(data => data.result);
+    console.log(aux);
+    for (i of aux) {
+      this.types.push(i.name);
+      // this.types.push({name: i.name, id: i.id});
+    }
+    console.log(this.types);
+    console.log(this.types[0]);
   }
 })
 
 Vue.component('add-room', {
   data() {
     return {
-      name: ' ',
+      name: '',
       overlay: true,
       snackbarCan: false,
       snackbarOk: false,
       sheet: false,
       images: ['bedroom_01.jpg', 'bathroom_02.jpg', 'game_room_01.jpg', 'garage_01.jpg', 'kitchen_01.jpg', 'living_01.jpg', 'living_02.jpg', 'entertainement_01.jpg', 'kitchen1.jpg'],
-      image: 0,
+      image: undefined,
       floors: ['First', 'Second', 'Other'],
       floor: 'First',
-
+      errorText: false,
+      errorImage: false
     }
   },
   watch: { // here we set the new values
@@ -1312,7 +1228,7 @@ Vue.component('add-room', {
     `<v-container fluid>
 
       <v-overlay>
-      <v-card light>
+      <v-card max-width="700" light>
           <v-card-title>
               <span class="headline">Add Room</span>
           </v-card-title>
@@ -1321,16 +1237,21 @@ Vue.component('add-room', {
               <v-container>
               <v-row>
                   <v-col cols="12">
-                  <v-text-field v-model="name" label="Name" required></v-text-field>
+                  <v-text-field v-model="name" label="Name" :error="errorText" required hint="Minimum 3 characters" clearable></v-text-field>
                   </v-col>
                   <v-col cols="12" >
                   <v-select v-model="floor" :items="floors" :value="floor" label="Floor" required></v-select>
                   </v-col>
-                  <v-col cols="12" >
-                  <v-btn color="orange" dark @click="sheet = !sheet">
-                      Select image...
-                  </v-btn>
-                  </v-col>
+                  <v-row align="center" fixed>
+                    <v-col cols="3" >
+                    <v-btn color="orange" dark @click="sheet = !sheet">
+                        Select image...
+                    </v-btn>
+                    </v-col>
+                    <v-col>
+                      <h3>{{ images[image] }}</h3>
+                    </v-col>
+                  </v-row>
               </v-row>
               </v-container>
           </v-card-text>
@@ -1369,35 +1290,45 @@ Vue.component('add-room', {
           </v-card-actions>
       </v-card>
       </v-overlay>
-
-      <v-snackbar v-model="snackbarOk" > Successfully created!
-              <v-btn color="green" text @click="snackbarOk = false"> OK </v-btn>
+      <v-snackbar v-model="errorText" > Name must be at least 3 characters long!
+              <v-btn color="red" text @click="errorText = false"> OK </v-btn>
       </v-snackbar>
-      <v-snackbar v-model="snackbarCan" > Operation cancelled!
-              <v-btn color="red" text @click="snackbarCan = false"> OK </v-btn>
+      <v-snackbar v-model="errorImage" > Select an image for the room!
+              <v-btn color="red" text @click="errorImage = false"> OK </v-btn>
       </v-snackbar>
     </v-container>`,
   methods: {
     async accept() {
       // send form to back
-      var aux = await api.room.add({
-        "name": this.name,
-        "meta": {
-          "image": this.images[this.image],
-          "favorite": false
-        }
-      }).then(data => data.result);
-      this.overlay = false;
-      this.snackbarOk = true;
-      this.$root.$emit('Finished add');
+      if (this.name.length < 3) {
+        this.errorText = true;
+      } else if (this.image === undefined) {
+        this.errorImage = true;
+      } else {
+        var aux = await api.room.add({
+          "name": this.name,
+          "meta": {
+            "image": this.images[this.image],
+            "favorite": false
+          }
+        }).then(data => data.result);
+        console.log(aux);
+        this.resetVar();
+        this.$root.$emit('Finished add', 0);
+      }
     },
     cancel() {
+      this.resetVar();
+      this.$root.$emit('Finished add', 1);
+    },
+    resetVar() {
       this.overlay = false;
-      this.snackbarCan = true;
-      this.$root.$emit('Finished add');
+      this.name='';
+      this.errorText = false;
+      this.errorImage = false;
     }
   },
-  mounted: function () {
+  mounted () {
     // here we extract all the data
   }
 })
@@ -1443,7 +1374,7 @@ Vue.component('panel-none', {
         you can search it by cicking in the search icon on the top right of the page.</v-card-text>
       </v-card>  
     </v-container>`,
-  mounted: function () {
+  mounted () {
     // here we extract all the data
   }
 })
@@ -1458,6 +1389,8 @@ Vue.component('add-btn', {
   data() {
     return {
       overlay: false,
+      snackbarCan: false,
+      snackbarOk: false
     }
   },
   template:
@@ -1472,6 +1405,13 @@ Vue.component('add-btn', {
         <span v-show="getContext=='add-room'">Add Room</span>
       </v-tooltip>
       <component v-show="overlay" :is="getContext"> </component>
+
+      <v-snackbar v-model="snackbarOk" > Successfully created!
+              <v-btn color="green" text @click="snackbarOk = false"> OK </v-btn>
+      </v-snackbar>
+      <v-snackbar v-model="snackbarCan" > Operation cancelled!
+              <v-btn color="red" text @click="snackbarCan = false"> OK </v-btn>
+      </v-snackbar>
     </v-container>`,
   computed: {
     getContext() {
@@ -1486,9 +1426,13 @@ Vue.component('add-btn', {
     }
   },
   mounted() {
-    this.$root.$on('Finished add', () => {
+    this.$root.$on('Finished add', (state) => {
       this.overlay = false;
+      if (state == 0) {
+        this.snackbarOk = true;
+      } else {
+        this.snackbarCan = true;
+      }
     });
   }
 })
-
