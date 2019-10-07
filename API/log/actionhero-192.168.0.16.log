@@ -1045,3 +1045,53 @@
 {"level":"info","message":"[ action @ web ] to=127.0.0.1, action=createRoom, request={\"name\":\"wq 231312312312kjkhj\",\"meta\":{\"image\":\"bedroom_01.jpg\"}}","timestamp":"192.168.0.16 @ 2019-10-06T23:56:56.048Z"}
 {"to":"127.0.0.1","action":"createRoom","params":"{\"action\":\"createRoom\",\"apiVersion\":1.5}","duration":7,"level":"info","message":"[ action @ web ]","timestamp":"192.168.0.16 @ 2019-10-06T23:56:56.056Z"}
 {"level":"info","message":"[ action @ web ] to=127.0.0.1, action=createRoom, response={\"result\":{\"id\":\"ecd281e96024d58d\",\"name\":\"wq 231312312312kjkhj\",\"meta\":{\"image\":\"bedroom_01.jpg\"}}}","timestamp":"192.168.0.16 @ 2019-10-06T23:56:56.060Z"}
+{"level":"info","message":"--------------------------------------","timestamp":"192.168.0.16 @ 2019-10-07T00:39:04.744Z"}
+{"level":"info","message":"ACTIONHERO COMMAND >> start","timestamp":"192.168.0.16 @ 2019-10-07T00:39:04.745Z"}
+{"level":"info","message":"--------------------------------------","timestamp":"192.168.0.16 @ 2019-10-07T00:39:04.745Z"}
+{"level":"notice","message":"*** Starting ActionHero ***","timestamp":"192.168.0.16 @ 2019-10-07T00:39:04.745Z"}
+{"level":"notice","message":"pid: 16918","timestamp":"192.168.0.16 @ 2019-10-07T00:39:04.746Z"}
+{"level":"notice","message":"server ID: 192.168.0.16","timestamp":"192.168.0.16 @ 2019-10-07T00:39:04.747Z"}
+{"level":"info","message":"actionhero member 192.168.0.16 has joined the cluster","timestamp":"192.168.0.16 @ 2019-10-07T00:39:04.751Z"}
+{"level":"notice","message":"Starting server: `web` @ 0.0.0.0:8080","timestamp":"192.168.0.16 @ 2019-10-07T00:39:04.756Z"}
+{"level":"notice","message":"environment: development","timestamp":"192.168.0.16 @ 2019-10-07T00:39:04.764Z"}
+{"level":"info","message":"device log database loaded","timestamp":"192.168.0.16 @ 2019-10-07T00:39:04.766Z"}
+{"level":"info","message":"device type database loaded","timestamp":"192.168.0.16 @ 2019-10-07T00:39:04.769Z"}
+{"level":"info","message":"device database loaded","timestamp":"192.168.0.16 @ 2019-10-07T00:39:04.771Z"}
+{"level":"info","message":"home database loaded","timestamp":"192.168.0.16 @ 2019-10-07T00:39:04.772Z"}
+{"level":"info","message":"room database loaded","timestamp":"192.168.0.16 @ 2019-10-07T00:39:04.774Z"}
+{"level":"info","message":"routine database loaded","timestamp":"192.168.0.16 @ 2019-10-07T00:39:04.775Z"}
+{"level":"alert","message":"*** ActionHero Started ***","timestamp":"192.168.0.16 @ 2019-10-07T00:39:04.777Z"}
+{"to":"127.0.0.1","action":"retrieveRooms","params":"{\"action\":\"retrieveRooms\",\"apiVersion\":1.5}","duration":18,"level":"info","message":"[ action @ web ]","timestamp":"192.168.0.16 @ 2019-10-07T00:39:20.161Z"}
+{"level":"info","message":"[ action @ web ] to=127.0.0.1, action=retrieveRooms, response={\"result\":[{\"id\":\"383c2cee71b4e4b8\",\"name\":\"3 d12212321\",\"meta\":{\"image\":\"bedroom_01.jpg\"}},{\"id\":\"3e28432009caf451\",\"name\":\"wq 231312312312\",\"meta\":{\"image\":\"bedroom_01.jpg\"}},{\"id\":\"43ae911dc0076e03\",\"name\":\" 231312312312\",\"meta\":{\"image\":\"bedroom_01.jpg\"}},{\"id\":\"815ab7d6a4d86d63\",\"name\":\" 21221e3113\",\"meta\":{\"image\":\"bedroom_01.jpg\"}},{\"id\":\"8a3d50b8cc9b507a\",\"name\":\"kitchen\",\"meta\":{}},{\"id\":\"ebc3d61e090ff4c9\",\"name\":\" d12212\",\"meta\":{\"image\":\"bedroom_01.jpg\"}},{\"id\":\"ecd281e96024d58d\",\"name\":\"wq 231312312312kjkhj\",\"meta\":{\"image\":\"bedroom_01.jpg\"}}]}","timestamp":"192.168.0.16 @ 2019-10-07T00:39:20.163Z"}
+{"level":"notice","message":"Shutting down open servers and stopping task processing...","timestamp":"192.168.0.16 @ 2019-10-07T00:39:30.267Z"}
+{"level":"info","message":"--------------------------------------","timestamp":"192.168.0.16 @ 2019-10-07T00:39:31.946Z"}
+{"level":"info","message":"ACTIONHERO COMMAND >> start","timestamp":"192.168.0.16 @ 2019-10-07T00:39:31.947Z"}
+{"level":"info","message":"--------------------------------------","timestamp":"192.168.0.16 @ 2019-10-07T00:39:31.947Z"}
+{"level":"notice","message":"*** Starting ActionHero ***","timestamp":"192.168.0.16 @ 2019-10-07T00:39:31.947Z"}
+{"level":"notice","message":"pid: 16995","timestamp":"192.168.0.16 @ 2019-10-07T00:39:31.948Z"}
+{"level":"notice","message":"server ID: 192.168.0.16","timestamp":"192.168.0.16 @ 2019-10-07T00:39:31.949Z"}
+{"level":"info","message":"actionhero member 192.168.0.16 has joined the cluster","timestamp":"192.168.0.16 @ 2019-10-07T00:39:31.955Z"}
+{"level":"notice","message":"Starting server: `web` @ 0.0.0.0:8080","timestamp":"192.168.0.16 @ 2019-10-07T00:39:31.960Z"}
+{"level":"notice","message":"environment: development","timestamp":"192.168.0.16 @ 2019-10-07T00:39:31.967Z"}
+{"level":"info","message":"device log database loaded","timestamp":"192.168.0.16 @ 2019-10-07T00:39:31.969Z"}
+{"level":"info","message":"device type database loaded","timestamp":"192.168.0.16 @ 2019-10-07T00:39:31.972Z"}
+{"level":"info","message":"device database loaded","timestamp":"192.168.0.16 @ 2019-10-07T00:39:31.974Z"}
+{"level":"info","message":"home database loaded","timestamp":"192.168.0.16 @ 2019-10-07T00:39:31.976Z"}
+{"level":"info","message":"room database loaded","timestamp":"192.168.0.16 @ 2019-10-07T00:39:31.977Z"}
+{"level":"info","message":"routine database loaded","timestamp":"192.168.0.16 @ 2019-10-07T00:39:31.979Z"}
+{"level":"alert","message":"*** ActionHero Started ***","timestamp":"192.168.0.16 @ 2019-10-07T00:39:31.981Z"}
+{"to":"127.0.0.1","action":"swagger","params":"{\"secure\":\"false\",\"action\":\"swagger\",\"apiVersion\":1}","duration":1,"level":"info","message":"[ action @ web ]","timestamp":"192.168.0.16 @ 2019-10-07T00:39:34.086Z"}
+{"to":"127.0.0.1","action":"swagger","params":"{\"secure\":\"false\",\"action\":\"swagger\",\"apiVersion\":1}","duration":0,"level":"info","message":"[ action @ web ]","timestamp":"192.168.0.16 @ 2019-10-07T00:39:34.094Z"}
+{"to":"127.0.0.1","action":"retrieveRooms","params":"{\"action\":\"retrieveRooms\",\"apiVersion\":1.5}","duration":5,"level":"info","message":"[ action @ web ]","timestamp":"192.168.0.16 @ 2019-10-07T00:39:35.652Z"}
+{"level":"info","message":"[ action @ web ] to=127.0.0.1, action=retrieveRooms, response={\"result\":[]}","timestamp":"192.168.0.16 @ 2019-10-07T00:39:35.654Z"}
+{"level":"info","message":"[ action @ web ] to=127.0.0.1, action=createRoom, request={\"name\":\" aa\",\"meta\":{\"image\":\"bedroom_01.jpg\",\"favorite\":false}}","timestamp":"192.168.0.16 @ 2019-10-07T00:39:51.929Z"}
+{"to":"127.0.0.1","action":"createRoom","params":"{\"action\":\"createRoom\",\"apiVersion\":1.5}","duration":13,"level":"info","message":"[ action @ web ]","timestamp":"192.168.0.16 @ 2019-10-07T00:39:51.942Z"}
+{"level":"info","message":"[ action @ web ] to=127.0.0.1, action=createRoom, response={\"result\":{\"id\":\"8e8bf48faf2815ed\",\"name\":\" aa\",\"meta\":{\"image\":\"bedroom_01.jpg\",\"favorite\":false}}}","timestamp":"192.168.0.16 @ 2019-10-07T00:39:51.942Z"}
+{"to":"127.0.0.1","action":"retrieveRooms","params":"{\"action\":\"retrieveRooms\",\"apiVersion\":1.5}","duration":4,"level":"info","message":"[ action @ web ]","timestamp":"192.168.0.16 @ 2019-10-07T00:39:56.337Z"}
+{"level":"info","message":"[ action @ web ] to=127.0.0.1, action=retrieveRooms, response={\"result\":[{\"id\":\"8e8bf48faf2815ed\",\"name\":\" aa\",\"meta\":{\"image\":\"bedroom_01.jpg\",\"favorite\":false}}]}","timestamp":"192.168.0.16 @ 2019-10-07T00:39:56.338Z"}
+{"level":"info","message":"[ action @ web ] to=127.0.0.1, action=createRoom, request={\"name\":\"wqw\",\"meta\":{\"image\":\"bedroom_01.jpg\",\"favorite\":false}}","timestamp":"192.168.0.16 @ 2019-10-07T00:40:19.169Z"}
+{"to":"127.0.0.1","action":"createRoom","params":"{\"action\":\"createRoom\",\"apiVersion\":1.5}","duration":13,"level":"info","message":"[ action @ web ]","timestamp":"192.168.0.16 @ 2019-10-07T00:40:19.183Z"}
+{"level":"info","message":"[ action @ web ] to=127.0.0.1, action=createRoom, response={\"result\":{\"id\":\"08e188e01b95bfce\",\"name\":\"wqw\",\"meta\":{\"image\":\"bedroom_01.jpg\",\"favorite\":false}}}","timestamp":"192.168.0.16 @ 2019-10-07T00:40:19.183Z"}
+{"to":"127.0.0.1","action":"retrieveRooms","params":"{\"action\":\"retrieveRooms\",\"apiVersion\":1.5}","duration":2,"level":"info","message":"[ action @ web ]","timestamp":"192.168.0.16 @ 2019-10-07T00:40:22.129Z"}
+{"level":"info","message":"[ action @ web ] to=127.0.0.1, action=retrieveRooms, response={\"result\":[{\"id\":\"08e188e01b95bfce\",\"name\":\"wqw\",\"meta\":{\"image\":\"bedroom_01.jpg\",\"favorite\":false}},{\"id\":\"8e8bf48faf2815ed\",\"name\":\" aa\",\"meta\":{\"image\":\"bedroom_01.jpg\",\"favorite\":false}}]}","timestamp":"192.168.0.16 @ 2019-10-07T00:40:22.131Z"}
+{"level":"notice","message":"Shutting down open servers and stopping task processing...","timestamp":"192.168.0.16 @ 2019-10-07T04:22:04.742Z"}

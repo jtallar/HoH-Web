@@ -1,8 +1,3 @@
 {"$$indexCreated":{"fieldName":"name","unique":true,"sparse":false}}
-{"_id":"8a3d50b8cc9b507a","name":"kitchen","meta":{}}
-{"_id":"ebc3d61e090ff4c9","name":" d12212","meta":{"image":"bedroom_01.jpg"}}
-{"_id":"383c2cee71b4e4b8","name":"3 d12212321","meta":{"image":"bedroom_01.jpg"}}
-{"_id":"815ab7d6a4d86d63","name":" 21221e3113","meta":{"image":"bedroom_01.jpg"}}
-{"_id":"43ae911dc0076e03","name":" 231312312312","meta":{"image":"bedroom_01.jpg"}}
-{"_id":"3e28432009caf451","name":"wq 231312312312","meta":{"image":"bedroom_01.jpg"}}
-{"_id":"ecd281e96024d58d","name":"wq 231312312312kjkhj","meta":{"image":"bedroom_01.jpg"}}
+{"_id":"8e8bf48faf2815ed","name":" aa","meta":{"image":"bedroom_01.jpg","favorite":false}}
+{"_id":"08e188e01b95bfce","name":"wqw","meta":{"image":"bedroom_01.jpg","favorite":false}}

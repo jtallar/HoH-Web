@@ -1,8 +1,1 @@
-{"_id":"87cb3158c9e7e2a5","name":"table lamp","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"meta":{}}
 {"$$indexCreated":{"fieldName":"name","unique":true,"sparse":false}}
-{"_id":"87cb3158c9e7e2a5","name":"table lamp","typeId":"go46xmbqeomjrsjr","state":{"status":"on","color":"FFFFFF","brightness":100},"meta":{}}
-{"_id":"87cb3158c9e7e2a5","name":"table lamp","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"meta":{}}
-{"_id":"87cb3158c9e7e2a5","name":"table lamp","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"roomId":"8a3d50b8cc9b507a","meta":{}}
-{"_id":"87cb3158c9e7e2a5","name":"table lamp","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"meta":{}}
-{"_id":"87cb3158c9e7e2a5","name":"table lamp","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"roomId":"8a3d50b8cc9b507a","meta":{}}
-{"$$deleted":true,"_id":"87cb3158c9e7e2a5"}

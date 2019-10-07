@@ -1382,7 +1382,10 @@ Vue.component('add-room', {
       // send form to back
       var aux = await api.room.add({
         "name": this.name,
-        "meta": {"image": this.images[this.image]}
+        "meta": {
+          "image": this.images[this.image],
+          "favorite": false
+        }
       }).then(data => data.result);
       this.overlay = false;
       this.snackbarOk = true;
