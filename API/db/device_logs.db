@@ -1,0 +1,2 @@
+{"_id":"e22e63cb221f7bce","timestamp":"2019-10-06T23:04:04.309Z","deviceId":"87cb3158c9e7e2a5","action":"turnOn","params":[],"result":true}
+{"_id":"3b91e712030f9552","timestamp":"2019-10-06T23:04:09.914Z","deviceId":"87cb3158c9e7e2a5","action":"turnOff","params":[],"result":true}
