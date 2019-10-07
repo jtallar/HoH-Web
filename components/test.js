@@ -29,6 +29,8 @@ var app = new Vue({
       room: 'Living Room',
       devices: ['Light 1', 'Light 2', 'Oven', 'Aire Aconditioner'],
       device: 'Light 1',
+      actions: ['Light 1 On, Kitchen'],
+      chip:true,
       
       active_tab: 1,
       tabs: [
@@ -37,5 +39,10 @@ var app = new Vue({
         {index: 2, name: 'Devices', dir: '#two'},
         {index: 3, name: 'Routines', dir: '#tree'}
       ]
+    },
+    methods: {
+      addAction() {
+        actions.push(name);
+      }
     }
   })
