@@ -306,7 +306,7 @@ Vue.component('panel', {
       <template v-slot:prepend >
         <v-list-item two-line class="mb-2 mt-1">
           <v-list-item-avatar tile>
-            <v-img v-show="selected" :src="getImg" contain/>
+            <v-img eager :src="getImg" contain/>
           </v-list-item-avatar>
           <v-list-item-content>
             <v-list-item-title class="text-capitalize">{{ devName }}</v-list-item-title>
