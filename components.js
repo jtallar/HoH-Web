@@ -461,6 +461,104 @@ Vue.component('card-btn', {
   }
 })
 
+Vue.component('routine-btn', {
+  props: {
+    ratio: {
+      type: Number,
+      default: 2
+    },
+    title: {
+      type: String,
+      required: true
+    },
+    img_name: {
+      type: String,
+      required: true
+    },
+    width: {
+      type: Number,
+      default: 6
+    }
+  },
+  data() {
+    return {
+      snackbarCan: false,
+      snackbarOk: false,
+      dialog:false,
+      minWidth: 100,
+      maxWidth: 400,
+      routines: [
+        { name: 'Leave Home', image:'leaving_01.jpg'},
+        { name: 'Go to Work', image: 'going_work_01.jpg'},
+        { name: 'Time to sleep', image: 'sleeping_01.jpg'},
+        { name: 'Vacations', image: 'vacations_01.jpg'}
+      ],
+    }
+  },
+  template:
+  `<v-container fluid>
+        <v-row justify="center">
+        <v-col v-for="(item, i) in routines" :key="i" cols="auto">
+            <v-dialog v-model="dialog" persistent width="410">
+                <template v-slot:activator="{ on }">
+                    <v-btn v-on="on" tile class="ma-3" :width="getWidth" :height="getHeight" >
+                      <v-img :src="getImg" :width="getWidth" :height="getHeight">
+                      <v-img :src="\`./resources/images/\${item.image}\`" :width="getWidth" :height="getHeight">
+                        <div class="text-left grey darken-2 mt-5 pl-3 pa-1">
+                          <span class="text-uppercase white--text font-weight-light">
+                            {{ item.name }}      
+                          </span>
+                        </div>
+                      </v-img>
+                    </v-btn>
+                </template>
+                <v-card>
+                <v-card-title class="headline">Are you sure you want to execute this routine?</v-card-title>
+                <v-card-actions>
+                    <div class="flex-grow-1"></div>
+                    <v-btn color="red darken-1" text @click="dialog = false, snackbarCan = true">Cancel</v-btn>
+                    <v-btn color="green darken-1" text @click="dialog = false, snackbarOk = true">Run Routine</v-btn>
+                  </v-card-actions>
+                </v-card>
+            </v-dialog>
+
+          </v-col>
+        </v-row>
+
+        <v-snackbar @click="accept()" v-model="snackbarOk"> Routine has been executed!
+                <v-btn color="green" text @click="snackbarOk = false"> OK </v-btn>
+        </v-snackbar>
+        <v-snackbar v-model="snackbarCan" > Operation cancelled.
+                <v-btn color="red" text @click="snackbarCan = false"> OK </v-btn>
+        </v-snackbar>
+
+    </container>
+    `,
+  methods:{
+    current(name){
+      this.routine = name;
+      return routine;
+    }
+  },
+  computed: {
+    getHref() {
+      return this.href;
+    },
+    getWidth() {
+      return screen.width / this.width; // ver si da limitarlo con max y min
+    },
+    getHeight() {
+      return this.getWidth / this.ratio;
+    },
+    getImg() {
+      return './resources/images/' + this.img_name + '.jpg';
+    },
+    getTitle() {
+      return this.title; // aca ver de poner max y min caracteres
+    }
+  }
+})
+
 Vue.component('sel-dev', {
   props: {
     name: {

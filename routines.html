@@ -14,24 +14,20 @@
     <v-app id="inspire">
       <toolbar :tab="3"></toolbar>
       <v-content>
-        <v-container>
-          <v-row justify="center">
-            <v-col v-for="i in 8" cols="auto">
-              <card-btn href="home.html" title="Rutina" img_name="sleeping_01"></card-btn>
-            </v-col>
-          </v-row>
-        </v-container>
+
+        <routine-btn></routine-btn>
+
         <v-container fluid>
           <v-tooltip top>
             <template v-slot:activator="{ on }">
-              <v-btn fixed dark fab bottom right v-on="on" x-large class="mx-2 ma-5" color="orange darken-2"
-                href="newroutine.html">
+              <v-btn fixed dark fab bottom right v-on="on" x-large class="mx-2 ma-5" color="orange darken-2" href="newroutine.html">
                 <v-icon dark>mdi-plus</v-icon>
               </v-btn>
             </template>
             <span>Add Routine</span>
           </v-tooltip>
         </v-container>
+
       </v-content>
     </v-app>
   </div>
