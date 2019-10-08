@@ -254,3 +254,20 @@ api.routine = class {
     return api.put(api.routine.url + id + '/execute', ((param === undefined) ? "{}" : param));
   }
 }
+
+/* Para todas estas funciones, debo llamarlas usando:
+    await ...
+*/
+function getAllRooms () {
+  return api.room.getAll();
+}
+
+function addRoom (name, image, fav) {
+  return api.room.add({
+    "name": name,
+    "meta": {
+      "image": image,
+      "favorite": fav
+    }
+  });
+}

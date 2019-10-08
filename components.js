@@ -261,19 +261,19 @@ Vue.component('routine-btn', {
     return {
       snackbarCan: false,
       snackbarOk: false,
-      dialog:false,
+      dialog: false,
       minWidth: 100,
       maxWidth: 400,
       routines: [
-        { name: 'Leave Home', image:'leaving_01.jpg'},
-        { name: 'Go to Work', image: 'going_work_01.jpg'},
-        { name: 'Time to sleep', image: 'sleeping_01.jpg'},
-        { name: 'Vacations', image: 'vacations_01.jpg'}
+        { name: 'Leave Home', image: 'leaving_01.jpg' },
+        { name: 'Go to Work', image: 'going_work_01.jpg' },
+        { name: 'Time to sleep', image: 'sleeping_01.jpg' },
+        { name: 'Vacations', image: 'vacations_01.jpg' }
       ],
     }
   },
   template:
-  `<v-container fluid>
+    `<v-container fluid>
         <v-row justify="center">
         <v-col v-for="(item, i) in routines" :key="i" cols="auto">
             <v-dialog v-model="dialog" persistent width="410">
@@ -311,8 +311,8 @@ Vue.component('routine-btn', {
 
     </container>
     `,
-  methods:{
-    current(name){
+  methods: {
+    current(name) {
       this.routine = name;
       return routine;
     }
@@ -996,14 +996,18 @@ Vue.component('panel-vacuum', {
     }
   },
   async mounted() {
-    var aux = await api.room.getAll().then(data => data.result).catch((error) => {
-
-    });
-    for (i of aux) {
-      this.rooms.push(i.name);
+    let errorMsg;
+    let rta = await getAllRooms().catch((error) => {
+      errorMsg = error;
+      console.log(error);
+    });;
+    if (rta) {
+      for (i of rta.result) {
+        this.rooms.push(i.name);
+      }
+    } else {
+      console.error(errorMsg);
     }
-    console.log(this.rooms);
-    console.log(this.rooms[0]);
   }
 })
 
@@ -1092,7 +1096,7 @@ Vue.component('add-device', {
     },
     resetVar() {
       this.overlay = false;
-      this.name='';
+      this.name = '';
       this.errorText = false;
     }
   },
@@ -1106,21 +1110,21 @@ Vue.component('add-device', {
       if (i.name != 'alarm' && i.name != 'refrigerator') {
         // this.types.push(i.name);
         // this.typedIds.push(i.id);
-        var el = {name: i.name, id: i.id};
+        var el = { name: i.name, id: i.id };
         this.types.push(el);
       }
     }
     console.log(this.types);
     console.log(this.types[0]);
     this.type = this.types[0].id;
-    
+
     // NECESITO GUARDAR EL ID DEL ROOM
     var aux = await api.room.getAll().then(data => data.result).catch((error) => {
 
     });
     for (i of aux) {
       // this.rooms.push(i.name);
-      var el = {name: i.name, id: i.id};
+      var el = { name: i.name, id: i.id };
       this.rooms.push(el);
     }
     console.log(this.rooms);
@@ -1227,18 +1231,19 @@ Vue.component('add-room', {
       } else if (this.image === undefined) {
         this.errorImage = true;
       } else {
-        var aux = await api.room.add({
-          "name": this.name,
-          "meta": {
-            "image": this.images[this.image],
-            "favorite": false
-          }
-        }).then(data => data.result).catch((error) => {
-
+        let errorMsg;
+        let rta = await addRoom(this.name, this.images[this.image], false)
+        .catch((error) => {
+          errorMsg = error;
+          console.log(error);
         });
-        console.log(aux);
-        this.resetVar();
-        this.$root.$emit('Finished add', 0);
+        console.log(rta);
+        if (rta) {
+          this.resetVar();
+          this.$root.$emit('Finished add', 0);
+        } else {
+          console.error(errorMsg);
+        }
       }
     },
     cancel() {
@@ -1261,19 +1266,19 @@ Vue.component('add-room', {
 Vue.component('new-routine', {
   data() {
     return {
-      desc:' ',
+      desc: ' ',
       name: ' ',
       snackbarCan: false,
       snackbarOk: false,
       sheet: false,
       floors: ['First', 'Second', 'Other'],
       floor: 'First',
-      rooms: ['Living Room', 'Kitchen', 'Bathroom', 'Garage', 'Bedroom','Entertainement'],
+      rooms: ['Living Room', 'Kitchen', 'Bathroom', 'Garage', 'Bedroom', 'Entertainement'],
       room: 'Living Room',
       devices: ['Light 1', 'Light 2', 'Oven', 'Aire Aconditioner'],
       device: 'Light 1',
       actions: [],
-      chip:true,
+      chip: true,
     }
   },
   watch: { // here we set the new values
@@ -1345,12 +1350,12 @@ Vue.component('new-routine', {
 
     </v-container>`,
   methods: {
-      // send form to back
-      addAction() {
-        this.actions.push(this.desc + ' - ' + this.room);
-      }
+    // send form to back
+    addAction() {
+      this.actions.push(this.desc + ' - ' + this.room);
+    }
   },
-  mounted () {
+  mounted() {
     // here we extract all the data
   }
 })
