@@ -1,227 +1,4 @@
 // javascript file for used components
-var api = class {
-  static get baseUrl() {
-    return "http://127.0.0.1:8080/api/";
-  }
-
-  static get timeout() {
-    return 10000; // 10 seg
-  }
-
-  static fetch(url, init) {
-    return new Promise((solve, reject) => {
-      var timeout = setTimeout(() => {
-        reject(new Error('Time out'));
-      }, api.timeout);
-
-      fetch(url, init)
-        .then((response) => {
-          clearTimeout(timeout);
-          if (!response.ok) {
-            reject(new Error(response.statusText));
-          }
-          return response.json();
-        })
-        .then((data) => {
-          solve(data);
-        })
-        .catch((error) => {
-          reject(error);
-        });
-    });
-  }
-}
-
-api.room = class {
-  static get url() {
-    return api.baseUrl + "rooms/";
-  }
-
-  /* Create a new room */
-  static add(room) {
-    return api.fetch(api.room.url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8'
-      },
-      body: JSON.stringify(room)
-    });
-  }
-
-  /* Update a specific room */
-  static modify(room) {
-    return api.fetch(api.room.url + room.id, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8'
-      },
-      body: JSON.stringify(room)
-    });
-  }
-
-  /* Delete an existing room */
-  static delete(room) {
-    return api.fetch(api.room.url + room.id, {
-      method: 'DELETE',
-    });
-  }
-
-  /* Retrieve all rooms */
-  static getAll() {
-    return api.fetch(api.room.url);
-  }
-
-  /* Retrieve DEVICES from a specific room */
-  static getDevices(room) {
-    return api.fetch(api.room.url + room.id + '/devices');
-  }
-
-  // To create a device, create device and then add to room
-  // Para que es el body??
-  /* Adds a device to a specific room */
-  static addDevice(room, device, param) {
-    return api.fetch(api.room.url + room.id + '/devices/' + device.id, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8'
-      },
-      body: JSON.stringify((param === undefined) ? "{}" : param)
-    });
-  }
-  
-}
-
-api.device = class {
-  static get url() {
-    return api.baseUrl + "devices/";
-  }
-
-  /* Create a new device */
-  static add(device) {
-    return api.fetch(api.device.url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8'
-      },
-      body: JSON.stringify(device)
-    });
-  }
-
-  /* Update an existing device */
-  static modify(device) {
-    return api.fetch(api.device.url + device.id, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8'
-      },
-      body: JSON.stringify(device)
-    });
-  }
-
-  /* Delete an existing device */
-  static delete(device) {
-    return api.fetch(api.device.url + device.id, {
-      method: 'DELETE',
-    });
-  }
-
-  /* Retrieve state from a specific device */
-  static getState(device) {
-    return api.fetch(api.device.url + device.id + '/state');
-  }
-
-  /* Retrieve events from a specific device */
-  static getEvents(device) {
-    return api.fetch(api.device.url + device.id + '/events');
-  }
-
-  /* Retrieve all devices */
-  static getAll() {
-    return api.fetch(api.device.url);
-  }
-
-  /* Retrieve devices from a specific deviceType */
-  static getAllFromType(deviceType) {
-    return api.fetch(api.device.url + 'devicetypes/' + deviceType.id);
-  }
-
-  /* Executes an action in a specific device with params {[]} */
-  static execAction(device, action, param) {
-    return api.fetch(api.device.url + device.id + '/' + action, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8'
-      },
-      body: JSON.stringify((param === undefined) ? "{}" : param)
-    });
-  }
-}
-
-api.deviceType = class {
-  static get url() {
-    return api.baseUrl + "devicetypes/";
-  }
-
-  /* Retrieves all deviceTypes */
-  static getAllTypes() {
-    return api.fetch(api.deviceType.url);
-  }
-}
-
-api.routine = class {
-  static get url() {
-    return api.baseUrl + "routines/";
-  }
-
-  /* Create a new routine */
-  static add(routine) {
-    return api.fetch(api.routine.url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8'
-      },
-      body: JSON.stringify(routine)
-    });
-  }
-
-  /* Update an existing routine */
-  static modify(routine) {
-    return api.fetch(api.routine.url + routine.id, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8'
-      },
-      body: JSON.stringify(routine)
-    });
-  }
-
-  /* Delete an existing routine */
-  static delete(routine) {
-    return api.fetch(api.routine.url + routine.id, {
-      method: 'DELETE',
-    });
-  }
-
-  /* Retrieve all routines */
-  static getAll() {
-    return api.fetch(api.routine.url);
-  }
-
-  /* Executes a specific routine */
-  // Para que es el body??
-  static exec(routine, param) {
-    return api.fetch(api.routine.url + routine.id + '/execute', {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8'
-      },
-      body: JSON.stringify((param === undefined) ? "{}" : param)
-    });
-  }
-}
-
-/* ---------------------------------------------------------------------- */
-
 Vue.component('toolbar', {
   props: {
     tab: {
@@ -633,7 +410,7 @@ Vue.component('panel-light', {
       <v-slider v-model="brightness" class="mt-4" prepend-icon="mdi-brightness-6" 
         thumb-label="always" thumb-size="25" color="orange" track-color="black" thumb-color="orange darken-2"></v-slider>
     </v-container>`,
-  mounted () {
+  mounted() {
     // here we extract all the data
   }
 })
@@ -716,7 +493,7 @@ Vue.component('panel-oven', {
         </v-btn-toggle>
       </v-layout>
     </v-container>`,
-  mounted () {
+  mounted() {
     // here we extract all the data
   }
 })
@@ -840,7 +617,7 @@ Vue.component('panel-speaker', {
       return this.elapsed_time; // here to do conversion secs to something printable
     }
   },
-  mounted () {
+  mounted() {
     // here we extract all the data
   }
 })
@@ -884,7 +661,7 @@ Vue.component('panel-door', {
       // send stop to back
     }
   },
-  mounted () {
+  mounted() {
     // here we extract all the data
   }
 })
@@ -910,7 +687,7 @@ Vue.component('panel-window', {
         </v-btn-toggle>
       </v-layout>
     </v-container>`,
-  mounted () {
+  mounted() {
     // here we extract all the data
   }
 })
@@ -1024,7 +801,7 @@ Vue.component('panel-airconditioner', {
         </v-col>
       </v-row>
     </v-container>`,
-  mounted () {
+  mounted() {
     // here we extract all the data
   }
 })
@@ -1121,7 +898,9 @@ Vue.component('panel-vacuum', {
     }
   },
   async mounted() {
-    var aux = await api.room.getAll().then(data => data.result);
+    var aux = await api.room.getAll().then(data => data.result).catch((error) => {
+
+    });
     for (i of aux) {
       this.rooms.push(i.name);
     }
@@ -1134,14 +913,14 @@ Vue.component('add-device', {
 
   data() {
     return {
-      rooms: ['Living Room', 'Kitchen', 'Bathroom', 'Garage', 'Bedroom', 'Entertainement'],
-      room: 'Living Room',
-      types: [],
-      type: 'Light',
-      name: ' ',
+      name: '',
       overlay: true,
-      snackbarCan: false,
-      snackbarOk: false
+      rooms: [],
+      room: undefined,
+      types: [],
+      typedIds: [],
+      type: undefined,
+      errorText: false
     }
   },
   watch: { // here we set the new values
@@ -1149,9 +928,8 @@ Vue.component('add-device', {
   },
   template:
     `<v-container fluid>
-
-        <v-overlay :value="overlay">
-            <v-card light>
+        <v-overlay>
+            <v-card max-width="700" light>
                 <v-card-title>
                     <span class="headline">Add Device</span>
                 </v-card-title>
@@ -1159,49 +937,97 @@ Vue.component('add-device', {
                     <v-container>
                     <v-row>
                         <v-col cols="12">
-                        <v-text-field v-model="name" label="Name" required></v-text-field>
+                        <v-text-field v-model="name" label="Name" :error="errorText" required hint="Minimum 3 characters" clearable></v-text-field>
                         </v-col>
                         <v-col cols="12" sm="6">
-                            <v-select v-model="room" :items="rooms" :value="room" label="Room" required></v-select>
+                            <v-select v-model="room" :items="rooms" item-text="name" item-value="id" :value="room" label="Room" required></v-select>
                         </v-col>
                         <v-col cols="12" sm="6">
-                            <v-select v-model="type" :items="types.name" :value="type" label="Type" required></v-select>
+                            <v-select v-model="type" :items="types" item-text="name" item-value="id" :value="type" label="Type" required></v-select>
                         </v-col>
                     </v-row>
                     </v-container>
                 </v-card-text>
                 <v-card-actions>
                     <div class="flex-grow-1"></div>
-                    <v-btn color="red darken-1" text @click="overlay = false; snackbarCan = true">Cancel</v-btn>
-                    <v-btn color="black darken-1" text @click="overlay = false; snackbarOk = true">Create</v-btn>
+                    <v-btn color="red darken-1" text @click="cancel()">Cancel</v-btn>
+                    <v-btn color="green darken-1" text @click="accept()">Create</v-btn>
                 </v-card-actions>
             </v-card>
         </v-overlay>
-
-        <v-snackbar @click="accept()" v-model="snackbarOk" > Successfully created!
-                <v-btn color="green" text @click="snackbarOk = false"> OK </v-btn>
-        </v-snackbar>
-
-        <v-snackbar v-model="snackbarCan" > Operation cancelled!
-                <v-btn color="red" text @click="snackbarCan = false"> OK </v-btn>
+        <v-snackbar v-model="errorText" > Name must be at least 3 characters long!
+                <v-btn color="red" text @click="errorText = false"> OK </v-btn>
         </v-snackbar>
      
     </v-container>`,
   methods: {
-    accept() {
+    async accept() {
       // send form to back
+      if (this.name.length < 3) {
+        this.errorText = true;
+      } else {
+        /* Crear device y luego agregar a room */
+        console.log(this.type);
+        var aux = await api.device.add({
+          "type": {
+            "id": this.type
+          },
+          "name": this.name,
+          "meta": {
+            "favorite": false
+          }
+        }).then(data => data.result).catch((error) => {
+
+        });
+        console.log(aux);
+
+        var aux = await api.room.addDevice(this.room, aux.id);
+        console.log(aux);
+
+        this.resetVar();
+        this.$root.$emit('Finished add', 0);
+      }
+    },
+    cancel() {
+      this.resetVar();
+      this.$root.$emit('Finished add', 1);
+    },
+    resetVar() {
+      this.overlay = false;
+      this.name='';
+      this.errorText = false;
     }
   },
-  async mounted () {
+  async mounted() {
     // here we extract all the data
-    var aux = await api.deviceType.getAllTypes().then(data => data.result);
+    var aux = await api.deviceType.getAllTypes().then(data => data.result).catch((error) => {
+
+    });
     console.log(aux);
     for (i of aux) {
-      this.types.push(i.name);
-      // this.types.push({name: i.name, id: i.id});
+      if (i.name != 'alarm' && i.name != 'refrigerator') {
+        // this.types.push(i.name);
+        // this.typedIds.push(i.id);
+        var el = {name: i.name, id: i.id};
+        this.types.push(el);
+      }
     }
     console.log(this.types);
     console.log(this.types[0]);
+    this.type = this.types[0].id;
+    
+    // NECESITO GUARDAR EL ID DEL ROOM
+    var aux = await api.room.getAll().then(data => data.result).catch((error) => {
+
+    });
+    for (i of aux) {
+      // this.rooms.push(i.name);
+      var el = {name: i.name, id: i.id};
+      this.rooms.push(el);
+    }
+    console.log(this.rooms);
+    console.log(this.rooms[0]);
+    this.room = this.rooms[0].id;
   }
 })
 
@@ -1210,8 +1036,6 @@ Vue.component('add-room', {
     return {
       name: '',
       overlay: true,
-      snackbarCan: false,
-      snackbarOk: false,
       sheet: false,
       images: ['bedroom_01.jpg', 'bathroom_02.jpg', 'game_room_01.jpg', 'garage_01.jpg', 'kitchen_01.jpg', 'living_01.jpg', 'living_02.jpg', 'entertainement_01.jpg', 'kitchen1.jpg'],
       image: undefined,
@@ -1311,7 +1135,9 @@ Vue.component('add-room', {
             "image": this.images[this.image],
             "favorite": false
           }
-        }).then(data => data.result);
+        }).then(data => data.result).catch((error) => {
+
+        });
         console.log(aux);
         this.resetVar();
         this.$root.$emit('Finished add', 0);
@@ -1323,12 +1149,13 @@ Vue.component('add-room', {
     },
     resetVar() {
       this.overlay = false;
-      this.name='';
+      this.name = '';
+      this.image = undefined;
       this.errorText = false;
       this.errorImage = false;
     }
   },
-  mounted () {
+  mounted() {
     // here we extract all the data
   }
 })
@@ -1374,7 +1201,7 @@ Vue.component('panel-none', {
         you can search it by cicking in the search icon on the top right of the page.</v-card-text>
       </v-card>  
     </v-container>`,
-  mounted () {
+  mounted() {
     // here we extract all the data
   }
 })

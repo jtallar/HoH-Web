@@ -1,0 +1,6 @@
+{"_id":"3502a7259c71886b","name":"living","meta":{"image":"game_room_01.jpg","favorite":false}}
+{"_id":"e224e017f788a996","name":"bathroom","meta":{"image":"game_room_01.jpg","favorite":false}}
+{"_id":"efb443e6f1b40de8","name":"kitchen","meta":{"image":"game_room_01.jpg","favorite":false}}
+{"$$indexCreated":{"fieldName":"name","unique":true,"sparse":false}}
+{"_id":"f2e481bbf91645a2","name":"MARTO","meta":{"image":"garage_01.jpg","favorite":false}}
+{"_id":"77feab979c04543d","name":"111","meta":{"image":"bedroom_01.jpg","favorite":false}}
