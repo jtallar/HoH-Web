@@ -1578,3 +1578,56 @@ Vue.component('toolbar-login', {
           </template>
         </v-app-bar>`,
 })
+
+Vue.component('room-bar', {
+  props: {
+    room: {
+      type: Object,
+      required: true
+    }
+  },
+  data() {
+    return {
+    }
+  },
+  template:
+    ` <v-container>
+        <v-row class="align-center">
+          <v-col>
+            <v-btn icon href="rooms.html">
+              <v-icon size="40">mdi-arrow-left</v-icon>
+            </v-btn>
+          </v-col>
+          <v-col>
+              <div class="headline ml-5 text-left">{{ room.name }}</div>
+          </v-col>
+          <v-btn right class="ml-5" icon @click="toggleFavorite">
+            <v-icon v-show="room.meta.favorite" size="40">mdi-star</v-icon>
+            <v-icon v-show="!room.meta.favorite" size="40">mdi-star-outline</v-icon>
+          </v-btn>
+
+          <v-btn right class="mx-5" icon href="rooms.html">
+            <v-icon size="35">mdi-settings</v-icon>
+          </v-btn>
+        </v-row>
+      </v-container>`,
+  methods: {
+    async toggleFavorite () {
+      this.room.meta.favorite = !this.room.meta.favorite;
+      console.log(this.room);
+      let rta = await modifyRoom(this.room)
+      .catch((error) => {
+        this.errorMsg = error[0].toUpperCase() + error.slice(1);
+        console.error(this.errorMsg);
+      });
+      if (rta) {
+        console.log(rta.result);
+      } else {
+        this.error = true;
+      }
+    }
+  },
+  mounted() {
+
+  }
+})
