@@ -1,8 +1,4 @@
-{"_id":"216dfbfdb37a23ff","name":"1111","meta":{"image":"bedroom_01.jpg","favorite":false}}
-{"_id":"315fbbc1abc98811","name":"bedroom","meta":{"image":"game_room_01.jpg","favorite":false}}
-{"_id":"3502a7259c71886b","name":"living","meta":{"image":"game_room_01.jpg","favorite":false}}
-{"_id":"77feab979c04543d","name":"111","meta":{"image":"bedroom_01.jpg","favorite":false}}
-{"_id":"e224e017f788a996","name":"bathroom","meta":{"image":"game_room_01.jpg","favorite":false}}
-{"_id":"efb443e6f1b40de8","name":"kitchen","meta":{"image":"game_room_01.jpg","favorite":false}}
-{"_id":"f2e481bbf91645a2","name":"MARTO","meta":{"image":"garage_01.jpg","favorite":false}}
 {"$$indexCreated":{"fieldName":"name","unique":true,"sparse":false}}
+{"_id":"a3b40ed89c41fda9","name":"JULIAN VUOSO","meta":{"image":"entertainement_01.jpg","favorite":false}}
+{"$$deleted":true,"_id":"a3b40ed89c41fda9"}
+{"_id":"61d8ac195eb1d92c","name":"JULI","meta":{"image":"bathroom_02.jpg","favorite":false}}

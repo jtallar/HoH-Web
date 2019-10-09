@@ -1,3 +1,4 @@
-{"_id":"0572a6ca0aebde83","name":"NICO","typeId":"li6cbv5sdlatti0j","state":{"status":"off","temperature":24,"mode":"cool","verticalSwing":"auto","horizontalSwing":"auto","fanSpeed":"auto"},"roomId":"e224e017f788a996","meta":{"favorite":false}}
-{"_id":"4792bd38d359cf58","name":"Davor","typeId":"lsf78ly0eqrjbz91","state":{"status":"closed","lock":"unlocked"},"roomId":"efb443e6f1b40de8","meta":{"favorite":false}}
 {"$$indexCreated":{"fieldName":"name","unique":true,"sparse":false}}
+{"_id":"2bcc9902fa8cbdce","name":"Bose","typeId":"c89b94e8581855bc","state":{"status":"stopped","volume":5,"genre":"pop","songIndex":0,"playingSince":null,"pausedSince":null,"pausedInteval":0},"meta":{"favorite":false}}
+{"_id":"2bcc9902fa8cbdce","name":"Bose","typeId":"c89b94e8581855bc","state":{"status":"stopped","volume":5,"genre":"pop","songIndex":0,"playingSince":null,"pausedSince":null,"pausedInteval":0},"roomId":"a3b40ed89c41fda9","meta":{"favorite":false}}
+{"_id":"2bcc9902fa8cbdce","name":"Bose","typeId":"c89b94e8581855bc","state":{"status":"stopped","volume":5,"genre":"pop","songIndex":0,"playingSince":null,"pausedSince":null,"pausedInteval":0},"meta":{"favorite":false}}
