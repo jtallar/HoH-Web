@@ -30,7 +30,11 @@
           <div class="mt-4 ml-4 mb-2 title font-weight-bold">Favorites Rooms</div>
           <v-slide-group light>
             <v-slide-item v-for="room in favRooms" :key="room">
+<<<<<<< HEAD
               <card-btn text="room" :title="room.title" :img_name="room.img_name"></card-btn>
+=======
+              <card-btn type="room" :title="room.title" :img_name="room.img_name" :id="s"></card-btn>
+>>>>>>> 1f4d8e20f204f9f087db7bd103a7213fa81bac08
             </v-slide-item>
             <v-slide-item v-if="favRooms.length === 0">
                 <no-card text="No favorite Rooms!"></no-fav>

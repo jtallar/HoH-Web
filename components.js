@@ -198,6 +198,10 @@ Vue.component('card-btn', {
     width: {
       type: Number,
       default: 6
+    },
+    id: {
+      type: String,
+      required: true
     }
   },
   data() {
@@ -223,9 +227,9 @@ Vue.component('card-btn', {
     getHref() {
       switch (this.type) {
         case "room":
-          return "room.html?" + this.title.split(' ').join('_'); // mejor pasar id del room
+          return "room.html?" + this.id; // mejor pasar id del room
         case "device":
-          return "device.html?" + this.title.split(' ').join('_'); // mejor pasar id del room
+          return "device.html?" + this.id; // mejor pasar id del room
         default:
             return "home.html"; // no deberia entrar nunca
       }
@@ -913,7 +917,9 @@ Vue.component('panel-vacuum', {
       mode: 0, // 0: vacuum, 1: mop
       room: 'Living Room',
       charging_base: 'Bathroom',
-      rooms: []
+      rooms: [],
+      error: false,
+      errorMsg: ''
     }
   },
   watch: { // here we set the new values
@@ -990,17 +996,21 @@ Vue.component('panel-vacuum', {
     }
   },
   async mounted() {
-    let errorMsg;
-    let rta = await getAll("Room").catch((error) => {
-      errorMsg = error;
-      console.log(error);
+    let rta = await getAll("Room")
+    .catch((error) => {
+      this.errorMsg = error[0].toUpperCase() + error.slice(1);
+      console.error(this.errorMsg);
     });;
     if (rta) {
       for (i of rta.result) {
         this.rooms.push(i.name);
       }
     } else {
-      console.error(errorMsg);
+      this.error = true;
+    }
+
+    if (!this.error) {
+      
     }
   }
 })

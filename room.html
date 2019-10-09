@@ -23,11 +23,13 @@
               </v-btn>
             </v-col>
             <v-col>
-                <div class="headline ml-5 text-left">{{ title }}</div>
+                <div class="headline ml-5 text-left">{{ room.name }}</div>
             </v-col>
-            <v-btn right class="ml-5" icon href="rooms.html">
-              <v-icon size="40">mdi-star-outline</v-icon>
+            <v-btn right class="ml-5" icon @click="toggleFavorite">
+              <v-icon v-show="room.meta.favorite" size="40">mdi-star</v-icon>
+              <v-icon v-show="!room.meta.favorite" size="40">mdi-star-outline</v-icon>
             </v-btn>
+
             <v-btn right class="mx-5" icon href="rooms.html">
               <v-icon size="35">mdi-settings</v-icon>
             </v-btn>

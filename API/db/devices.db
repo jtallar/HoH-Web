@@ -1,2 +1,3 @@
 {"_id":"2bcc9902fa8cbdce","name":"Bose","typeId":"c89b94e8581855bc","state":{"status":"stopped","volume":5,"genre":"pop","songIndex":0,"playingSince":null,"pausedSince":null,"pausedInteval":0},"meta":{"favorite":false}}
-{"$$indexCreated":{"fieldName":"name","unique":true,"sparse":false}}
+{"_id":"2bcc9902fa8cbdce","name":"Bose","typeId":"c89b94e8581855bc","state":{"status":"stopped","volume":5,"genre":"pop","songIndex":0,"playingSince":null,"pausedSince":null,"pausedInteval":0},"meta":{"favorite":false}}
+{"_id":"2bcc9902fa8cbdce","name":"Bose","typeId":"c89b94e8581855bc","state":{"status":"playing","volume":5,"genre":"pop","songIndex":0,"playingSince":1570642530899,"pausedSince":null,"pausedInteval":0},"meta":{"favorite":false}}
