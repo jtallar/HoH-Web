@@ -1457,3 +1457,40 @@ Vue.component('add-btn', {
     });
   }
 })
+
+Vue.component('no-fav', {
+  props: {
+    type: {
+      type: String,
+      required: true
+    },
+    width: {
+      type: Number,
+      default: 4
+    },
+    ratio: {
+      type: Number,
+      default: 2
+    }
+  },
+  data() {
+    return {
+      overlay: false,
+      snackbarCan: false,
+      snackbarOk: false
+    }
+  },
+  template:
+    `<v-card dark class="ma-3 ml-5" :width="getWidth" :height="getHeight">
+      <v-card-title class="mt-1"></v-card-title>
+      <v-card-title class="headline ma-5 ">No favorites {{type}} added!</v-card-title>
+    </v-card>`,
+    computed: {
+      getWidth() {
+        return screen.width / this.width; // ver si da limitarlo con max y min
+      },
+      getHeight() {
+        return screen.width/ 6 / this.ratio;
+      },
+    }
+})
