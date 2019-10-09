@@ -2,16 +2,7 @@ new Vue({
   el: '#app',
   vuetify: new Vuetify(),
   data: () => ({
-    fab: false,
-    hidden: false,
-    tabs: null,
-    switch1: true,
-    title: undefined,
-    options: [
-      { title: 'Profiles' },
-      { title: 'Settings' },
-      { title: 'Help' }
-    ],
+    types: [],
     devices: [
       { name: 'prueba0', cat: 'Air Conditioner', room: 'Living Room' },
       { name: 'prueba1', cat: 'Door', room: 'Bathroom' },
@@ -22,8 +13,14 @@ new Vue({
       { name: 'prueba6', cat: 'Window', room: 'Living Room' }
     ]
   }),
+  methods: {
+    async getDevices() {
+      
+    }
+  },
   mounted () {
     this.title = location.search.split('_').join(' ').substr(1);
+    
   }
   
 })

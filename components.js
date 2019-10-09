@@ -1503,9 +1503,9 @@ Vue.component('add-btn', {
   }
 })
 
-Vue.component('no-fav', {
+Vue.component('no-card', {
   props: {
-    type: {
+    text: {
       type: String,
       required: true
     },
@@ -1518,17 +1518,10 @@ Vue.component('no-fav', {
       default: 2
     }
   },
-  data() {
-    return {
-      overlay: false,
-      snackbarCan: false,
-      snackbarOk: false
-    }
-  },
   template:
     `<v-card dark class="ma-3 ml-5" :width="getWidth" :height="getHeight">
-      <v-card-title class="mt-1"></v-card-title>
-      <v-card-title class="headline ma-5 ">No favorites {{type}} added!</v-card-title>
+      <v-card-title></v-card-title>
+      <v-card-title class="headline ma-5 justify-center">{{text}}</v-card-title>
     </v-card>`,
     computed: {
       getWidth() {

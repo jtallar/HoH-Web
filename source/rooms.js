@@ -26,10 +26,7 @@ new Vue({
             var el = { name: i.name, id: i.id, img: i.meta.image };
             this.rooms.push(el);
           }
-        } else {
-          // NO HAY ROOMS CARGADOS        
-        }
-        
+        }         
       } else {
         this.error = true;
       }
