@@ -273,8 +273,7 @@ function getAll(key) {
       return api.deviceType.getAll();
     case "Routine":
       return api.routine.getAll();
-  }
-  
+  } 
 }
 
 function createRoom(name, image, fav) {

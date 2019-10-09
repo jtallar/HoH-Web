@@ -1053,9 +1053,16 @@ Vue.component('add-device', {
               <v-btn color="green darken-1" text @click="accept()">Create</v-btn>
           </v-card-actions>
         </v-card>
-        <v-card v-show="noRooms == 2" max-width="700" light>
+        <v-card v-show="noRooms == 2" max-width="700" max-height="200" light justify-center>
           <v-card-title/>
-          <v-card-text class="body-1">Please create a room before adding devices</v-card-text>
+          <v-row class="align-center">
+            <v-col class="ml-4" cols="2">
+              <v-img src="./resources/images/error.png" width="50"></v-img>
+            </v-col>
+            <v-col cols="9">
+              <v-card-text class="body-1">Please create a room before adding devices</v-card-text>
+            </v-col>
+          </v-row>
           <v-card-actions>
             <div class="flex-grow-1"></div>
             <v-btn color="red darken-1" text @click="okNoRooms()">OK</v-btn>
