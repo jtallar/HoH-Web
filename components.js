@@ -997,7 +997,7 @@ Vue.component('panel-vacuum', {
   },
   async mounted() {
     let errorMsg;
-    let rta = await getAllRooms().catch((error) => {
+    let rta = await getAll("Room").catch((error) => {
       errorMsg = error;
       console.log(error);
     });;
@@ -1022,7 +1022,10 @@ Vue.component('add-device', {
       types: [],
       typedIds: [],
       type: undefined,
-      errorText: false
+      error: false,
+      errorText: false,
+      errorMsg: '',
+      noRooms: false
     }
   },
   watch: { // here we set the new values
@@ -1030,64 +1033,73 @@ Vue.component('add-device', {
   },
   template:
     `<v-container fluid>
-        <v-overlay>
-            <v-card max-width="700" light>
-                <v-card-title>
-                    <span class="headline">Add Device</span>
-                </v-card-title>
-                <v-card-text>
-                    <v-container>
-                    <v-row>
-                        <v-col cols="12">
-                        <v-text-field v-model="name" label="Name" :error="errorText" required hint="Minimum 3 characters" clearable></v-text-field>
-                        </v-col>
-                        <v-col cols="12" sm="6">
-                            <v-select v-model="room" :items="rooms" item-text="name" item-value="id" :value="room" label="Room" required></v-select>
-                        </v-col>
-                        <v-col cols="12" sm="6">
-                            <v-select v-model="type" :items="types" item-text="name" item-value="id" :value="type" label="Type" required></v-select>
-                        </v-col>
-                    </v-row>
-                    </v-container>
-                </v-card-text>
-                <v-card-actions>
-                    <div class="flex-grow-1"></div>
-                    <v-btn color="red darken-1" text @click="cancel()">Cancel</v-btn>
-                    <v-btn color="green darken-1" text @click="accept()">Create</v-btn>
-                </v-card-actions>
-            </v-card>
-        </v-overlay>
-        <v-snackbar v-model="errorText" > Name must be at least 3 characters long!
-                <v-btn color="red" text @click="errorText = false"> OK </v-btn>
-        </v-snackbar>
+      <v-overlay>
+          <v-card v-show="!noRooms" max-width="700" light>
+            <v-card-title>
+                <span class="headline">Add Device</span>
+            </v-card-title>
+            <v-card-text>
+                <v-container>
+                <v-row>
+                    <v-col cols="12">
+                    <v-text-field v-model="name" label="Name" :error="errorText" required hint="Between 3 and 60 letters, numbers or spaces." clearable></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6">
+                        <v-select v-model="room" :items="rooms" item-text="name" item-value="id" :value="room" label="Room" required></v-select>
+                    </v-col>
+                    <v-col cols="12" sm="6">
+                        <v-select v-model="type" :items="types" item-text="name" item-value="id" :value="type" label="Type" required></v-select>
+                    </v-col>
+                </v-row>
+                </v-container>
+            </v-card-text>
+            <v-card-actions>
+                <div class="flex-grow-1"></div>
+                <v-btn color="red darken-1" text @click="cancel()">Cancel</v-btn>
+                <v-btn color="green darken-1" text @click="accept()">Create</v-btn>
+            </v-card-actions>
+          </v-card>
+          
+      </v-overlay>
+      <v-snackbar v-model="error" > {{ errorMsg }}
+        <v-btn color="red" text @click="error = false; errorText = false"> OK </v-btn>
+      </v-snackbar>
      
     </v-container>`,
   methods: {
     async accept() {
-      // send form to back
-      if (this.name.length < 3) {
+      if (this.name.length < 3 || this.name.length > 60) {
+        this.errorMsg = 'Name must have between 3 and 60 characters!';
+        this.error = true;
+        this.errorText = true;
+      } else if (!/^([a-zA-Z0-9 _]+)$/.test(this.name)) {
+        this.errorMsg = 'Name must have letters, numbers or spaces!';
+        this.error = true;
         this.errorText = true;
       } else {
         /* Crear device y luego agregar a room */
         console.log(this.type);
-        var aux = await api.device.add({
-          "type": {
-            "id": this.type
-          },
-          "name": this.name,
-          "meta": {
-            "favorite": false
-          }
-        }).then(data => data.result).catch((error) => {
-
+        let rta = await createDevice(this.name, this.type, false)
+        .catch((error) => {
+          this.errorMsg = error[0].toUpperCase() + error.slice(1);
+          console.error(this.errorMsg);
         });
-        console.log(aux);
-
-        var aux = await api.room.addDevice(this.room, aux.id);
-        console.log(aux);
-
-        this.resetVar();
-        this.$root.$emit('Finished add', 0);
+        console.log(rta);
+        if (rta) {
+          let rta2 = await addDeviceToRoom(this.room, rta.result.id)
+          .catch((error) => {
+            this.errorMsg = error[0].toUpperCase() + error.slice(1);
+            console.error(this.errorMsg);
+          });
+          if (rta2) {
+            this.resetVar();
+            this.$root.$emit('Finished add', 0);
+          } else {
+            this.error = true;  
+          }
+        } else {
+          this.error = true;
+        }
       }
     },
     cancel() {
@@ -1098,38 +1110,47 @@ Vue.component('add-device', {
       this.overlay = false;
       this.name = '';
       this.errorText = false;
+      this.noRooms = false;
     }
   },
   async mounted() {
     // here we extract all the data
-    var aux = await api.deviceType.getAllTypes().then(data => data.result).catch((error) => {
-
+    let rta = await getAll("Room")
+    .catch((error) => {
+      this.errorMsg = error[0].toUpperCase() + error.slice(1);
+      console.error(this.errorMsg);
     });
-    console.log(aux);
-    for (i of aux) {
-      if (i.name != 'alarm' && i.name != 'refrigerator') {
-        // this.types.push(i.name);
-        // this.typedIds.push(i.id);
-        var el = { name: i.name, id: i.id };
-        this.types.push(el);
+    if (rta) {
+      if (rta.result.length >= 1) {
+        console.log(rta.result);
+        for (i of rta.result) {
+          var el = { name: i.name, id: i.id };
+          this.rooms.push(el);
+        }
+        this.room = this.rooms[0].id;
+
+        let rta2 = await getAll("Type")
+        .catch((error) => {
+          this.errorMsg = error[0].toUpperCase() + error.slice(1);
+          console.error(this.errorMsg);
+        });
+        if (rta2) {
+          for (i of rta2.result) {
+            if (i.name != 'alarm' && i.name != 'refrigerator') {
+              let el = { name: i.name[0].toUpperCase() + i.name.slice(1), id: i.id };
+              this.types.push(el);
+            }
+          }
+          this.type = this.types[0].id;
+        } else {
+          this.error = true;
+        }
+      } else {
+        this.noRooms = true;
       }
+    } else {
+      this.error = true;
     }
-    console.log(this.types);
-    console.log(this.types[0]);
-    this.type = this.types[0].id;
-
-    // NECESITO GUARDAR EL ID DEL ROOM
-    var aux = await api.room.getAll().then(data => data.result).catch((error) => {
-
-    });
-    for (i of aux) {
-      // this.rooms.push(i.name);
-      var el = { name: i.name, id: i.id };
-      this.rooms.push(el);
-    }
-    console.log(this.rooms);
-    console.log(this.rooms[0]);
-    this.room = this.rooms[0].id;
   }
 })
 
@@ -1143,8 +1164,9 @@ Vue.component('add-room', {
       image: undefined,
       floors: ['First', 'Second', 'Other'],
       floor: 'First',
+      error: false,
       errorText: false,
-      errorImage: false
+      errorMsg: ''
     }
   },
   watch: { // here we set the new values
@@ -1163,7 +1185,7 @@ Vue.component('add-room', {
               <v-container>
               <v-row>
                   <v-col cols="12">
-                  <v-text-field v-model="name" label="Name" :error="errorText" required hint="Minimum 3 characters" clearable></v-text-field>
+                  <v-text-field v-model="name" label="Name" :error="errorText" required hint="Between 3 and 60 letters, numbers or spaces." clearable></v-text-field>
                   </v-col>
                   <v-col cols="12" >
                   <v-select v-model="floor" :items="floors" :value="floor" label="Floor" required></v-select>
@@ -1216,33 +1238,34 @@ Vue.component('add-room', {
           </v-card-actions>
       </v-card>
       </v-overlay>
-      <v-snackbar v-model="errorText" > Name must be at least 3 characters long!
-              <v-btn color="red" text @click="errorText = false"> OK </v-btn>
-      </v-snackbar>
-      <v-snackbar v-model="errorImage" > Select an image for the room!
-              <v-btn color="red" text @click="errorImage = false"> OK </v-btn>
+      <v-snackbar v-model="error" > {{ errorMsg }}
+        <v-btn color="red" text @click="error = false; errorText = false"> OK </v-btn>
       </v-snackbar>
     </v-container>`,
   methods: {
     async accept() {
-      // send form to back
-      if (this.name.length < 3) {
+      if (this.name.length < 3 || this.name.length > 60) {
+        this.errorMsg = 'Name must have between 3 and 60 characters!';
+        this.error = true;
+        this.errorText = true;
+      } else if (!/^([a-zA-Z0-9 _]+)$/.test(this.name)) {
+        this.errorMsg = 'Name must have letters, numbers or spaces!';
+        this.error = true;
         this.errorText = true;
       } else if (this.image === undefined) {
-        this.errorImage = true;
+        this.errorMsg = 'Select an image for the room!';
+        this.error = true;
       } else {
-        let errorMsg;
-        let rta = await addRoom(this.name, this.images[this.image], false)
+        let rta = await createRoom(this.name, this.images[this.image], false)
         .catch((error) => {
-          errorMsg = error;
-          console.log(error);
+          this.errorMsg = error[0].toUpperCase() + error.slice(1);
+          console.error(this.errorMsg);
         });
-        console.log(rta);
         if (rta) {
           this.resetVar();
           this.$root.$emit('Finished add', 0);
         } else {
-          console.error(errorMsg);
+          this.error = true;
         }
       }
     },
@@ -1254,8 +1277,8 @@ Vue.component('add-room', {
       this.overlay = false;
       this.name = '';
       this.image = undefined;
+      this.error = false;
       this.errorText = false;
-      this.errorImage = false;
     }
   },
   mounted() {

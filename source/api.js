@@ -16,13 +16,18 @@ var api = class {
       fetch(url, init)
         .then((response) => {
           clearTimeout(timeout);
-          if (!response.ok) {
-            reject(new Error(response.statusText));
-          }
+          // if (!response.ok) {
+          //   reject(new Error(response.statusText));
+          // }
           return response.json();
         })
         .then((data) => {
-          resolve(data);
+          if (data.result) {
+            resolve(data);
+          } else{
+            reject(`${data.error.description}`);
+            //reject(new Error(`'${data.error.description}' (code: '${data.error.code}')`));
+          }
         })
         .catch((error) => {
           reject(error);
@@ -213,7 +218,7 @@ api.deviceType = class {
   }
 
   /* Retrieves all deviceTypes */
-  static getAllTypes() {
+  static getAll() {
     return api.get(api.deviceType.url);
   }
 }
@@ -258,11 +263,21 @@ api.routine = class {
 /* Para todas estas funciones, debo llamarlas usando:
     await ...
 */
-function getAllRooms () {
-  return api.room.getAll();
+function getAll(key) {
+  switch(key) {
+    case "Room":
+      return api.room.getAll();
+    case "Device":
+      return api.device.getAll();
+    case "Type":
+      return api.deviceType.getAll();
+    case "Routine":
+      return api.routine.getAll();
+  }
+  
 }
 
-function addRoom (name, image, fav) {
+function createRoom(name, image, fav) {
   return api.room.add({
     "name": name,
     "meta": {
@@ -270,4 +285,20 @@ function addRoom (name, image, fav) {
       "favorite": fav
     }
   });
+}
+
+function createDevice(name, type, fav) {
+  return api.device.add({
+    "type": {
+      "id": type
+    },
+    "name": name,
+    "meta": {
+      "favorite": fav
+    }
+  })
+}
+
+function addDeviceToRoom(roomId, deviceId) {
+  return api.room.addDevice(roomId, deviceId);
 }

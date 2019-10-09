@@ -1,3 +1,4 @@
-{"_id":"0572a6ca0aebde83","name":"NICO","typeId":"li6cbv5sdlatti0j","state":{"status":"off","temperature":24,"mode":"cool","verticalSwing":"auto","horizontalSwing":"auto","fanSpeed":"auto"},"roomId":"e224e017f788a996","meta":{"favorite":false}}
-{"_id":"4792bd38d359cf58","name":"Davor","typeId":"lsf78ly0eqrjbz91","state":{"status":"closed","lock":"unlocked"},"roomId":"efb443e6f1b40de8","meta":{"favorite":false}}
+{"_id":"1328242016cf7c68","name":"ARBOL","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"roomId":"f974fc80172f2130","meta":{"favorite":false}}
+{"_id":"5a6755da6ff8fdee","name":"HOLA","typeId":"lsf78ly0eqrjbz91","state":{"status":"closed","lock":"unlocked"},"roomId":"3502a7259c71886b","meta":{"favorite":false}}
+{"_id":"e63d6409ecf2d807","name":"wsq112","typeId":"lsf78ly0eqrjbz91","state":{"status":"closed","lock":"unlocked"},"roomId":"216dfbfdb37a23ff","meta":{"favorite":false}}
 {"$$indexCreated":{"fieldName":"name","unique":true,"sparse":false}}
