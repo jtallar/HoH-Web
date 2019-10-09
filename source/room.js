@@ -6,6 +6,7 @@ new Vue({
     hidden: false,
     tabs: null,
     switch1: true,
+    title: undefined,
     options: [
       { title: 'Profiles' },
       { title: 'Settings' },
@@ -20,6 +21,9 @@ new Vue({
       { name: 'prueba5', cat: 'Vacuum', room: 'Bedroom' },
       { name: 'prueba6', cat: 'Window', room: 'Living Room' }
     ]
-  })
+  }),
+  mounted () {
+    this.title = location.search.split('_').join(' ').substr(1);
+  }
   
 })

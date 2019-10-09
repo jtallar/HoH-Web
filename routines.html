@@ -14,13 +14,16 @@
     <v-app id="inspire">
       <toolbar :tab="3"></toolbar>
       <v-content>
-
-        <routine-btn></routine-btn>
+          <v-row justify="center">
+              <v-col v-for="routine in routines" :key="routine.name" cols="auto">
+       <routine-btn :title="routine.name" :img_name="routine.image"></routine-btn>
+      </v-col>
+    </v-row>
 
         <v-container fluid>
           <v-tooltip top>
             <template v-slot:activator="{ on }">
-              <v-btn fixed dark fab bottom right v-on="on" x-large class="mx-2 ma-5" color="orange darken-2" href="newroutine.html">
+              <v-btn fixed dark fab bottom right v-on="on" x-large class="mx-2 mt-5" color="orange darken-2" href="newroutine.html">
                 <v-icon dark>mdi-plus</v-icon>
               </v-btn>
             </template>
@@ -35,7 +38,7 @@
   <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
   <script src="./source/api.js"></script>
   <script src="components.js"></script>
-  <script src="source/home.js"></script>
+  <script src="source/routines.js"></script>
 
 </body>
 

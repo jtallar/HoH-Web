@@ -16,7 +16,7 @@
       <v-content>
         <v-row justify="center" class="mt-5">
           <v-col v-for="cat in categories" cols="auto">
-            <card-btn href="device.html" :width="4" :title="cat.title" :img_name="cat.img"></card-btn>
+            <card-btn type="device" :width="4" :title="cat.title" :img_name="cat.img"></card-btn>
           </v-col>
         </v-row>
 
@@ -30,7 +30,7 @@
   <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
   <script src="./source/api.js"></script>
   <script src="components.js"></script>
-  <script src="source/deviceCategories.js"></script>
+  <script src="source/devices.js"></script>
 
 </body>
 
