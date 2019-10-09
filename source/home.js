@@ -10,6 +10,12 @@ new Vue({
     favDevices: [],
     favRooms: [],
     favRoutines: []
-  })
+  }),
+  mounted () {
+    setInterval(function(){
+      // get de los favorites
+      }, 1000);
+
+  }
   
 })
