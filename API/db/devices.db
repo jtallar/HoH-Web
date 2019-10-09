@@ -1,7 +1,4 @@
-{"_id":"1328242016cf7c68","name":"ARBOL","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"roomId":"f974fc80172f2130","meta":{"favorite":false}}
-{"_id":"5a6755da6ff8fdee","name":"HOLA","typeId":"lsf78ly0eqrjbz91","state":{"status":"closed","lock":"unlocked"},"roomId":"3502a7259c71886b","meta":{"favorite":false}}
-{"_id":"e63d6409ecf2d807","name":"wsq112","typeId":"lsf78ly0eqrjbz91","state":{"status":"closed","lock":"unlocked"},"roomId":"216dfbfdb37a23ff","meta":{"favorite":false}}
 {"$$indexCreated":{"fieldName":"name","unique":true,"sparse":false}}
-{"_id":"257bc409f0ba098b","name":"Hola","typeId":"c89b94e8581855bc","state":{"status":"stopped","volume":5,"genre":"pop","songIndex":0,"playingSince":null,"pausedSince":null,"pausedInteval":0},"meta":{"favorite":false}}
-{"_id":"257bc409f0ba098b","name":"Hola","typeId":"c89b94e8581855bc","state":{"status":"stopped","volume":5,"genre":"pop","songIndex":0,"playingSince":null,"pausedSince":null,"pausedInteval":0},"roomId":"1c366f1ae5fd9654","meta":{"favorite":false}}
-{"_id":"257bc409f0ba098b","name":"Hola","typeId":"c89b94e8581855bc","state":{"status":"stopped","volume":5,"genre":"pop","songIndex":0,"playingSince":null,"pausedSince":null,"pausedInteval":0},"meta":{"favorite":false}}
+{"_id":"2bcc9902fa8cbdce","name":"Bose","typeId":"c89b94e8581855bc","state":{"status":"stopped","volume":5,"genre":"pop","songIndex":0,"playingSince":null,"pausedSince":null,"pausedInteval":0},"meta":{"favorite":false}}
+{"_id":"2bcc9902fa8cbdce","name":"Bose","typeId":"c89b94e8581855bc","state":{"status":"stopped","volume":5,"genre":"pop","songIndex":0,"playingSince":null,"pausedSince":null,"pausedInteval":0},"roomId":"a3b40ed89c41fda9","meta":{"favorite":false}}
+{"_id":"2bcc9902fa8cbdce","name":"Bose","typeId":"c89b94e8581855bc","state":{"status":"stopped","volume":5,"genre":"pop","songIndex":0,"playingSince":null,"pausedSince":null,"pausedInteval":0},"meta":{"favorite":false}}

@@ -237,7 +237,7 @@ Vue.component('card-btn', {
       return this.getWidth / this.ratio;
     },
     getImg() {
-      return './resources/images/' + this.img_name + '.jpg';
+      return './resources/images/' + this.img_name;
     },
     getTitle() {
       return this.title; // aca ver de poner max y min caracteres
@@ -1058,7 +1058,7 @@ Vue.component('add-device', {
           <v-card-text class="body-1">Please create a room before adding devices</v-card-text>
           <v-card-actions>
             <div class="flex-grow-1"></div>
-            <v-btn color="red darken-1" text @click="cancel()">OK</v-btn>
+            <v-btn color="red darken-1" text @click="okNoRooms()">OK</v-btn>
           </v-card-actions>
         </v-card>
       </v-overlay>
@@ -1106,6 +1106,10 @@ Vue.component('add-device', {
     cancel() {
       this.resetVar();
       this.$root.$emit('Finished add', 1);
+    },
+    okNoRooms() {
+      this.resetVar();
+      this.$root.$emit('Finished add', 2);
     },
     resetVar() {
       this.overlay = false;
@@ -1162,7 +1166,7 @@ Vue.component('add-room', {
       name: '',
       overlay: true,
       sheet: false,
-      images: ['bedroom_01.jpg', 'bathroom_02.jpg', 'game_room_01.jpg', 'garage_01.jpg', 'kitchen_01.jpg', 'living_01.jpg', 'living_02.jpg', 'entertainement_01.jpg', 'kitchen1.jpg'],
+      images: ['bedroom_01.jpg', 'bathroom_02.jpg', 'game_room_01.jpg', 'garage_01.jpg', 'kitchen_01.jpg', 'living_01.jpg', 'living_02.jpg', 'kitchen1.jpg'],
       image: undefined,
       floors: ['First', 'Second', 'Other'],
       floor: 'First',
@@ -1480,10 +1484,13 @@ Vue.component('add-btn', {
   mounted() {
     this.$root.$on('Finished add', (state) => {
       this.overlay = false;
-      if (state == 0) {
-        this.snackbarOk = true;
-      } else {
-        this.snackbarCan = true;
+      switch(state) {
+        case 0:
+          this.snackbarOk = true;
+          break;
+        case 1:
+          this.snackbarCan = true;
+          break;
       }
     });
   }

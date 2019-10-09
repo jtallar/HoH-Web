@@ -16,8 +16,8 @@
       <v-content>
         <v-container>
           <v-row justify="center">
-            <v-col v-for="i in 7" cols="auto"> 
-              <card-btn type="room" title="Living Room" img_name="living_01"></card-btn>
+            <v-col v-for="room in rooms" cols="auto"> 
+              <card-btn type="room" :title="room.name" :img_name="room.img"></card-btn>
             </v-col>
           </v-row>
         </v-container>
@@ -29,7 +29,7 @@
   <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
   <script src="./source/api.js"></script>
   <script src="components.js"></script>
-  <script src="source/home.js"></script>
+  <script src="source/rooms.js"></script>
 </body>
 
 </html>
