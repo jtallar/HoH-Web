@@ -1010,7 +1010,7 @@ Vue.component('add-device', {
   data() {
     return {
       name: '',
-      overlay: true,
+      overlay: false,
       rooms: [],
       room: undefined,
       types: [],
@@ -1019,7 +1019,7 @@ Vue.component('add-device', {
       error: false,
       errorText: false,
       errorMsg: '',
-      noRooms: false
+      noRooms: 0 // 0: sin cargar ; 1: hay rooms ; 2: no hay rooms
     }
   },
   watch: { // here we set the new values
@@ -1028,32 +1028,39 @@ Vue.component('add-device', {
   template:
     `<v-container fluid>
       <v-overlay>
-          <v-card v-show="!noRooms" max-width="700" light>
-            <v-card-title>
-                <span class="headline">Add Device</span>
-            </v-card-title>
-            <v-card-text>
-                <v-container>
-                <v-row>
-                    <v-col cols="12">
-                    <v-text-field v-model="name" label="Name" :error="errorText" required hint="Between 3 and 60 letters, numbers or spaces." clearable></v-text-field>
-                    </v-col>
-                    <v-col cols="12" sm="6">
-                        <v-select v-model="room" :items="rooms" item-text="name" item-value="id" :value="room" label="Room" required></v-select>
-                    </v-col>
-                    <v-col cols="12" sm="6">
-                        <v-select v-model="type" :items="types" item-text="name" item-value="id" :value="type" label="Type" required></v-select>
-                    </v-col>
-                </v-row>
-                </v-container>
-            </v-card-text>
-            <v-card-actions>
-                <div class="flex-grow-1"></div>
-                <v-btn color="red darken-1" text @click="cancel()">Cancel</v-btn>
-                <v-btn color="green darken-1" text @click="accept()">Create</v-btn>
-            </v-card-actions>
-          </v-card>
-          
+        <v-card v-show="noRooms == 1" max-width="700" light>
+          <v-card-title>
+              <span class="headline">Add Device</span>
+          </v-card-title>
+          <v-card-text>
+              <v-container>
+              <v-row>
+                  <v-col cols="12">
+                  <v-text-field v-model="name" label="Name" :error="errorText" required hint="Between 3 and 60 letters, numbers or spaces." clearable></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6">
+                      <v-select v-model="room" :items="rooms" item-text="name" item-value="id" :value="room" label="Room" required></v-select>
+                  </v-col>
+                  <v-col cols="12" sm="6">
+                      <v-select v-model="type" :items="types" item-text="name" item-value="id" :value="type" label="Type" required></v-select>
+                  </v-col>
+              </v-row>
+              </v-container>
+          </v-card-text>
+          <v-card-actions>
+              <div class="flex-grow-1"></div>
+              <v-btn color="red darken-1" text @click="cancel()">Cancel</v-btn>
+              <v-btn color="green darken-1" text @click="accept()">Create</v-btn>
+          </v-card-actions>
+        </v-card>
+        <v-card v-show="noRooms == 2" max-width="700" light>
+          <v-card-title/>
+          <v-card-text class="body-1">Please create a room before adding devices</v-card-text>
+          <v-card-actions>
+            <div class="flex-grow-1"></div>
+            <v-btn color="red darken-1" text @click="cancel()">OK</v-btn>
+          </v-card-actions>
+        </v-card>
       </v-overlay>
       <v-snackbar v-model="error" > {{ errorMsg }}
         <v-btn color="red" text @click="error = false; errorText = false"> OK </v-btn>
@@ -1104,7 +1111,6 @@ Vue.component('add-device', {
       this.overlay = false;
       this.name = '';
       this.errorText = false;
-      this.noRooms = false;
     }
   },
   async mounted() {
@@ -1136,11 +1142,13 @@ Vue.component('add-device', {
             }
           }
           this.type = this.types[0].id;
+          this.overlay = true;
+          this.noRooms = 1;
         } else {
           this.error = true;
         }
       } else {
-        this.noRooms = true;
+        this.noRooms = 2;
       }
     } else {
       this.error = true;
