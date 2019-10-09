@@ -227,9 +227,9 @@ Vue.component('card-btn', {
     getHref() {
       switch (this.type) {
         case "room":
-          return "room.html?" + this.id; // mejor pasar id del room
+          return "room.html?" + this.id + "+" + this.title.split(' ').join('_');
         case "device":
-          return "device.html?" + this.id; // mejor pasar id del room
+          return "device.html?" + this.id + "+" + this.title.split(' ').join('_'); // mejor pasar id del room
         default:
             return "home.html"; // no deberia entrar nunca
       }
