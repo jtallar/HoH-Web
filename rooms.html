@@ -17,7 +17,7 @@
         <v-container>
           <v-row justify="center">
             <v-col v-for="room in rooms" cols="auto"> 
-              <card-btn type="room" :title="room.name" :img_name="room.img"></card-btn>
+              <card-btn type="room" :title="room.name" :img_name="room.img" :id="room.id"></card-btn>
             </v-col>
           </v-row>
         </v-container>

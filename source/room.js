@@ -2,16 +2,10 @@ new Vue({
   el: '#app',
   vuetify: new Vuetify(),
   data: () => ({
-    fab: false,
-    hidden: false,
-    tabs: null,
-    switch1: true,
-    title: undefined,
-    options: [
-      { title: 'Profiles' },
-      { title: 'Settings' },
-      { title: 'Help' }
-    ],
+    room: {name: '', meta: {image: '', favorite: false} },
+    error: false,
+    errorMsg: '',
+    favorite: false,
     devices: [
       { name: 'prueba0', cat: 'Air Conditioner', room: 'Living Room' },
       { name: 'prueba1', cat: 'Door', room: 'Bathroom' },
@@ -22,8 +16,35 @@ new Vue({
       { name: 'prueba6', cat: 'Window', room: 'Living Room' }
     ]
   }),
-  mounted () {
-    this.title = location.search.split('_').join(' ').substr(1);
+  methods: {
+    async toggleFavorite () {
+      this.room.meta.favorite = !this.room.meta.favorite;
+      console.log(this.room);
+      let rta = await modifyRoom(this.room)
+      .catch((error) => {
+        this.errorMsg = error[0].toUpperCase() + error.slice(1);
+        console.error(this.errorMsg);
+      });
+      if (rta) {
+        console.log(rta.result);
+      } else {
+        this.error = true;
+      }
+    }
+  },
+  async mounted () {
+    let id = location.search.substr(1);
+    let rta = await getRoom(id)
+    .catch((error) => {
+      this.errorMsg = error[0].toUpperCase() + error.slice(1);
+      console.error(this.errorMsg);
+    });
+    if (rta) {
+      console.log(rta.result);
+      this.room = rta.result;
+    } else {
+      this.error = true;
+    }
   }
   
 })
