@@ -2,23 +2,12 @@ new Vue({
   el: '#app',
   vuetify: new Vuetify(),
   data: () => ({
-    fab: false,
-    hidden: false,
-    tabs: null,
-    switch1: true,
-    options: [
-      { title: 'Profiles' },
-      { title: 'Settings' },
-      { title: 'Help' }
-    ],
-    devices: [
-      { name: 'prueba0', cat: 'Air Conditioner', room: 'Living Room' },
-      { name: 'prueba1', cat: 'Door', room: 'Bathroom' },
-      { name: 'prueba2', cat: 'Light', room: 'Living Room' },
-      { name: 'prueba3', cat: 'Oven', room: 'Kitchen' },
-      { name: 'prueba4', cat: 'Speaker', room: 'Living Room' },
-      { name: 'prueba5', cat: 'Vacuum', room: 'Bedroom' },
-      { name: 'prueba6', cat: 'Window', room: 'Living Room' }
+    categories: [
+      { title: 'Lighting', img: 'light_01' },
+      { title: 'Apliances', img: 'apliances_01' },
+      { title: 'Entertainement', img: 'entertainement_01' },
+      { title: 'Air Conditioners', img: 'air_conditioner_01' },
+      { title: 'Doors & Windows', img: 'house_02' }
     ]
   })
   
