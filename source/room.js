@@ -11,6 +11,7 @@ new Vue({
     entertainment: [],
     airconditioners: [],
     doorswindows: [],
+    types: [],
     devices: [
       { name: 'prueba0', cat: 'Air Conditioner', room: 'Living Room' },
       { name: 'prueba1', cat: 'Door', room: 'Bathroom' },
