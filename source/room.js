@@ -3,9 +3,10 @@ new Vue({
   vuetify: new Vuetify(),
   data: () => ({
     room: { name: '', meta: { image: '', favorite: false } },
+    id: undefined,
     error: false,
     errorMsg: '',
-    favorite: false,
+    gotData: false,
     lighting: [],
     appliances: [],
     entertainment: [],
@@ -47,8 +48,8 @@ new Vue({
     }
   },
   async mounted () {
-    let id = location.search.substr(1);
-    let rta = await getRoom(id)
+    this.id = location.search.substr(1).split('+')[0];
+    let rta = await getRoom(this.id)
     .catch((error) => {
       this.errorMsg = error[0].toUpperCase() + error.slice(1);
       console.error(this.errorMsg);
@@ -68,8 +69,15 @@ new Vue({
       });
       if (rta) {
         for (dev of rta.result) {
+          dev.room = {id: this.id, name: this.room.name};
           this.addToCat(dev);
         }
+        console.log(this.lighting);
+        console.log(this.entertainment);
+        console.log(this.airconditioners);
+        console.log(this.doorswindows);
+        console.log(this.appliances);
+        this.gotData = true;
       } else {
         this.error = true;
       }
