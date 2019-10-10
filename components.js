@@ -118,19 +118,19 @@ Vue.component('panel', {
   computed: {
     getImg() {
       switch (this.devCat) {
-        case "Light":
+        case "lamp":
           return './resources/icons/web/lamp_on.svg';
-        case "Vacuum":
+        case "vacuum":
           return './resources/icons/web/vacuum_on.svg';
-        case "Air Conditioner":
+        case "ac":
           return './resources/icons/web/air_conditioner_on.svg';
-        case "Door":
+        case "door":
           return './resources/icons/web/door_closed.svg';
-        case "Window":
+        case "blinds":
           return './resources/icons/web/window_closed.svg';
-        case "Speaker":
+        case "speaker":
           return './resources/icons/web/speaker_playing.svg';
-        case "Oven":
+        case "oven":
           return './resources/icons/web/oven_on.svg';
         default:
           return './resources/icons/generic/close.svg';
@@ -138,19 +138,19 @@ Vue.component('panel', {
     },
     getPanelContent() {
       switch (this.devCat) {
-        case "Light":
+        case "lamp":
           return "panel-light";
-        case "Vacuum":
+        case "vacuum":
           return "panel-vacuum";
-        case "Air Conditioner":
+        case "ac":
           return "panel-airconditioner";
-        case "Door":
+        case "door":
           return "panel-door";
-        case "Window":
+        case "blinds":
           return "panel-window";
-        case "Speaker":
+        case "speaker":
           return "panel-speaker";
-        case "Oven":
+        case "oven":
           return "panel-oven";
         default:
           return "panel-none";
@@ -397,11 +397,11 @@ Vue.component('dev-btn', {
     `<v-col class="text-center">
       <v-btn class="mb-1" :outlined="!selected" :width="getSize" :height="getSize" fab color="grey darken-4" @click="toggleSelected">
         <div>
-          <v-img :width="getIconSize" :src="getImg"/>
+          <v-img :max-width="getIconSize" :src="getImg" contain/>
         </div>
       </v-btn>
       <div class="text-capitalize black--text font-weight-light mb-1">
-        {{ name }}
+        {{ device.name }}
       </div>
     </v-col>`,
   methods: {
@@ -426,23 +426,23 @@ Vue.component('dev-btn', {
     },
     getImg() {
       let stat = this.device.state.status;
-      switch (this.device.cat.name) {
-        case "Light":
+      switch (this.device.type.name) {
+        case "lamp":
           if(stat === "on")
             return './resources/icons/web/lamp_on.svg';
           else 
             return './resources/icons/web/lamp_off.svg';
-        case "Vacuum":
+        case "vacuum":
           if(stat === "on")
             return './resources/icons/web/vacuum_on.svg';
           else 
             return './resources/icons/web/vacuum_off.svg';
-        case "Air Conditioner":
+        case "ac":
           if(stat === "on")
             return './resources/icons/web/air_conditioner_on.svg';
           else
             return './resources/icons/web/air_conditioner_off.svg';
-        case "Door":
+        case "door":
           if(stat === "closed")
             return './resources/icons/web/door_closed.svg';
           else{ 
@@ -451,17 +451,17 @@ Vue.component('dev-btn', {
             else
               return './resources/icons/web/door_locked.svg';
           }
-        case "Window":
+        case "blinds":
           if(stat === "closed")
             return './resources/icons/web/window_closed.svg';
           else 
-            return './resources/icons/web/window_opened.svg';
-        case "Speaker":
+            return './resources/icons/web/window_open.svg';
+        case "speaker":
           if(stat === "playing")
             return './resources/icons/web/speaker_playing.svg';
           else
-            return './resources/icons/web/speaker_notplaying.svg';
-        case "Oven":
+            return './resources/icons/web/speaker_off.svg';
+        case "oven":
           if(stat === "on")
             return './resources/icons/web/oven_on.svg';
           else
@@ -473,7 +473,7 @@ Vue.component('dev-btn', {
   },
   mounted() {
     this.$root.$on('Device Selected', (name, room, cat) => { // change for id
-      if (this.selected && name !== this.name) this.selected = !this.selected;
+      if (this.selected && name != this.device.name) this.selected = !this.selected;
     });
   }
 })
@@ -795,7 +795,7 @@ Vue.component('panel-window', {
   template:
     `<v-container fluid>
       <v-layout column align-center>
-        <v-btn-toggle v-model="text" tile color="orange darken-2" group mandatory>
+        <v-btn-toggle v-model="closed" tile color="orange darken-2" group mandatory>
             <v-btn>Closed</v-btn>
             <v-btn>Open</v-btn>
         </v-btn-toggle>
@@ -1827,7 +1827,7 @@ Vue.component('room-cat', {
         </v-row>
         <v-row>
           <v-col v-for="dev in devices" :key="dev.id" cols="auto">
-            <dev-btn :name="dev.name" :cat="dev.type.name" :room="dev.room.name"></dev-btn>
+            <dev-btn :device="dev"></dev-btn>
           </v-col>
         </v-row>
       </v-container>`,

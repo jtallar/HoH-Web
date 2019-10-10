@@ -72,11 +72,6 @@ new Vue({
           dev.room = {id: this.id, name: this.room.name};
           this.addToCat(dev);
         }
-        console.log(this.lighting.length);
-        console.log(this.entertainment.length);
-        console.log(this.airconditioners.length);
-        console.log(this.doorswindows.length);
-        console.log(this.appliances.length);
         this.gotData = true;
       } else {
         this.error = true;
