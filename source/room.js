@@ -23,7 +23,7 @@ new Vue({
       { name: 'prueba6', cat: 'Window', room: 'Living Room' }
     ]
   }),
-  methods : {
+  methods: {
     addToCat(device) {
       switch (device.type.name) {
         case "lamp":
@@ -45,38 +45,43 @@ new Vue({
           this.airconditioners.push(device);
           break;
       }
-    }
-  },
-  async mounted () {
-    this.id = location.search.substr(1).split('+')[0];
-    let rta = await getRoom(this.id)
-    .catch((error) => {
-      this.errorMsg = error[0].toUpperCase() + error.slice(1);
-      console.error(this.errorMsg);
-    });
-    if (rta) {
-      console.log(rta.result);
-      this.room = rta.result;
-    } else {
-      this.error = true;
-    }
-
-    if (!this.error) {
-      let rta = await getRoomDevices(this.room.id)
-      .catch((error) => {
-        this.errorMsg = error[0].toUpperCase() + error.slice(1);
-        console.error(this.errorMsg);
-      });
+    },
+    async getRoomData() {
+      let rta = await getRoom(this.id)
+        .catch((error) => {
+          this.errorMsg = error[0].toUpperCase() + error.slice(1);
+          console.error(this.errorMsg);
+        });
       if (rta) {
-        for (dev of rta.result) {
-          dev.room = {id: this.id, name: this.room.name};
-          this.addToCat(dev);
-        }
-        this.gotData = true;
+        console.log(rta.result);
+        this.room = rta.result;
       } else {
         this.error = true;
       }
+
+      if (!this.error) {
+        let rta = await getRoomDevices(this.room.id)
+          .catch((error) => {
+            this.errorMsg = error[0].toUpperCase() + error.slice(1);
+            console.error(this.errorMsg);
+          });
+        if (rta) {
+          for (dev of rta.result) {
+            dev.room = { id: this.id, name: this.room.name };
+            this.addToCat(dev);
+          }
+          this.gotData = true;
+        } else {
+          this.error = true;
+        }
+      }
     }
+  },
+  async mounted() {
+    this.id = location.search.substr(1).split('+')[0];
+    this.getRoomData();
+    let timer = setInterval(()=> this.getRoomData(), 1000);
+
   }
-  
+
 })

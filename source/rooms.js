@@ -34,7 +34,7 @@ new Vue({
   },
   async mounted() {
     this.getRooms();
-    lettimer = setInterval(()=> this.getRooms(), 1000)
+    let timer = setInterval(()=> this.getRooms(), 1000);
   }
 
 })

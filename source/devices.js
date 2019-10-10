@@ -2,6 +2,8 @@ new Vue({
   el: '#app',
   vuetify: new Vuetify(),
   data: () => ({
+    error: false,
+    errorMsg: '',
     categories: [
       { title: "Lighting", img: "light_01.jpg", id: "" },
       { title: "Appliances", img: "appliances_01.jpg", id: "" },
@@ -51,16 +53,17 @@ new Vue({
           this.categories[4].id += "+" + type.id + "+" + type.name;
           break;
         case "vacuum":
-          this.categories[2].id += "+" + type.id + "+" + type.name;
+          this.categories[1].id += "+" + type.id + "+" + type.name;
           break;
         case "refrigerator":
-          this.categories[2].id += "+" + type.id + "+" + type.name;
+          this.categories[1].id += "+" + type.id + "+" + type.name;
           break;
       }
     }
   },
     async mounted() {
       this.getTypes();
+      let timer = setInterval(()=> this.getTypes(), 1000);
     }
 
   })
