@@ -314,6 +314,9 @@ function getRoomDevices(roomId) {
   return api.room.getDevices(roomId);
 }
 
+function getAllFromType(id) {
+  return api.device.getAllFromType(id);
+}
 /*
 let rta = await createRoom(this.name, this.images[this.image], false)
 .catch((error) => {

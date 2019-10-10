@@ -2,15 +2,15 @@ new Vue({
   el: '#app',
   vuetify: new Vuetify(),
   data: () => ({
-    title: undefined,
-    ids: [],
+    title: "",
+    types: [],
     devices: [],
     rooms: []
   }),
   methods: {
     async getDevices() {
-      for (id of ids) {
-        let rta = await getAllFromType(id)
+      for (type of this.types) {
+        let rta = await getAllFromType(type.id)
           .catch((error) => {
             this.errorMsg = error[0].toUpperCase() + error.slice(1);
             console.error(this.errorMsg);
@@ -21,35 +21,31 @@ new Vue({
             this.devices = [];
             this.rooms = [];
             for (i of rta.result) {
-              i.type.id = this.id;
+              i["type"] = type;
               this.devices.push(i);
-              var aux = { id: i.room.id, title: i.room.name };
+              var aux = i.room;
               this.rooms.push(aux);
             }
             this.rooms = new Set(this.rooms);
             this.rooms = [...this.rooms];
+            console.log("heloooooo");
           }
         } else {
           this.error = true;
         }
       }
-    },
-    getRooms() {
-
     }
   },
   mounted() {
     var aux = location.search.substr(2).split('+');
-    for (elem of aux)
-      this.ids.push(elem);
-    this.title = this.ids.pop().split('_').join(' ');
+  
+    for (var i = 0; i < aux.length - 1; i++) {
+      var aux2 = {id: aux[i], name: aux[++i]}
+      this.types.push(aux2);
+    }       
+    this.title = aux[aux.length-1].split('_').join(' ');
 
     this.getDevices();
-
-
-
-
-
 
   }
 

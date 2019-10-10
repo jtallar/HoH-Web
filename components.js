@@ -1838,7 +1838,7 @@ Vue.component('room-cat', {
 Vue.component('device-bar', {
   props: {
     title: {
-      type: Object,
+      type: String,
       required: true
     }
   },
@@ -1879,7 +1879,7 @@ Vue.component('test', {
     </v-row>
     <v-row>
       <v-col v-for="dev in devices" cols="auto">
-        <dev-btn :name="dev.name" :cat="dev.cat" :room="dev.room"></dev-btn>
+        <dev-btn :device="dev"></dev-btn>
       </v-col>
     </v-row>
   </v-container>`

@@ -5,3 +5,4 @@
 {"_id":"8524a118cfa4a74c","name":"123","typeId":"lsf78ly0eqrjbz91","state":{"status":"closed","lock":"unlocked"},"roomId":"61d8ac195eb1d92c","meta":{"favorite":false}}
 {"_id":"b3a74f1bc1941db3","name":"poapod","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"roomId":"61d8ac195eb1d92c","meta":{"favorite":false}}
 {"$$indexCreated":{"fieldName":"name","unique":true,"sparse":false}}
+{"$$deleted":true,"_id":"2bcc9902fa8cbdce"}
