@@ -24,43 +24,43 @@ new Vue({
           for (i of rta.result) {
             var el = { name: i.name, id: i.id };
             this.types.push(el);
+            this.sortType(el);
           }
-          this.sortTypes();
+          
         }
       } else {
         this.error = true;
       }
     },
-    sortTypes() {
-      for (type of this.types) {
-        switch (type.name) {
-          case "speaker":
-            this.categories[3].id += "+" + type.id;
-            break;
-          case "blinds":
-            this.categories[4].id += "+" + type.id;
-            break;
-          case "lamp":
-            this.categories[0].id += "+" + type.id;
-            break;
-          case "oven":
-            this.categories[1].id += "+" + type.id;
-            break;
-          case "ac":
-            this.categories[2].id += "+" + type.id;
-            break;
-          case "door":
-            this.categories[4].id += "+" + type.id;
-            break;
-          case "vacuum":
-            this.categories[2].id += "+" + type.id;
-            break;
-          case "refrigerator":
-            this.categories[2].id += "+" + type.id;
-            break;
-        }
+    sortType(type) {
+      switch (type.name) {
+        case "speaker":
+          this.categories[3].id += "+" + type.id;
+          break;
+        case "blinds":
+          this.categories[4].id += "+" + type.id;
+          break;
+        case "lamp":
+          this.categories[0].id += "+" + type.id;
+          break;
+        case "oven":
+          this.categories[1].id += "+" + type.id;
+          break;
+        case "ac":
+          this.categories[2].id += "+" + type.id;
+          break;
+        case "door":
+          this.categories[4].id += "+" + type.id;
+          break;
+        case "vacuum":
+          this.categories[2].id += "+" + type.id;
+          break;
+        case "refrigerator":
+          this.categories[2].id += "+" + type.id;
+          break;
       }
     }
+
 
   },
   async mounted() {

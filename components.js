@@ -1834,3 +1834,53 @@ Vue.component('room-cat', {
   mounted() {
   }
 })
+
+Vue.component('device-bar', {
+  props: {
+    title: {
+      type: Object,
+      required: true
+    }
+  },
+  template:
+    `<v-container>
+      <v-row class="align-center">
+        <v-col>
+          <v-btn icon href="devices.html">
+            <v-icon size="40">mdi-arrow-left</v-icon>
+          </v-btn>
+        </v-col>
+        <v-col>
+          <div class="headline ml-5 text-left">{{ title }}</div>
+        </v-col>
+      </v-row>
+    </v-container>` 
+})
+
+Vue.component('test', {
+  props: {
+    room_id: {
+      type: String,
+      required: true
+    },
+    title: {
+      type: String,
+      required: true
+    },
+    devices: {
+      type: Array,
+      required: true
+    }
+  },
+  template:
+  `<v-container>
+    <v-row>
+      <div class="title grey--text text-capitalize mt-4 ml-5">{{ title }}</div>
+    </v-row>
+    <v-row>
+      <v-col v-for="dev in devices" cols="auto">
+        <dev-btn :name="dev.name" :cat="dev.cat" :room="dev.room"></dev-btn>
+      </v-col>
+    </v-row>
+  </v-container>`
+})
