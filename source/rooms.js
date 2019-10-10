@@ -8,6 +8,7 @@ new Vue({
       { title: 'Help' }
     ],
     rooms: [],
+    gotData: false,
     error: false,
     errorMsg: ''
   }),
@@ -26,6 +27,7 @@ new Vue({
             var el = { name: i.name, id: i.id, img: i.meta.image };
             this.rooms.push(el);
           }
+          this.gotData = true;
         }         
       } else {
         this.error = true;
@@ -34,7 +36,7 @@ new Vue({
   },
   async mounted() {
     this.getRooms();
-    lettimer = setInterval(()=> this.getRooms(), 1000)
+    let timer = setInterval(()=> this.getRooms(), 1000);
   }
 
 })

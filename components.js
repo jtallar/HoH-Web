@@ -62,18 +62,9 @@ Vue.component('toolbar', {
 })
 
 Vue.component('panel', {
-  props: {
-    device: {
-      type: String, // HACER ALGO DEPENDIENDO COMO FUNCIONE
-      required: true
-    }
-  },
   data() {
     return {
-      devName: "No Device Selected",
-      devCat: "",
-      devRoom: "Please Select a Device",
-      favorite: false,
+      device: { name: "No Device Selected", room: {name: "Please Select a Device"}, type: {name: ""}, meta: {favorite: false} },
       selected: false
     }
   },
@@ -86,12 +77,12 @@ Vue.component('panel', {
             <v-img eager :src="getImg" contain/>
           </v-list-item-avatar>
           <v-list-item-content>
-            <v-list-item-title class="text-capitalize">{{ devName }}</v-list-item-title>
-            <v-list-item-subtitle class="text-capitalize">{{ devRoom }}</v-list-item-subtitle>
+            <v-list-item-title class="text-capitalize">{{ device.name }}</v-list-item-title>
+            <v-list-item-subtitle class="text-capitalize">{{ device.room.name }}</v-list-item-subtitle>
           </v-list-item-content>
           <v-btn icon @click="toggleFav">
-            <v-icon v-show="favorite && selected">mdi-star</v-icon>
-            <v-icon v-show="!favorite && selected">mdi-star-outline</v-icon>
+            <v-icon v-show="device.meta.favorite && selected">mdi-star</v-icon>
+            <v-icon v-show="!device.meta.favorite && selected">mdi-star-outline</v-icon>
           </v-btn>
           <v-btn icon @click="launchSettings">
             <v-icon v-show="selected">mdi-settings</v-icon>
@@ -105,11 +96,11 @@ Vue.component('panel', {
     </v-navigation-drawer>`,
   methods: {
     toggleFav() {
-      this.favorite = !this.favorite;
-      if (favorite) favDevices.push({
-        devName, devCat, devRoom
-      });
-      console.log(favDevices);
+      // this.device.meta.favorite = !this.device.meta.favorite;
+      // if (this.device.meta.favorite) favDevices.push({
+      //   devName, devCat, devRoom
+      // });
+      // console.log(favDevices);
     },
     launchSettings() {
       // do something here when motherfucker touches settings
@@ -117,7 +108,7 @@ Vue.component('panel', {
   },
   computed: {
     getImg() {
-      switch (this.devCat) {
+      switch (this.device.type.name) {
         case "lamp":
           return './resources/icons/web/lamp_on.svg';
         case "vacuum":
@@ -137,7 +128,7 @@ Vue.component('panel', {
       }
     },
     getPanelContent() {
-      switch (this.devCat) {
+      switch (this.device.type.name) {
         case "lamp":
           return "panel-light";
         case "vacuum":
@@ -160,18 +151,14 @@ Vue.component('panel', {
       return screen.width / 5;
     }
   },
-  mounted() {
-    this.$root.$on('Device Selected', (devName, devRoom, devCat) => {
-      this.devName = devName;
-      this.devCat = devCat;
-      this.devRoom = devRoom;
+  async mounted() {
+    this.$root.$on('Device Selected', (device) => {
+      this.device = device;
       this.selected = true;
-      console.log('Message recieved with ' + this.devName + ' ; ' + this.devCat + ' ; ' + this.devRoom);
+      console.log('Message recieved with ' + this.device);
     });
     this.$root.$on('Device Deselected', () => {
-      this.devName = "No Device Selected";
-      this.devCat = "";
-      this.devRoom = "Please Select a Device";
+      this.device = { name: "No Device Selected", room: {name: "Please Select a Device"}, type: {name: ""}, meta: {favorite: false} };
       this.selected = false;
     });
   }
@@ -229,7 +216,7 @@ Vue.component('card-btn', {
         case "room":
           return "room.html?" + this.id + "+" + this.title.split(' ').join('_');
         case "device":
-          return "device.html?" + this.id + "+" + this.title.split(' ').join('_'); // mejor pasar id del room
+          return "device.html?" + this.id + "+" + this.title.split(' ').join('_');
         default:
             return "home.html"; // no deberia entrar nunca
       }
@@ -339,14 +326,6 @@ Vue.component('routine-btn', {
 
 Vue.component('sel-dev', {
   props: {
-    name: {
-      type: String,
-      required: true
-    },
-    cat: {
-      type: String,
-      required: true
-    },
     room: {
       type: String,
       required: true
@@ -365,7 +344,7 @@ Vue.component('sel-dev', {
     toggleSelected() {
       this.selected = !this.selected;
       if (this.selected) {
-        this.$root.$emit('Device Selected', this.name, this.room, this.cat);
+        this.$root.$emit('Device Selected', this.device);
       } else {
         this.$root.$emit('Device Deselected');
       }
@@ -375,9 +354,7 @@ Vue.component('sel-dev', {
 
   },
   mounted() {
-    this.$root.$on('Device Selected', (name, room, cat) => { // change for id
-      if (this.selected && name !== this.name) this.selected = !this.selected;
-    });
+
   }
 })
 
@@ -407,8 +384,9 @@ Vue.component('dev-btn', {
   methods: {
     toggleSelected() {
       this.selected = !this.selected;
+      console.log(this.device);
       if (this.selected) {
-        this.$root.$emit('Device Selected', this.device.name, this.device.room.name, this.device.type.name);
+        this.$root.$emit('Device Selected', this.device);
       } else {
         this.$root.$emit('Device Deselected');
       }
@@ -472,19 +450,13 @@ Vue.component('dev-btn', {
     }
   },
   mounted() {
-    this.$root.$on('Device Selected', (name, room, cat) => { // change for id
-      if (this.selected && name != this.device.name) this.selected = !this.selected;
+    this.$root.$on('Device Selected', (device) => { // change for id
+      if (this.selected && device.id != this.device.id) this.selected = !this.selected;
     });
   }
 })
 
 Vue.component('panel-light', {
-  props: {
-    device: {
-      type: String,
-      required: true
-    }
-  },
   data() {
     return {
       state: false,
@@ -530,12 +502,6 @@ Vue.component('panel-light', {
 })
 
 Vue.component('panel-oven', {
-  props: {
-    device: {
-      type: String,
-      required: true
-    }
-  },
   data() {
     return {
       state: false,
@@ -613,12 +579,6 @@ Vue.component('panel-oven', {
 })
 
 Vue.component('panel-speaker', {
-  props: {
-    device: {
-      type: String,
-      required: true
-    }
-  },
   data() {
     return {
       state: false,
@@ -737,12 +697,6 @@ Vue.component('panel-speaker', {
 })
 
 Vue.component('panel-door', {
-  props: {
-    device: {
-      type: String,
-      required: true
-    }
-  },
   data() {
     return {
       closed: 0, // 0: closed, 1: open
@@ -781,12 +735,6 @@ Vue.component('panel-door', {
 })
 
 Vue.component('panel-window', {
-  props: {
-    device: {
-      type: String,
-      required: true
-    }
-  },
   data() {
     return {
       closed: 0, // 0: closed, 1: open
@@ -807,12 +755,6 @@ Vue.component('panel-window', {
 })
 
 Vue.component('panel-airconditioner', {
-  props: {
-    device: {
-      type: String,
-      required: true
-    }
-  },
   data() {
     return {
       state: false,
@@ -921,12 +863,6 @@ Vue.component('panel-airconditioner', {
 })
 
 Vue.component('panel-vacuum', {
-  props: {
-    device: {
-      type: String,
-      required: true
-    }
-  },
   data() {
     return {
       state: false,
@@ -1587,12 +1523,6 @@ Vue.component('new-routine', {
 })
 
 Vue.component('panel-none', {
-  props: {
-    device: {
-      type: String,
-      required: true
-    }
-  },
   data() {
     return {
       closed: 0, // 0: closed, 1: open
@@ -1974,4 +1904,54 @@ Vue.component('room-cat', {
       </v-container>`,
   mounted() {
   }
+})
+
+Vue.component('device-bar', {
+  props: {
+    title: {
+      type: String,
+      required: true
+    }
+  },
+  template:
+    `<v-container>
+      <v-row class="align-center">
+        <v-col>
+          <v-btn icon href="devices.html">
+            <v-icon size="40">mdi-arrow-left</v-icon>
+          </v-btn>
+        </v-col>
+        <v-col>
+          <div class="headline ml-5 text-left">{{ title }}</div>
+        </v-col>
+      </v-row>
+    </v-container>` 
+})
+
+Vue.component('test', {
+  props: {
+    room_id: {
+      type: String,
+      required: true
+    },
+    title: {
+      type: String,
+      required: true
+    },
+    devices: {
+      type: Array,
+      required: true
+    }
+  },
+  template:
+  `<v-container>
+    <v-row>
+      <div class="title grey--text text-capitalize mt-4 ml-5">{{ title }}</div>
+    </v-row>
+    <v-row>
+      <v-col v-for="dev in devices" cols="auto">
+        <dev-btn :device="dev"></dev-btn>
+      </v-col>
+    </v-row>
+  </v-container>`
 })

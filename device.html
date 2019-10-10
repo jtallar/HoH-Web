@@ -13,53 +13,22 @@
   <div v-cloak id="app">
     <v-app id="inspire">
       <toolbar :tab="2"></toolbar>
-      <panel device=""></panel>
+      <panel></panel>
       <v-content>
-        <v-container>
-          <v-row class="align-center">
-            <v-col>
-              <v-btn icon href="devices.html">
-                <v-icon size="40">mdi-arrow-left</v-icon>
-              </v-btn>
-            </v-col>
-            <v-col>
-              <div class="headline ml-5 text-left">{{ title }}</div>
-            </v-col>
-          </v-row>
-        </v-container>
+        <device-bar :title="title"></device-bar>
         <v-divider class="mx-5"></v-divider>
 
-        <v-container>
-          <v-row>
-            <div class="title grey--text mt-4 ml-5">Living Room</div>
-          </v-row>
-          <v-row>
-            <v-col v-for="dev in devices" cols="auto">
-              <dev-btn :name="dev.name" :cat="dev.cat" :room="dev.room"></dev-btn>
-            </v-col>
-          </v-row>
-        </v-container>
-
-        <v-container>
-          <v-row>
-            <div class="title grey--text ml-5">Kitchen</div>
-          </v-row>
-          <v-row>
-            <v-col v-for="i in 3" cols="auto">
-              <dev-btn name="Prueba" cat="Air Conditioner" room="Living Room"></dev-btn>
-            </v-col>
-          </v-row>
-        </v-container>
-
+        <div v-for="room in rooms" :key="room.id">
+          <test :room_id="room.id" :title="room.name" :devices="devices"></test>
+        </div>
+       
         <add-btn context="device"></add-btn>
-
       </v-content>
-
     </v-app>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
-  <script src="./source/api.js"></script>
+  <script src="source/api.js"></script>
   <script src="components.js"></script>
   <script src="source/device.js"></script>
 
