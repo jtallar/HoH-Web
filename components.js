@@ -381,17 +381,6 @@ Vue.component('dev-btn', {
         {{ device.name }}
       </div>
     </v-col>`,
-  methods: {
-    toggleSelected() {
-      this.selected = !this.selected;
-      console.log(this.device);
-      if (this.selected) {
-        this.$root.$emit('Device Selected', this.device);
-      } else {
-        this.$root.$emit('Device Deselected');
-      }
-    }
-  },
   computed: {
     getSize() {
       return screen.width / 13; // ver si da limitarlo con max y min
@@ -450,6 +439,15 @@ Vue.component('dev-btn', {
     },
   },
   methods: {
+    toggleSelected() {
+      this.selected = !this.selected;
+      console.log(this.device);
+      if (this.selected) {
+        this.$root.$emit('Device Selected', this.device);
+      } else {
+        this.$root.$emit('Device Deselected');
+      }
+    },
     async getData() {
       let rta = await getDevice(this.device.id)
         .catch((error) => {
