@@ -1,0 +1,2 @@
+{"_id":"59e34e91facdb5a5","timestamp":"2019-10-10T21:10:56.273Z","deviceId":"247e909bee53802e","action":"setBrightness","params":[20],"result":100}
+{"_id":"355d0ce02b02b8aa","timestamp":"2019-10-10T21:26:01.794Z","deviceId":"247e909bee53802e","action":"turnOn","params":[],"result":true}

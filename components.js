@@ -465,15 +465,20 @@ Vue.component('panel-light', {
   },
   data() {
     return {
-      state: undefined,
-      color: undefined,
-      brightness: undefined
+      state: false,
+      color: '#FFF100',
+      brightness: 10,
+      id: undefined,
+      error: false,
+      errorMsg: ''
     }
   },
   watch: { // here we set the new values
     state(newVal, oldVal) {
-      if (newVal == "on") {
-        
+      if (newVal) {
+        this.sendAction(this.id, "turnOn");
+      } else {
+        this.sendAction(this.id, "turnOff");
       }
     },
     color(newVal, oldVal) {
@@ -505,12 +510,22 @@ Vue.component('panel-light', {
         thumb-label="always" thumb-size="25" color="orange" track-color="black" thumb-color="orange darken-2"></v-slider>
     </v-container>`,
   methods: {
-    async sendAction()
+    async sendAction(id, action, param) {
+      let rta = await execAction(id, action, param)
+      .catch((error) => {
+        this.errorMsg = error[0].toUpperCase() + error.slice(1);
+        console.error(this.errorMsg);
+      });
+      if (!rta) {
+        this.error = true;
+      }
+    }
   },
   mounted() {
-    this.state = this.device.state.status;
+    this.state = (this.device.state.status == "on");
     this.color = this.device.state.color;
     this.brightness = this.device.state.brightness;
+    this.id = this.device.id;
   }
 })
 
