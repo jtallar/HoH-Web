@@ -27,8 +27,8 @@ new Vue({
             var el = { name: i.name, id: i.id, img: i.meta.image };
             this.rooms.push(el);
           }
-          this.gotData = true;
-        }         
+        }
+        this.gotData = true;       
       } else {
         this.error = true;
       }
