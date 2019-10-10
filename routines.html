@@ -15,8 +15,8 @@
       <toolbar :tab="3"></toolbar>
       <v-content>
           <v-row justify="center">
-              <v-col v-for="routine in routines" :key="routine.name" cols="auto">
-       <routine-btn :title="routine.name" :img_name="routine.image"></routine-btn>
+              <v-col v-for="routine in routines" :key="routine.id" cols="auto">
+       <routine-btn :title="routine.name" :img_name="routine.meta.img"></routine-btn>
       </v-col>
     </v-row>
 

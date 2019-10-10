@@ -92,7 +92,7 @@ Vue.component('panel', {
       <v-divider class="mx-5"></v-divider>
         
       <!-- information and settings -->
-      <component :is="getPanelContent" :device="device"></component>
+      <component :is="getPanelContent"></component>
     </v-navigation-drawer>`,
   methods: {
     toggleFav() {
@@ -316,7 +316,7 @@ Vue.component('routine-btn', {
       return this.getWidth / this.ratio;
     },
     getImg() {
-      return './resources/images/' + this.img_name + '.jpg';
+      return './resources/images/' + this.img_name;
     },
     getTitle() {
       return this.title; // aca ver de poner max y min caracteres
@@ -457,12 +457,6 @@ Vue.component('dev-btn', {
 })
 
 Vue.component('panel-light', {
-  props: {
-    device: {
-      type: Object,
-      required: true
-    }
-  },
   data() {
     return {
       state: false,
@@ -530,12 +524,6 @@ Vue.component('panel-light', {
 })
 
 Vue.component('panel-oven', {
-  props: {
-    device: {
-      type: Object,
-      required: true
-    }
-  },
   data() {
     return {
       state: false,
@@ -613,12 +601,6 @@ Vue.component('panel-oven', {
 })
 
 Vue.component('panel-speaker', {
-  props: {
-    device: {
-      type: Object,
-      required: true
-    }
-  },
   data() {
     return {
       state: false,
@@ -737,12 +719,6 @@ Vue.component('panel-speaker', {
 })
 
 Vue.component('panel-door', {
-  props: {
-    device: {
-      type: Object,
-      required: true
-    }
-  },
   data() {
     return {
       closed: 0, // 0: closed, 1: open
@@ -781,12 +757,6 @@ Vue.component('panel-door', {
 })
 
 Vue.component('panel-window', {
-  props: {
-    device: {
-      type: Object,
-      required: true
-    }
-  },
   data() {
     return {
       closed: 0, // 0: closed, 1: open
@@ -807,12 +777,6 @@ Vue.component('panel-window', {
 })
 
 Vue.component('panel-airconditioner', {
-  props: {
-    device: {
-      type: Object,
-      required: true
-    }
-  },
   data() {
     return {
       state: false,
@@ -921,12 +885,6 @@ Vue.component('panel-airconditioner', {
 })
 
 Vue.component('panel-vacuum', {
-  props: {
-    device: {
-      type: Object,
-      required: true
-    }
-  },
   data() {
     return {
       state: false,
@@ -1034,7 +992,6 @@ Vue.component('panel-vacuum', {
 })
 
 Vue.component('add-device', {
-
   data() {
     return {
       name: '',
@@ -1196,7 +1153,6 @@ Vue.component('add-device', {
 })
 
 Vue.component('edit-device', {
-
   data() {
     return {
       name: '',
@@ -1358,6 +1314,12 @@ Vue.component('edit-device', {
 })
 
 Vue.component('add-room', {
+  props: {
+    default: {
+      type: String,
+      required: false
+    }
+  },
   data() {
     return {
       name: '',
@@ -1389,12 +1351,12 @@ Vue.component('add-room', {
                   <v-text-field v-model="name" label="Name" :error="errorText" required hint="Between 3 and 60 letters, numbers or spaces." clearable></v-text-field>
                   </v-col>
                   <v-row align="center" fixed>
-                    <v-col cols="3" >
+                    <v-col cols="3" sm="6">
                     <v-btn color="orange" dark @click="sheet = !sheet">
                         Select image...
                     </v-btn>
                     </v-col>
-                    <v-col>
+                    <v-col cols="3" sm="6">
                       <h3>{{ images[image] }}</h3>
                     </v-col>
                   </v-row>
@@ -1522,7 +1484,7 @@ Vue.component('new-routine', {
                 <v-col cols="12" sm="6">
                   <v-select v-model="room" :items="rooms" :value="room" label="Room" required></v-text-field>
                 </v-col>
-                <v-col cols="12" >
+                <v-col cols="12" sm="6">
                   <sel-dev :name="name" :room="room" cat="Light" ></sel-dev>
                 </v-col>
                 <v-col cols="12" >
@@ -1577,12 +1539,6 @@ Vue.component('new-routine', {
 })
 
 Vue.component('panel-none', {
-  props: {
-    device: {
-      type: Object,
-      required: true
-    }
-  },
   data() {
     return {
       closed: 0, // 0: closed, 1: open
@@ -1775,15 +1731,9 @@ Vue.component('room-bar', {
           </v-btn>
         </v-row>
 
-        <component v-show="overlay" :is="getComp" :room="room"> </component>
+        <component v-show="overlay" :is="'edit-room'" :room="room"> </component>
 
       </v-container>`,
-  computed: {
-    getComp () {
-      if (this.room.name.length > 0)
-        return 'edit-room';
-    }
-  },
   methods: {
     async toggleFavorite () {
       this.room.meta.favorite = !this.room.meta.favorite;
@@ -1802,7 +1752,17 @@ Vue.component('room-bar', {
     
   },
   mounted() {
-
+    this.$root.$on('Finished add', (state) => {
+      this.overlay = false;
+      switch(state) {
+        case 0:
+          this.snackbarOk = true;
+          break;
+        case 1:
+          this.snackbarCan = true;
+          break;
+      }
+    });
   }
 })
 
@@ -1819,8 +1779,7 @@ Vue.component('edit-room', {
       overlay: true,
       sheet: false,
       images: ['bedroom_01.jpg', 'bathroom_02.jpg', 'game_room_01.jpg', 'garage_01.jpg', 'kitchen_01.jpg', 'living_01.jpg', 'living_02.jpg', 'kitchen1.jpg'],
-      // image: images.indexOf(this.room.meta.image),
-      image: 0,
+      image: images.indexOf(this.room.meta.image),
       error: false,
       errorText: false,
       errorMsg: ''
@@ -1845,12 +1804,12 @@ Vue.component('edit-room', {
                   <v-text-field v-model="name" label="Name" :error="errorText" required hint="Between 3 and 60 letters, numbers or spaces." clearable></v-text-field>
                   </v-col>
                   <v-row align="center" fixed>
-                    <v-col cols="3" >
+                    <v-col cols="3" sm="6">
                     <v-btn color="orange" dark @click="sheet = !sheet">
                         Select image...
                     </v-btn>
                     </v-col>
-                    <v-col>
+                    <v-col cols="3" sm="6">
                       <h3> {{ images[image] }} </h3>
                     </v-col>
                   </v-row>
@@ -1921,8 +1880,9 @@ Vue.component('edit-room', {
           console.error(this.errorMsg);
         });
         if (rta) {
-          console.log(rta.result);
           this.resetVar();
+          this.$root.$emit('Finished edit', 0);
+          console.log(rta.result);
         } else {
           this.error = true;
         }
@@ -1930,6 +1890,7 @@ Vue.component('edit-room', {
     },
     cancel() {
       this.resetVar();
+      this.$root.$emit('Finished edit', 1);
     },
     resetVar() {
       this.overlay = false;
@@ -1938,7 +1899,6 @@ Vue.component('edit-room', {
     }
   },
   mounted() {
-    console.log(this.room);
     // here we extract all the data
   }
 })
