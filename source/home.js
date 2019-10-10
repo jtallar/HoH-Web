@@ -67,6 +67,7 @@ new Vue({
             this.favRoutines.push(el);
           }
         }
+        this.gotData = true;
       } else {
         this.error = true;
       }
