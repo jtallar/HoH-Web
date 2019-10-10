@@ -44,7 +44,7 @@ new Vue({
         });
       if (rta) {
         this.favDevices = [];
-        for (i of rta.result) {
+        for (i of rta.devices) {
           if (i.meta.favorite) {
             this.favDevices.push(i);
           }

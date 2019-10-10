@@ -1763,9 +1763,15 @@ Vue.component('room-bar', {
           </v-btn>
         </v-row>
 
-        <component v-show="overlay" :is="'edit-room'":room="room"> </component>
+        <component v-show="overlay" :is="getComp" :room="room"> </component>
 
       </v-container>`,
+  computed: {
+    getComp () {
+      if (this.room.name.length > 0)
+        return 'edit-room';
+    }
+  },
   methods: {
     async toggleFavorite () {
       this.room.meta.favorite = !this.room.meta.favorite;
@@ -1801,7 +1807,8 @@ Vue.component('edit-room', {
       overlay: true,
       sheet: false,
       images: ['bedroom_01.jpg', 'bathroom_02.jpg', 'game_room_01.jpg', 'garage_01.jpg', 'kitchen_01.jpg', 'living_01.jpg', 'living_02.jpg', 'kitchen1.jpg'],
-      image: images.indexOf(this.room.meta.image),
+      // image: images.indexOf(this.room.meta.image),
+      image: 0,
       error: false,
       errorText: false,
       errorMsg: ''
@@ -1816,7 +1823,7 @@ Vue.component('edit-room', {
       <v-overlay>
       <v-card max-width="700" light>
           <v-card-title>
-              <span class="headline">Edit {{this.room.name}}</span>
+              <span class="headline">Edit {{room.name}}</span>
           </v-card-title>
           
           <v-card-text>
@@ -1920,6 +1927,7 @@ Vue.component('edit-room', {
     }
   },
   mounted() {
+    console.log(this.room);
     // here we extract all the data
   }
 })

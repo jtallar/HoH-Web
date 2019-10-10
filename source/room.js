@@ -66,6 +66,11 @@ new Vue({
             console.error(this.errorMsg);
           });
         if (rta) {
+          this.lighting = [];
+          this.entertainment = [];
+          this.appliances = [];
+          this.airconditioners = [];
+          this.doorswindows = [];
           for (dev of rta.result) {
             dev.room = { id: this.id, name: this.room.name };
             this.addToCat(dev);
