@@ -316,7 +316,7 @@ Vue.component('routine-btn', {
       return this.getWidth / this.ratio;
     },
     getImg() {
-      return './resources/images/' + this.img_name + '.jpg';
+      return './resources/images/' + this.img_name;
     },
     getTitle() {
       return this.title; // aca ver de poner max y min caracteres
@@ -970,7 +970,6 @@ Vue.component('panel-vacuum', {
 })
 
 Vue.component('add-device', {
-
   data() {
     return {
       name: '',
@@ -1132,7 +1131,6 @@ Vue.component('add-device', {
 })
 
 Vue.component('edit-device', {
-
   data() {
     return {
       name: '',
@@ -1294,6 +1292,12 @@ Vue.component('edit-device', {
 })
 
 Vue.component('add-room', {
+  props: {
+    default: {
+      type: String,
+      required: false
+    }
+  },
   data() {
     return {
       name: '',
