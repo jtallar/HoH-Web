@@ -1389,12 +1389,12 @@ Vue.component('add-room', {
                   <v-text-field v-model="name" label="Name" :error="errorText" required hint="Between 3 and 60 letters, numbers or spaces." clearable></v-text-field>
                   </v-col>
                   <v-row align="center" fixed>
-                    <v-col cols="3" >
+                    <v-col cols="3" sm="6">
                     <v-btn color="orange" dark @click="sheet = !sheet">
                         Select image...
                     </v-btn>
                     </v-col>
-                    <v-col>
+                    <v-col cols="3" sm="6">
                       <h3>{{ images[image] }}</h3>
                     </v-col>
                   </v-row>
@@ -1796,7 +1796,17 @@ Vue.component('room-bar', {
     
   },
   mounted() {
-
+    this.$root.$on('Finished add', (state) => {
+      this.overlay = false;
+      switch(state) {
+        case 0:
+          this.snackbarOk = true;
+          break;
+        case 1:
+          this.snackbarCan = true;
+          break;
+      }
+    });
   }
 })
 
@@ -1839,12 +1849,12 @@ Vue.component('edit-room', {
                   <v-text-field v-model="name" label="Name" :error="errorText" required hint="Between 3 and 60 letters, numbers or spaces." clearable></v-text-field>
                   </v-col>
                   <v-row align="center" fixed>
-                    <v-col cols="3" >
+                    <v-col cols="3" sm="6" >
                     <v-btn color="orange" dark @click="sheet = !sheet">
                         Select image...
                     </v-btn>
                     </v-col>
-                    <v-col>
+                    <v-col cols="3" sm="6">
                       <h3> {{ images[image] }} </h3>
                     </v-col>
                   </v-row>
@@ -1916,6 +1926,7 @@ Vue.component('edit-room', {
         });
         if (rta) {
           console.log(rta.result);
+          this.$root.$emit('Finished add', 0);
           this.resetVar();
         } else {
           this.error = true;
@@ -1924,6 +1935,7 @@ Vue.component('edit-room', {
     },
     cancel() {
       this.resetVar();
+      this.$root.$emit('Finished add', 1);
     },
     resetVar() {
       this.overlay = false;
