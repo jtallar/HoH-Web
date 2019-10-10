@@ -1624,3 +1624,33 @@ Vue.component('room-bar', {
 
   }
 })
+
+Vue.component('room-cat', {
+  props: {
+    devices: {
+      type: Array,
+      required: true
+    },
+    category: {
+      type: String,
+      required: true
+    }
+  },
+  data() {
+    return {
+    }
+  },
+  template:
+    ` <v-container>
+        <v-row>
+          <div class="title grey--text mt-4 ml-5">{{category}}</div>
+        </v-row>
+        <v-row>
+          <v-col v-for="dev in devices" :key="dev.id" cols="auto">
+            <dev-btn :name="dev.name" :cat="dev.type.name" :room="dev.room.name"></dev-btn>
+          </v-col>
+        </v-row>
+      </v-container>`,
+  mounted() {
+  }
+})
