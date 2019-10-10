@@ -53,7 +53,6 @@ new Vue({
           console.error(this.errorMsg);
         });
       if (rta) {
-        console.log(rta.result);
         this.room = rta.result;
       } else {
         this.error = true;
