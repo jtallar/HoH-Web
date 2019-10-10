@@ -92,7 +92,7 @@ Vue.component('panel', {
       <v-divider class="mx-5"></v-divider>
         
       <!-- information and settings -->
-      <component :is="getPanelContent"></component>
+      <component :is="getPanelContent" :device="device"></component>
     </v-navigation-drawer>`,
   methods: {
     toggleFav() {
@@ -457,6 +457,12 @@ Vue.component('dev-btn', {
 })
 
 Vue.component('panel-light', {
+  props: {
+    device: {
+      type: Object,
+      required: true
+    }
+  },
   data() {
     return {
       state: undefined,
@@ -499,9 +505,7 @@ Vue.component('panel-light', {
         thumb-label="always" thumb-size="25" color="orange" track-color="black" thumb-color="orange darken-2"></v-slider>
     </v-container>`,
   methods: {
-    async sendAction() {
-      
-    }
+    async sendAction()
   },
   mounted() {
     this.state = this.device.state.status;
@@ -511,6 +515,12 @@ Vue.component('panel-light', {
 })
 
 Vue.component('panel-oven', {
+  props: {
+    device: {
+      type: Object,
+      required: true
+    }
+  },
   data() {
     return {
       state: false,
@@ -588,6 +598,12 @@ Vue.component('panel-oven', {
 })
 
 Vue.component('panel-speaker', {
+  props: {
+    device: {
+      type: Object,
+      required: true
+    }
+  },
   data() {
     return {
       state: false,
@@ -706,6 +722,12 @@ Vue.component('panel-speaker', {
 })
 
 Vue.component('panel-door', {
+  props: {
+    device: {
+      type: Object,
+      required: true
+    }
+  },
   data() {
     return {
       closed: 0, // 0: closed, 1: open
@@ -744,6 +766,12 @@ Vue.component('panel-door', {
 })
 
 Vue.component('panel-window', {
+  props: {
+    device: {
+      type: Object,
+      required: true
+    }
+  },
   data() {
     return {
       closed: 0, // 0: closed, 1: open
@@ -764,6 +792,12 @@ Vue.component('panel-window', {
 })
 
 Vue.component('panel-airconditioner', {
+  props: {
+    device: {
+      type: Object,
+      required: true
+    }
+  },
   data() {
     return {
       state: false,
@@ -872,6 +906,12 @@ Vue.component('panel-airconditioner', {
 })
 
 Vue.component('panel-vacuum', {
+  props: {
+    device: {
+      type: Object,
+      required: true
+    }
+  },
   data() {
     return {
       state: false,
@@ -1522,6 +1562,12 @@ Vue.component('new-routine', {
 })
 
 Vue.component('panel-none', {
+  props: {
+    device: {
+      type: Object,
+      required: true
+    }
+  },
   data() {
     return {
       closed: 0, // 0: closed, 1: open
@@ -1714,9 +1760,15 @@ Vue.component('room-bar', {
           </v-btn>
         </v-row>
 
-        <component v-show="overlay" :is="'edit-room'" :room="room"> </component>
+        <component v-show="overlay" :is="getComp" :room="room"> </component>
 
       </v-container>`,
+  computed: {
+    getComp () {
+      if (this.room.name.length > 0)
+        return 'edit-room';
+    }
+  },
   methods: {
     async toggleFavorite () {
       this.room.meta.favorite = !this.room.meta.favorite;
@@ -1735,17 +1787,7 @@ Vue.component('room-bar', {
     
   },
   mounted() {
-    this.$root.$on('Finished add', (state) => {
-      this.overlay = false;
-      switch(state) {
-        case 0:
-          this.snackbarOk = true;
-          break;
-        case 1:
-          this.snackbarCan = true;
-          break;
-      }
-    });
+
   }
 })
 
@@ -1762,7 +1804,8 @@ Vue.component('edit-room', {
       overlay: true,
       sheet: false,
       images: ['bedroom_01.jpg', 'bathroom_02.jpg', 'game_room_01.jpg', 'garage_01.jpg', 'kitchen_01.jpg', 'living_01.jpg', 'living_02.jpg', 'kitchen1.jpg'],
-      image: images.indexOf(this.room.meta.image),
+      // image: images.indexOf(this.room.meta.image),
+      image: 0,
       error: false,
       errorText: false,
       errorMsg: ''
@@ -1863,9 +1906,8 @@ Vue.component('edit-room', {
           console.error(this.errorMsg);
         });
         if (rta) {
-          this.resetVar();
-          this.$root.$emit('Finished edit', 0);
           console.log(rta.result);
+          this.resetVar();
         } else {
           this.error = true;
         }
@@ -1873,7 +1915,6 @@ Vue.component('edit-room', {
     },
     cancel() {
       this.resetVar();
-      this.$root.$emit('Finished edit', 1);
     },
     resetVar() {
       this.overlay = false;
@@ -1882,6 +1923,7 @@ Vue.component('edit-room', {
     }
   },
   mounted() {
+    console.log(this.room);
     // here we extract all the data
   }
 })
