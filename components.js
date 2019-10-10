@@ -381,17 +381,6 @@ Vue.component('dev-btn', {
         {{ device.name }}
       </div>
     </v-col>`,
-  methods: {
-    toggleSelected() {
-      this.selected = !this.selected;
-      console.log(this.device);
-      if (this.selected) {
-        this.$root.$emit('Device Selected', this.device);
-      } else {
-        this.$root.$emit('Device Deselected');
-      }
-    }
-  },
   computed: {
     getSize() {
       return screen.width / 13; // ver si da limitarlo con max y min
@@ -447,12 +436,39 @@ Vue.component('dev-btn', {
         default:
           return './resources/icons/generic/close.svg';
       }
+    },
+  },
+  methods: {
+    toggleSelected() {
+      this.selected = !this.selected;
+      console.log(this.device);
+      if (this.selected) {
+        this.$root.$emit('Device Selected', this.device);
+      } else {
+        this.$root.$emit('Device Deselected');
+      }
+    },
+    async getData() {
+      let rta = await getDevice(this.device.id)
+        .catch((error) => {
+          this.errorMsg = error[0].toUpperCase() + error.slice(1);
+          console.error(this.errorMsg);
+        });
+      if (rta) {
+        console.log(rta.result);
+        if (rta.result.length >= 1)
+            this.device = rta.result;
+      } else {
+        this.error = true;
+      }
     }
   },
-  mounted() {
+  async mounted() {
     this.$root.$on('Device Selected', (device) => { // change for id
       if (this.selected && device.id != this.device.id) this.selected = !this.selected;
     });
+    this.getData();
+    let timer = setInterval(()=> this.getData(), 1000);
   }
 })
 

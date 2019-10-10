@@ -1,12 +1,3 @@
 {"$$indexCreated":{"fieldName":"name","unique":true,"sparse":false}}
-<<<<<<< HEAD
-{"_id":"e8f819b99dc6d0eb","name":"12132","typeId":"c89b94e8581855bc","state":{"status":"stopped","volume":5,"genre":"pop","songIndex":0,"playingSince":null,"pausedSince":null,"pausedInteval":0},"meta":{"favorite":false}}
-{"_id":"e8f819b99dc6d0eb","name":"12132","typeId":"c89b94e8581855bc","state":{"status":"stopped","volume":5,"genre":"pop","songIndex":0,"playingSince":null,"pausedSince":null,"pausedInteval":0},"roomId":"61d8ac195eb1d92c","meta":{"favorite":false}}
-{"_id":"e8f819b99dc6d0eb","name":"12132","typeId":"c89b94e8581855bc","state":{"status":"stopped","volume":5,"genre":"pop","songIndex":0,"playingSince":null,"pausedSince":null,"pausedInteval":0},"roomId":"61d8ac195eb1d92c","meta":{"favorite":true}}
-{"_id":"247e909bee53802e","name":"Lampara","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"meta":{"favorite":false}}
-{"_id":"247e909bee53802e","name":"Lampara","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"roomId":"61d8ac195eb1d92c","meta":{"favorite":false}}
-=======
-{"$$deleted":true,"_id":"2bcc9902fa8cbdce"}
->>>>>>> 00f9ebaba070e4b02244b4425f98459848ca5731
-{"_id":"247e909bee53802e","name":"Lampara","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":20},"roomId":"61d8ac195eb1d92c","meta":{"favorite":false}}
-{"_id":"247e909bee53802e","name":"Lampara","typeId":"go46xmbqeomjrsjr","state":{"status":"on","color":"FFFFFF","brightness":20},"roomId":"61d8ac195eb1d92c","meta":{"favorite":false}}
+{"_id":"d3f9b868404dc579","name":"Floor Lamp","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"meta":{"favorite":false}}
+{"_id":"d3f9b868404dc579","name":"Floor Lamp","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"roomId":"d9a07c9dd52e80ec","meta":{"favorite":false}}
