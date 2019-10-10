@@ -1787,7 +1787,17 @@ Vue.component('room-bar', {
     
   },
   mounted() {
-
+    this.$root.$on('Finished add', (state) => {
+      this.overlay = false;
+      switch(state) {
+        case 0:
+          this.snackbarOk = true;
+          break;
+        case 1:
+          this.snackbarCan = true;
+          break;
+      }
+    });
   }
 })
 
@@ -1907,6 +1917,7 @@ Vue.component('edit-room', {
         });
         if (rta) {
           console.log(rta.result);
+          this.$root.$emit('Finished add', 0);
           this.resetVar();
         } else {
           this.error = true;
@@ -1915,6 +1926,7 @@ Vue.component('edit-room', {
     },
     cancel() {
       this.resetVar();
+      this.$root.$emit('Finished add', 1);
     },
     resetVar() {
       this.overlay = false;
