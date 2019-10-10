@@ -22,7 +22,7 @@ var api = class {
           return response.json();
         })
         .then((data) => {
-          if (data.result) {
+          if (data.result || data.devices) {
             resolve(data);
           } else{
             reject(`${data.error.description}`);
@@ -141,6 +141,10 @@ api.device = class {
     "type": {
       "id": "go46xmbqeomjrsjr",
       "name": "lamp"
+    },
+    "room": {
+      "id": "61d8ac195eb1d92c",
+      "name": "JULI"
     },
     "state": {
       "status": "off",
@@ -312,6 +316,10 @@ function modifyRoom(room) {
 
 function getRoomDevices(roomId) {
   return api.room.getDevices(roomId);
+}
+
+function getDevice(id) {
+  return api.device.get(id);
 }
 
 /*

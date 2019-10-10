@@ -19,7 +19,7 @@
             <v-col v-for="room in rooms" :key="room.id" cols="auto"> 
               <card-btn type="room" :title="room.name" :img_name="room.img" :id="room.id"></card-btn>
             </v-col>
-            <v-col cols="auto">
+            <v-col v-if="rooms.length === 0 && gotData" cols="auto">
               <no-card text="No Rooms created!"></no-card>
             </v-col>
           </v-row>
