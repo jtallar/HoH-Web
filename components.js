@@ -1610,12 +1610,6 @@ Vue.component('panel-none', {
         <v-card-text>There are some tabs so you can find your devices faster! 
         Just click on them and choose the category you need.</v-card-text>
       </v-card>
-        
-      <v-card dark class="mb-5 ma-1">
-        <v-card-title>Search</v-card-title>
-        <v-card-text>If you can't find a specific device, routine or room
-        you can search it by cicking in the search icon on the top right of the page.</v-card-text>
-      </v-card>  
     </v-container>`,
   mounted() {
     // here we extract all the data
