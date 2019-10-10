@@ -1343,8 +1343,6 @@ Vue.component('add-room', {
       sheet: false,
       images: ['bedroom_01.jpg', 'bathroom_02.jpg', 'game_room_01.jpg', 'garage_01.jpg', 'kitchen_01.jpg', 'living_01.jpg', 'living_02.jpg', 'kitchen1.jpg'],
       image: undefined,
-      floors: ['First', 'Second', 'Other'],
-      floor: 'First',
       error: false,
       errorText: false,
       errorMsg: ''
@@ -1367,9 +1365,6 @@ Vue.component('add-room', {
               <v-row>
                   <v-col cols="12">
                   <v-text-field v-model="name" label="Name" :error="errorText" required hint="Between 3 and 60 letters, numbers or spaces." clearable></v-text-field>
-                  </v-col>
-                  <v-col cols="12" >
-                  <v-select v-model="floor" :items="floors" :value="floor" label="Floor" required></v-select>
                   </v-col>
                   <v-row align="center" fixed>
                     <v-col cols="3" >
@@ -1475,8 +1470,6 @@ Vue.component('new-routine', {
       snackbarCan: false,
       snackbarOk: false,
       sheet: false,
-      floors: ['First', 'Second', 'Other'],
-      floor: 'First',
       rooms: ['Living Room', 'Kitchen', 'Bathroom', 'Garage', 'Bedroom', 'Entertainement'],
       room: 'Living Room',
       devices: ['Light 1', 'Light 2', 'Oven', 'Aire Aconditioner'],
@@ -1503,9 +1496,6 @@ Vue.component('new-routine', {
             <v-row>
                 <v-col cols="12">
                   <v-text-field v-model="desc" label="Action Description" required></v-text-field>
-                </v-col>
-                <v-col cols="12" sm="6">
-                  <v-select v-model="floor" :items="floors" :value="floor" label="Floor" required></v-select>
                 </v-col>
                 <v-col cols="12" sm="6">
                   <v-select v-model="room" :items="rooms" :value="room" label="Room" required></v-text-field>
@@ -1887,7 +1877,6 @@ Vue.component('edit-room', {
     </v-container>`,
 
   methods: {
-
     async apply () {
       if (this.name.length < 3 || this.name.length > 60) {
         this.errorMsg = 'Name must have between 3 and 60 characters!';
