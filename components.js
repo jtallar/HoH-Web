@@ -92,7 +92,7 @@ Vue.component('panel', {
       <v-divider class="mx-5"></v-divider>
         
       <!-- information and settings -->
-      <component :is="getPanelContent"></component>
+      <component :is="getPanelContent" :device="device"></component>
     </v-navigation-drawer>`,
   methods: {
     toggleFav() {
@@ -457,6 +457,12 @@ Vue.component('dev-btn', {
 })
 
 Vue.component('panel-light', {
+  props: {
+    device: {
+      type: Object,
+      required: true
+    }
+  },
   data() {
     return {
       state: false,
@@ -502,6 +508,12 @@ Vue.component('panel-light', {
 })
 
 Vue.component('panel-oven', {
+  props: {
+    device: {
+      type: Object,
+      required: true
+    }
+  },
   data() {
     return {
       state: false,
@@ -579,6 +591,12 @@ Vue.component('panel-oven', {
 })
 
 Vue.component('panel-speaker', {
+  props: {
+    device: {
+      type: Object,
+      required: true
+    }
+  },
   data() {
     return {
       state: false,
@@ -697,6 +715,12 @@ Vue.component('panel-speaker', {
 })
 
 Vue.component('panel-door', {
+  props: {
+    device: {
+      type: Object,
+      required: true
+    }
+  },
   data() {
     return {
       closed: 0, // 0: closed, 1: open
@@ -735,6 +759,12 @@ Vue.component('panel-door', {
 })
 
 Vue.component('panel-window', {
+  props: {
+    device: {
+      type: Object,
+      required: true
+    }
+  },
   data() {
     return {
       closed: 0, // 0: closed, 1: open
@@ -755,6 +785,12 @@ Vue.component('panel-window', {
 })
 
 Vue.component('panel-airconditioner', {
+  props: {
+    device: {
+      type: Object,
+      required: true
+    }
+  },
   data() {
     return {
       state: false,
@@ -863,6 +899,12 @@ Vue.component('panel-airconditioner', {
 })
 
 Vue.component('panel-vacuum', {
+  props: {
+    device: {
+      type: Object,
+      required: true
+    }
+  },
   data() {
     return {
       state: false,
@@ -1523,6 +1565,12 @@ Vue.component('new-routine', {
 })
 
 Vue.component('panel-none', {
+  props: {
+    device: {
+      type: Object,
+      required: true
+    }
+  },
   data() {
     return {
       closed: 0, // 0: closed, 1: open
