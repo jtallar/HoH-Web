@@ -465,14 +465,16 @@ Vue.component('panel-light', {
   },
   data() {
     return {
-      state: false,
-      color: '#FFF100',
-      brightness: 10
+      state: undefined,
+      color: undefined,
+      brightness: undefined
     }
   },
   watch: { // here we set the new values
     state(newVal, oldVal) {
-
+      if (newVal == "on") {
+        
+      }
     },
     color(newVal, oldVal) {
 
@@ -502,8 +504,15 @@ Vue.component('panel-light', {
       <v-slider v-model="brightness" class="mt-4" prepend-icon="mdi-brightness-6" 
         thumb-label="always" thumb-size="25" color="orange" track-color="black" thumb-color="orange darken-2"></v-slider>
     </v-container>`,
+  methods: {
+    async sendAction() {
+      
+    }
+  },
   mounted() {
-    // here we extract all the data
+    this.state = this.device.state.status;
+    this.color = this.device.state.color;
+    this.brightness = this.device.state.brightness;
   }
 })
 
