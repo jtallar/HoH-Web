@@ -2,14 +2,17 @@ new Vue({
   el: '#app',
   vuetify: new Vuetify(),
   data: () => ({
-<<<<<<< HEAD
-    types: [],
-=======
-    room: {name: '', meta: {image: '', favorite: false} },
+    room: { name: '', meta: { image: '', favorite: false } },
+    id: undefined,
     error: false,
     errorMsg: '',
-    favorite: false,
->>>>>>> 1f4d8e20f204f9f087db7bd103a7213fa81bac08
+    gotData: false,
+    lighting: [],
+    appliances: [],
+    entertainment: [],
+    airconditioners: [],
+    doorswindows: [],
+    types: [],
     devices: [
       { name: 'prueba0', cat: 'Air Conditioner', room: 'Living Room' },
       { name: 'prueba1', cat: 'Door', room: 'Bathroom' },
@@ -20,25 +23,33 @@ new Vue({
       { name: 'prueba6', cat: 'Window', room: 'Living Room' }
     ]
   }),
-  methods: {
-    async toggleFavorite () {
-      this.room.meta.favorite = !this.room.meta.favorite;
-      console.log(this.room);
-      let rta = await modifyRoom(this.room)
-      .catch((error) => {
-        this.errorMsg = error[0].toUpperCase() + error.slice(1);
-        console.error(this.errorMsg);
-      });
-      if (rta) {
-        console.log(rta.result);
-      } else {
-        this.error = true;
+  methods : {
+    addToCat(device) {
+      switch (device.type.name) {
+        case "lamp":
+          this.lighting.push(device);
+          break;
+        case "door":
+        case "blinds":
+          this.doorswindows.push(device);
+          break;
+        case "speaker":
+          this.entertainment.push(device);
+          break;
+        case "oven":
+        case "refrigerator":
+        case "vacuum":
+          this.appliances.push(device);
+          break;
+        case "ac":
+          this.airconditioners.push(device);
+          break;
       }
     }
   },
   async mounted () {
-    let id = location.search.substr(1);
-    let rta = await getRoom(id)
+    this.id = location.search.substr(1).split('+')[0];
+    let rta = await getRoom(this.id)
     .catch((error) => {
       this.errorMsg = error[0].toUpperCase() + error.slice(1);
       console.error(this.errorMsg);
@@ -48,6 +59,23 @@ new Vue({
       this.room = rta.result;
     } else {
       this.error = true;
+    }
+
+    if (!this.error) {
+      let rta = await getRoomDevices(this.room.id)
+      .catch((error) => {
+        this.errorMsg = error[0].toUpperCase() + error.slice(1);
+        console.error(this.errorMsg);
+      });
+      if (rta) {
+        for (dev of rta.result) {
+          dev.room = {id: this.id, name: this.room.name};
+          this.addToCat(dev);
+        }
+        this.gotData = true;
+      } else {
+        this.error = true;
+      }
     }
   }
   

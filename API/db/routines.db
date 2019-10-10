@@ -1,1 +1,2 @@
+{"_id":"55a26464791fafe4","name":"good night","actions":[{"device":{"id":"2bcc9902fa8cbdce"},"actionName":"stop","params":[],"meta":{}}],"meta":{}}
 {"$$indexCreated":{"fieldName":"name","unique":true,"sparse":false}}

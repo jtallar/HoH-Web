@@ -307,13 +307,11 @@ function getRoom(id) {
 }
 
 function modifyRoom(room) {
-  return api.room.modify({
-    "name": room.name,
-    "meta": {
-      "image": room.meta.image,
-      "favorite": room.meta.fav
-    }
-  });
+  return api.room.modify(room);
+}
+
+function getRoomDevices(roomId) {
+  return api.room.getDevices(roomId);
 }
 
 /*

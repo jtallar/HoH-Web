@@ -118,19 +118,19 @@ Vue.component('panel', {
   computed: {
     getImg() {
       switch (this.devCat) {
-        case "Light":
+        case "lamp":
           return './resources/icons/web/lamp_on.svg';
-        case "Vacuum":
+        case "vacuum":
           return './resources/icons/web/vacuum_on.svg';
-        case "Air Conditioner":
+        case "ac":
           return './resources/icons/web/air_conditioner_on.svg';
-        case "Door":
+        case "door":
           return './resources/icons/web/door_closed.svg';
-        case "Window":
+        case "blinds":
           return './resources/icons/web/window_closed.svg';
-        case "Speaker":
+        case "speaker":
           return './resources/icons/web/speaker_playing.svg';
-        case "Oven":
+        case "oven":
           return './resources/icons/web/oven_on.svg';
         default:
           return './resources/icons/generic/close.svg';
@@ -138,19 +138,19 @@ Vue.component('panel', {
     },
     getPanelContent() {
       switch (this.devCat) {
-        case "Light":
+        case "lamp":
           return "panel-light";
-        case "Vacuum":
+        case "vacuum":
           return "panel-vacuum";
-        case "Air Conditioner":
+        case "ac":
           return "panel-airconditioner";
-        case "Door":
+        case "door":
           return "panel-door";
-        case "Window":
+        case "blinds":
           return "panel-window";
-        case "Speaker":
+        case "speaker":
           return "panel-speaker";
-        case "Oven":
+        case "oven":
           return "panel-oven";
         default:
           return "panel-none";
@@ -274,12 +274,12 @@ Vue.component('routine-btn', {
       snackbarOk: false,
       dialog: false,
       minWidth: 100,
-      maxWidth: 400,
-      
+      maxWidth: 400
     }
   },
   template:
     `<v-container fluid>
+
       <v-dialog v-model="dialog" persistent width="410">
         <template v-slot:activator="{ on }">
           <v-btn v-on="on" tile class="ma-3" :width="getWidth" :height="getHeight" >
@@ -292,6 +292,7 @@ Vue.component('routine-btn', {
             </v-img>
           </v-btn>
         </template>
+        
         <v-card>
           <v-card-title/>
           <v-card-text class="body-1">Are you sure you want to execute this routine?</v-card-text>
@@ -302,12 +303,14 @@ Vue.component('routine-btn', {
           </v-card-actions>
         </v-card>
       </v-dialog>
+
       <v-snackbar @click="accept()" v-model="snackbarOk"> Routine has been executed!
         <v-btn color="green" text @click="snackbarOk = false"> OK </v-btn>
       </v-snackbar>
       <v-snackbar v-model="snackbarCan" > Operation cancelled.
         <v-btn color="red" text @click="snackbarCan = false"> OK </v-btn>
-      </v-snackbar>   
+      </v-snackbar> 
+
     </v-container>`,
   methods: {
     current(name) {
@@ -380,16 +383,8 @@ Vue.component('sel-dev', {
 
 Vue.component('dev-btn', {
   props: {
-    name: {
-      type: String,
-      required: true
-    },
-    cat: {
-      type: String,
-      required: true
-    },
-    room: {
-      type: String,
+    device: {
+      type: Object,
       required: true
     }
   },
@@ -402,18 +397,18 @@ Vue.component('dev-btn', {
     `<v-col class="text-center">
       <v-btn class="mb-1" :outlined="!selected" :width="getSize" :height="getSize" fab color="grey darken-4" @click="toggleSelected">
         <div>
-          <v-img :width="getIconSize" :src="getImg"/>
+          <v-img :max-width="getIconSize" :src="getImg" contain/>
         </div>
       </v-btn>
       <div class="text-capitalize black--text font-weight-light mb-1">
-        {{ name }}
+        {{ device.name }}
       </div>
     </v-col>`,
   methods: {
     toggleSelected() {
       this.selected = !this.selected;
       if (this.selected) {
-        this.$root.$emit('Device Selected', this.name, this.room, this.cat);
+        this.$root.$emit('Device Selected', this.device.name, this.device.room.name, this.device.type.name);
       } else {
         this.$root.$emit('Device Deselected');
       }
@@ -423,31 +418,54 @@ Vue.component('dev-btn', {
     getSize() {
       return screen.width / 13; // ver si da limitarlo con max y min
     },
-    getIcon() {
-      return './resources/icons/web/' + this.icon_name + '.svg';
-    },
     getIconSize() {
       return this.getSize / 2;
     },
     getName() {
-      return this.name; // aca ver de poner max y min caracteres
+      return this.device.name; // aca ver de poner max y min caracteres
     },
     getImg() {
-      switch (this.cat) {
-        case "Light":
-          return './resources/icons/web/lamp_on.svg';
-        case "Vacuum":
-          return './resources/icons/web/vacuum_on.svg';
-        case "Air Conditioner":
-          return './resources/icons/web/air_conditioner_on.svg';
-        case "Door":
-          return './resources/icons/web/door_closed.svg';
-        case "Window":
-          return './resources/icons/web/window_closed.svg';
-        case "Speaker":
-          return './resources/icons/web/speaker_playing.svg';
-        case "Oven":
-          return './resources/icons/web/oven_on.svg';
+      let stat = this.device.state.status;
+      switch (this.device.type.name) {
+        case "lamp":
+          if(stat === "on")
+            return './resources/icons/web/lamp_on.svg';
+          else 
+            return './resources/icons/web/lamp_off.svg';
+        case "vacuum":
+          if(stat === "on")
+            return './resources/icons/web/vacuum_on.svg';
+          else 
+            return './resources/icons/web/vacuum_off.svg';
+        case "ac":
+          if(stat === "on")
+            return './resources/icons/web/air_conditioner_on.svg';
+          else
+            return './resources/icons/web/air_conditioner_off.svg';
+        case "door":
+          if(stat === "closed")
+            return './resources/icons/web/door_closed.svg';
+          else{ 
+            if(stat === "opened")
+              return './resources/icons/web/door_opened.svg'; // NO EXISTS
+            else
+              return './resources/icons/web/door_locked.svg'; // NO EXISTS
+          }
+        case "blinds":
+          if(stat === "closed")
+            return './resources/icons/web/window_closed.svg';
+          else 
+            return './resources/icons/web/window_open.svg';
+        case "speaker":
+          if(stat === "playing")
+            return './resources/icons/web/speaker_playing.svg';
+          else
+            return './resources/icons/web/speaker_off.svg';
+        case "oven":
+          if(stat === "on")
+            return './resources/icons/web/oven_on.svg';
+          else
+            return './resources/icons/web/oven_off.svg';
         default:
           return './resources/icons/generic/close.svg';
       }
@@ -455,7 +473,7 @@ Vue.component('dev-btn', {
   },
   mounted() {
     this.$root.$on('Device Selected', (name, room, cat) => { // change for id
-      if (this.selected && name !== this.name) this.selected = !this.selected;
+      if (this.selected && name != this.device.name) this.selected = !this.selected;
     });
   }
 })
@@ -777,7 +795,7 @@ Vue.component('panel-window', {
   template:
     `<v-container fluid>
       <v-layout column align-center>
-        <v-btn-toggle v-model="text" tile color="orange darken-2" group mandatory>
+        <v-btn-toggle v-model="closed" tile color="orange darken-2" group mandatory>
             <v-btn>Closed</v-btn>
             <v-btn>Open</v-btn>
         </v-btn-toggle>
@@ -1041,6 +1059,168 @@ Vue.component('add-device', {
         <v-card v-show="noRooms == 1" max-width="700" light>
           <v-card-title>
               <span class="headline">Add Device</span>
+          </v-card-title>
+          <v-card-text>
+              <v-container>
+              <v-row>
+                  <v-col cols="12">
+                  <v-text-field v-model="name" label="Name" :error="errorText" required hint="Between 3 and 60 letters, numbers or spaces." clearable></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6">
+                      <v-select v-model="room" :items="rooms" item-text="name" item-value="id" :value="room" label="Room" required></v-select>
+                  </v-col>
+                  <v-col cols="12" sm="6">
+                      <v-select v-model="type" :items="types" item-text="name" item-value="id" :value="type" label="Type" required></v-select>
+                  </v-col>
+              </v-row>
+              </v-container>
+          </v-card-text>
+          <v-card-actions>
+              <div class="flex-grow-1"></div>
+              <v-btn color="red darken-1" text @click="cancel()">Cancel</v-btn>
+              <v-btn color="green darken-1" text @click="accept()">Create</v-btn>
+          </v-card-actions>
+        </v-card>
+        <v-card v-show="noRooms == 2" max-width="700" max-height="200" light justify-center>
+          <v-card-title/>
+          <v-row class="align-center">
+            <v-col class="ml-4" cols="2">
+              <v-img src="./resources/images/error.png" width="50"></v-img>
+            </v-col>
+            <v-col cols="9">
+              <v-card-text class="body-1">Please create a room before adding devices</v-card-text>
+            </v-col>
+          </v-row>
+          <v-card-actions>
+            <div class="flex-grow-1"></div>
+            <v-btn color="red darken-1" text @click="okNoRooms()">OK</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-overlay>
+      <v-snackbar v-model="error" > {{ errorMsg }}
+        <v-btn color="red" text @click="error = false; errorText = false"> OK </v-btn>
+      </v-snackbar>
+     
+    </v-container>`,
+  methods: {
+    async accept() {
+      if (this.name.length < 3 || this.name.length > 60) {
+        this.errorMsg = 'Name must have between 3 and 60 characters!';
+        this.error = true;
+        this.errorText = true;
+      } else if (!/^([a-zA-Z0-9 _]+)$/.test(this.name)) {
+        this.errorMsg = 'Name must have letters, numbers or spaces!';
+        this.error = true;
+        this.errorText = true;
+      } else {
+        /* Crear device y luego agregar a room */
+        console.log(this.type);
+        let rta = await createDevice(this.name, this.type, false)
+        .catch((error) => {
+          this.errorMsg = error[0].toUpperCase() + error.slice(1);
+          console.error(this.errorMsg);
+        });
+        console.log(rta);
+        if (rta) {
+          let rta2 = await addDeviceToRoom(this.room, rta.result.id)
+          .catch((error) => {
+            this.errorMsg = error[0].toUpperCase() + error.slice(1);
+            console.error(this.errorMsg);
+          });
+          if (rta2) {
+            this.resetVar();
+            this.$root.$emit('Finished add', 0);
+          } else {
+            this.error = true;  
+          }
+        } else {
+          this.error = true;
+        }
+      }
+    },
+    cancel() {
+      this.resetVar();
+      this.$root.$emit('Finished add', 1);
+    },
+    okNoRooms() {
+      this.resetVar();
+      this.$root.$emit('Finished add', 2);
+    },
+    resetVar() {
+      this.overlay = false;
+      this.name = '';
+      this.errorText = false;
+    }
+  },
+  async mounted() {
+    // here we extract all the data
+    let rta = await getAll("Room")
+    .catch((error) => {
+      this.errorMsg = error[0].toUpperCase() + error.slice(1);
+      console.error(this.errorMsg);
+    });
+    if (rta) {
+      if (rta.result.length >= 1) {
+        console.log(rta.result);
+        for (i of rta.result) {
+          var el = { name: i.name, id: i.id };
+          this.rooms.push(el);
+        }
+        this.room = this.rooms[0].id;
+
+        let rta2 = await getAll("Type")
+        .catch((error) => {
+          this.errorMsg = error[0].toUpperCase() + error.slice(1);
+          console.error(this.errorMsg);
+        });
+        if (rta2) {
+          for (i of rta2.result) {
+            if (i.name != 'alarm' && i.name != 'refrigerator') {
+              let el = { name: i.name[0].toUpperCase() + i.name.slice(1), id: i.id };
+              this.types.push(el);
+            }
+          }
+          this.type = this.types[0].id;
+          this.overlay = true;
+          this.noRooms = 1;
+        } else {
+          this.error = true;
+        }
+      } else {
+        this.noRooms = 2;
+      }
+    } else {
+      this.error = true;
+    }
+  }
+})
+
+Vue.component('edit-device', {
+
+  data() {
+    return {
+      name: '',
+      overlay: false,
+      rooms: [],
+      room: undefined,
+      types: [],
+      typedIds: [],
+      type: undefined,
+      error: false,
+      errorText: false,
+      errorMsg: '',
+      noRooms: 0 // 0: sin cargar ; 1: hay rooms ; 2: no hay rooms
+    }
+  },
+  watch: { // here we set the new values
+
+  },
+  template:
+    `<v-container fluid>
+      <v-overlay>
+        <v-card v-show="noRooms == 1" max-width="700" light>
+          <v-card-title>
+              <span class="headline">Edit Device</span>
           </v-card-title>
           <v-card-text>
               <v-container>
@@ -1570,4 +1750,87 @@ Vue.component('toolbar-login', {
             </v-btn>
           </template>
         </v-app-bar>`,
+})
+
+Vue.component('room-bar', {
+  props: {
+    room: {
+      type: Object,
+      required: true
+    }
+  },
+  data() {
+    return {
+    }
+  },
+  template:
+    ` <v-container>
+        <v-row class="align-center">
+          <v-col>
+            <v-btn icon href="rooms.html">
+              <v-icon size="40">mdi-arrow-left</v-icon>
+            </v-btn>
+          </v-col>
+          <v-col>
+              <div class="headline ml-5 text-left">{{ room.name }}</div>
+          </v-col>
+          <v-btn right class="ml-5" icon @click="toggleFavorite">
+            <v-icon v-show="room.meta.favorite" size="40">mdi-star</v-icon>
+            <v-icon v-show="!room.meta.favorite" size="40">mdi-star-outline</v-icon>
+          </v-btn>
+
+          <v-btn right class="mx-5" icon href="rooms.html">
+            <v-icon size="35">mdi-settings</v-icon>
+          </v-btn>
+        </v-row>
+      </v-container>`,
+  methods: {
+    async toggleFavorite () {
+      this.room.meta.favorite = !this.room.meta.favorite;
+      console.log(this.room);
+      let rta = await modifyRoom(this.room)
+      .catch((error) => {
+        this.errorMsg = error[0].toUpperCase() + error.slice(1);
+        console.error(this.errorMsg);
+      });
+      if (rta) {
+        console.log(rta.result);
+      } else {
+        this.error = true;
+      }
+    }
+  },
+  mounted() {
+
+  }
+})
+
+Vue.component('room-cat', {
+  props: {
+    devices: {
+      type: Array,
+      required: true
+    },
+    category: {
+      type: String,
+      required: true
+    }
+  },
+  data() {
+    return {
+    }
+  },
+  template:
+    ` <v-container>
+        <v-row>
+          <div class="title grey--text mt-4 ml-5">{{category}}</div>
+        </v-row>
+        <v-row>
+          <v-col v-for="dev in devices" :key="dev.id" cols="auto">
+            <dev-btn :device="dev"></dev-btn>
+          </v-col>
+        </v-row>
+      </v-container>`,
+  mounted() {
+  }
 })
