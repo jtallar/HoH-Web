@@ -637,7 +637,7 @@ Vue.component('panel-speaker', {
   },
   data() {
     return {
-      state: false,
+      state: undefined,
       playlist: true,
       elapsed_time: '2:05', // should be a number
       song_name: 'No Song in Queue',
