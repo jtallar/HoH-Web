@@ -302,6 +302,14 @@ function createDevice(name, type, fav) {
   })
 }
 
+function deleteRoom(id){
+  return api.room.delete(id);
+}
+
+function deleteDevice(id){
+  return api.device.delete(id);
+}
+
 function addDeviceToRoom(roomId, deviceId) {
   return api.room.addDevice(roomId, deviceId);
 }

@@ -64,7 +64,7 @@ Vue.component('toolbar', {
 Vue.component('panel', {
   data() {
     return {
-      device: { name: "No Device Selected", room: {name: "Please Select a Device"}, type: {name: ""}, meta: {favorite: false} },
+      device: { name: "No Device Selected", room: { name: "Please Select a Device" }, type: { name: "" }, meta: { favorite: false } },
       selected: false
     }
   },
@@ -158,7 +158,7 @@ Vue.component('panel', {
       console.log('Message recieved with ' + this.device);
     });
     this.$root.$on('Device Deselected', () => {
-      this.device = { name: "No Device Selected", room: {name: "Please Select a Device"}, type: {name: ""}, meta: {favorite: false} };
+      this.device = { name: "No Device Selected", room: { name: "Please Select a Device" }, type: { name: "" }, meta: { favorite: false } };
       this.selected = false;
     });
   }
@@ -218,7 +218,7 @@ Vue.component('card-btn', {
         case "device":
           return "device.html?" + this.id + "+" + this.title.split(' ').join('_');
         default:
-            return "home.html"; // no deberia entrar nunca
+          return "home.html"; // no deberia entrar nunca
       }
     },
     getWidth() {
@@ -406,41 +406,41 @@ Vue.component('dev-btn', {
       let stat = this.device.state.status;
       switch (this.device.type.name) {
         case "lamp":
-          if(stat === "on")
+          if (stat === "on")
             return './resources/icons/web/lamp_on.svg';
-          else 
+          else
             return './resources/icons/web/lamp_off.svg';
         case "vacuum":
-          if(stat === "on")
+          if (stat === "on")
             return './resources/icons/web/vacuum_on.svg';
-          else 
+          else
             return './resources/icons/web/vacuum_off.svg';
         case "ac":
-          if(stat === "on")
+          if (stat === "on")
             return './resources/icons/web/air_conditioner_on.svg';
           else
             return './resources/icons/web/air_conditioner_off.svg';
         case "door":
-          if(stat === "closed")
+          if (stat === "closed")
             return './resources/icons/web/door_closed.svg';
-          else{ 
-            if(stat === "opened")
+          else {
+            if (stat === "opened")
               return './resources/icons/web/door_opened.svg'; // NO EXISTS
             else
               return './resources/icons/web/door_locked.svg'; // NO EXISTS
           }
         case "blinds":
-          if(stat === "closed")
+          if (stat === "closed")
             return './resources/icons/web/window_closed.svg';
-          else 
+          else
             return './resources/icons/web/window_open.svg';
         case "speaker":
-          if(stat === "playing")
+          if (stat === "playing")
             return './resources/icons/web/speaker_playing.svg';
           else
             return './resources/icons/web/speaker_off.svg';
         case "oven":
-          if(stat === "on")
+          if (stat === "on")
             return './resources/icons/web/oven_on.svg';
           else
             return './resources/icons/web/oven_off.svg';
@@ -512,10 +512,10 @@ Vue.component('panel-light', {
   methods: {
     async sendAction(id, action, param) {
       let rta = await execAction(id, action, param)
-      .catch((error) => {
-        this.errorMsg = error[0].toUpperCase() + error.slice(1);
-        console.error(this.errorMsg);
-      });
+        .catch((error) => {
+          this.errorMsg = error[0].toUpperCase() + error.slice(1);
+          console.error(this.errorMsg);
+        });
       if (!rta) {
         this.error = true;
       }
@@ -1015,10 +1015,10 @@ Vue.component('panel-vacuum', {
   },
   async mounted() {
     let rta = await getAll("Room")
-    .catch((error) => {
-      this.errorMsg = error[0].toUpperCase() + error.slice(1);
-      console.error(this.errorMsg);
-    });;
+      .catch((error) => {
+        this.errorMsg = error[0].toUpperCase() + error.slice(1);
+        console.error(this.errorMsg);
+      });;
     if (rta) {
       for (i of rta.result) {
         this.rooms.push(i.name);
@@ -1028,7 +1028,7 @@ Vue.component('panel-vacuum', {
     }
 
     if (!this.error) {
-      
+
     }
   }
 })
@@ -1116,22 +1116,22 @@ Vue.component('add-device', {
         /* Crear device y luego agregar a room */
         console.log(this.type);
         let rta = await createDevice(this.name, this.type, false)
-        .catch((error) => {
-          this.errorMsg = error[0].toUpperCase() + error.slice(1);
-          console.error(this.errorMsg);
-        });
-        console.log(rta);
-        if (rta) {
-          let rta2 = await addDeviceToRoom(this.room, rta.result.id)
           .catch((error) => {
             this.errorMsg = error[0].toUpperCase() + error.slice(1);
             console.error(this.errorMsg);
           });
+        console.log(rta);
+        if (rta) {
+          let rta2 = await addDeviceToRoom(this.room, rta.result.id)
+            .catch((error) => {
+              this.errorMsg = error[0].toUpperCase() + error.slice(1);
+              console.error(this.errorMsg);
+            });
           if (rta2) {
             this.resetVar();
             this.$root.$emit('Finished add', 0);
           } else {
-            this.error = true;  
+            this.error = true;
           }
         } else {
           this.error = true;
@@ -1155,10 +1155,10 @@ Vue.component('add-device', {
   async mounted() {
     // here we extract all the data
     let rta = await getAll("Room")
-    .catch((error) => {
-      this.errorMsg = error[0].toUpperCase() + error.slice(1);
-      console.error(this.errorMsg);
-    });
+      .catch((error) => {
+        this.errorMsg = error[0].toUpperCase() + error.slice(1);
+        console.error(this.errorMsg);
+      });
     if (rta) {
       if (rta.result.length >= 1) {
         console.log(rta.result);
@@ -1169,10 +1169,10 @@ Vue.component('add-device', {
         this.room = this.rooms[0].id;
 
         let rta2 = await getAll("Type")
-        .catch((error) => {
-          this.errorMsg = error[0].toUpperCase() + error.slice(1);
-          console.error(this.errorMsg);
-        });
+          .catch((error) => {
+            this.errorMsg = error[0].toUpperCase() + error.slice(1);
+            console.error(this.errorMsg);
+          });
         if (rta2) {
           for (i of rta2.result) {
             if (i.name != 'alarm' && i.name != 'refrigerator') {
@@ -1278,22 +1278,22 @@ Vue.component('edit-device', {
         /* Crear device y luego agregar a room */
         console.log(this.type);
         let rta = await createDevice(this.name, this.type, false)
-        .catch((error) => {
-          this.errorMsg = error[0].toUpperCase() + error.slice(1);
-          console.error(this.errorMsg);
-        });
-        console.log(rta);
-        if (rta) {
-          let rta2 = await addDeviceToRoom(this.room, rta.result.id)
           .catch((error) => {
             this.errorMsg = error[0].toUpperCase() + error.slice(1);
             console.error(this.errorMsg);
           });
+        console.log(rta);
+        if (rta) {
+          let rta2 = await addDeviceToRoom(this.room, rta.result.id)
+            .catch((error) => {
+              this.errorMsg = error[0].toUpperCase() + error.slice(1);
+              console.error(this.errorMsg);
+            });
           if (rta2) {
             this.resetVar();
             this.$root.$emit('Finished add', 0);
           } else {
-            this.error = true;  
+            this.error = true;
           }
         } else {
           this.error = true;
@@ -1317,10 +1317,10 @@ Vue.component('edit-device', {
   async mounted() {
     // here we extract all the data
     let rta = await getAll("Room")
-    .catch((error) => {
-      this.errorMsg = error[0].toUpperCase() + error.slice(1);
-      console.error(this.errorMsg);
-    });
+      .catch((error) => {
+        this.errorMsg = error[0].toUpperCase() + error.slice(1);
+        console.error(this.errorMsg);
+      });
     if (rta) {
       if (rta.result.length >= 1) {
         console.log(rta.result);
@@ -1331,10 +1331,10 @@ Vue.component('edit-device', {
         this.room = this.rooms[0].id;
 
         let rta2 = await getAll("Type")
-        .catch((error) => {
-          this.errorMsg = error[0].toUpperCase() + error.slice(1);
-          console.error(this.errorMsg);
-        });
+          .catch((error) => {
+            this.errorMsg = error[0].toUpperCase() + error.slice(1);
+            console.error(this.errorMsg);
+          });
         if (rta2) {
           for (i of rta2.result) {
             if (i.name != 'alarm' && i.name != 'refrigerator') {
@@ -1377,7 +1377,7 @@ Vue.component('add-room', {
     `<v-container fluid>
 
       <v-overlay>
-      <v-card max-width="700" light>
+      <v-card width="700" light>
           <v-card-title>
               <span class="headline">Add Room</span>
           </v-card-title>
@@ -1389,12 +1389,12 @@ Vue.component('add-room', {
                   <v-text-field v-model="name" label="Name" :error="errorText" required hint="Between 3 and 60 letters, numbers or spaces." clearable></v-text-field>
                   </v-col>
                   <v-row align="center" fixed>
-                    <v-col cols="3" sm="6">
+                    <v-col cols="4">
                     <v-btn color="orange" dark @click="sheet = !sheet">
                         Select image...
                     </v-btn>
                     </v-col>
-                    <v-col cols="3" sm="6">
+                    <v-col cols="8" >
                       <h3>{{ images[image] }}</h3>
                     </v-col>
                   </v-row>
@@ -1455,10 +1455,10 @@ Vue.component('add-room', {
         this.error = true;
       } else {
         let rta = await createRoom(this.name, this.images[this.image], false)
-        .catch((error) => {
-          this.errorMsg = error[0].toUpperCase() + error.slice(1);
-          console.error(this.errorMsg);
-        });
+          .catch((error) => {
+            this.errorMsg = error[0].toUpperCase() + error.slice(1);
+            console.error(this.errorMsg);
+          });
         if (rta) {
           this.resetVar();
           this.$root.$emit('Finished add', 0);
@@ -1627,7 +1627,8 @@ Vue.component('add-btn', {
     return {
       overlay: false,
       snackbarCan: false,
-      snackbarOk: false
+      snackbarOk: false,
+      snackbarMsg: ''
     }
   },
   template:
@@ -1663,13 +1664,24 @@ Vue.component('add-btn', {
     }
   },
   mounted() {
+    // Convendria recibir state (error o no error para color) y mensaje
     this.$root.$on('Finished add', (state) => {
       this.overlay = false;
-      switch(state) {
+      switch (state) {
         case 0:
+          this.snackbarMsg = 'Successfully created!';
           this.snackbarOk = true;
           break;
         case 1:
+          this.snackbarMsg = 'Operation cancelled!';
+          this.snackbarCan = true;
+          break;
+        case 2:
+          this.snackbarMsg = 'Successfully edited!';
+          this.snackbarCan = true;
+          break;
+        case 3:
+          this.snackbarMsg = 'Successfully deleted!';
           this.snackbarCan = true;
           break;
       }
@@ -1697,14 +1709,14 @@ Vue.component('no-card', {
       <v-card-title></v-card-title>
       <v-card-title class="headline ma-5 justify-center">{{text}}</v-card-title>
     </v-card>`,
-    computed: {
-      getWidth() {
-        return screen.width / this.width; // ver si da limitarlo con max y min
-      },
-      getHeight() {
-        return screen.width/ 6 / this.ratio;
-      },
-    }
+  computed: {
+    getWidth() {
+      return screen.width / this.width; // ver si da limitarlo con max y min
+    },
+    getHeight() {
+      return screen.width / 6 / this.ratio;
+    },
+  }
 })
 
 Vue.component('toolbar-login', {
@@ -1773,32 +1785,32 @@ Vue.component('room-bar', {
 
       </v-container>`,
   computed: {
-    getComp () {
+    getComp() {
       if (this.room.name.length > 0)
         return 'edit-room';
     }
   },
   methods: {
-    async toggleFavorite () {
+    async toggleFavorite() {
       this.room.meta.favorite = !this.room.meta.favorite;
       console.log(this.room);
       let rta = await modifyRoom(this.room)
-      .catch((error) => {
-        this.errorMsg = error[0].toUpperCase() + error.slice(1);
-        console.error(this.errorMsg);
-      });
+        .catch((error) => {
+          this.errorMsg = error[0].toUpperCase() + error.slice(1);
+          console.error(this.errorMsg);
+        });
       if (rta) {
         console.log(rta.result);
       } else {
         this.error = true;
       }
     }
-    
+
   },
   mounted() {
     this.$root.$on('Finished add', (state) => {
       this.overlay = false;
-      switch(state) {
+      switch (state) {
         case 0:
           this.snackbarOk = true;
           break;
@@ -1823,7 +1835,6 @@ Vue.component('edit-room', {
       overlay: true,
       sheet: false,
       images: ['bedroom_01.jpg', 'bathroom_02.jpg', 'game_room_01.jpg', 'garage_01.jpg', 'kitchen_01.jpg', 'living_01.jpg', 'living_02.jpg', 'kitchen1.jpg'],
-      // image: images.indexOf(this.room.meta.image),
       image: 0,
       error: false,
       errorText: false,
@@ -1837,9 +1848,14 @@ Vue.component('edit-room', {
     `<v-container fluid>
 
       <v-overlay>
-      <v-card max-width="700" light>
+      <v-card width="700" light>
           <v-card-title>
               <span class="headline">Edit {{room.name}}</span>
+              <v-row justify="end">
+              <v-btn right class="mx-5" icon @click="delete()">
+                <v-icon size="30">mdi-delete</v-icon>
+              </v-btn>
+              </v-row>
           </v-card-title>
           
           <v-card-text>
@@ -1849,12 +1865,12 @@ Vue.component('edit-room', {
                   <v-text-field v-model="name" label="Name" :error="errorText" required hint="Between 3 and 60 letters, numbers or spaces." clearable></v-text-field>
                   </v-col>
                   <v-row align="center" fixed>
-                    <v-col cols="3" sm="6" >
+                    <v-col cols="4" >
                     <v-btn color="orange" dark @click="sheet = !sheet">
                         Select image...
                     </v-btn>
                     </v-col>
-                    <v-col cols="3" sm="6">
+                    <v-col cols="8">
                       <h3> {{ images[image] }} </h3>
                     </v-col>
                   </v-row>
@@ -1903,7 +1919,7 @@ Vue.component('edit-room', {
     </v-container>`,
 
   methods: {
-    async apply () {
+    async apply() {
       if (this.name.length < 3 || this.name.length > 60) {
         this.errorMsg = 'Name must have between 3 and 60 characters!';
         this.error = true;
@@ -1920,13 +1936,13 @@ Vue.component('edit-room', {
         this.room.meta.image = images[image];
         console.log(this.room);
         let rta = await modifyRoom(this.room)
-        .catch((error) => {
-          this.errorMsg = error[0].toUpperCase() + error.slice(1);
-          console.error(this.errorMsg);
-        });
+          .catch((error) => {
+            this.errorMsg = error[0].toUpperCase() + error.slice(1);
+            console.error(this.errorMsg);
+          });
         if (rta) {
           console.log(rta.result);
-          this.$root.$emit('Finished add', 0);
+          this.$root.$emit('Finished add', 2);
           this.resetVar();
         } else {
           this.error = true;
@@ -1937,6 +1953,45 @@ Vue.component('edit-room', {
       this.resetVar();
       this.$root.$emit('Finished add', 1);
     },
+    async removeDev(id) {
+      let rta = await deleteDevice(id)
+      .catch((error) => {
+        this.errorMsg = error[0].toUpperCase() + error.slice(1);
+        console.error(this.errorMsg);
+      });
+      if (!rta) {
+        this.error = true;
+      }
+    },
+    async delete() {
+      let rta = await getRoomDevices(this.room.id)
+      .catch((error) => {
+        this.errorMsg = error[0].toUpperCase() + error.slice(1);
+        console.error(this.errorMsg);
+      });
+      if (rta) {
+        for (dev of rta.result) {
+          this.removeDev(dev.id);
+        }
+      } else {
+        this.error = true;
+      }
+
+      if (!this.error) {
+        let rta = await deleteRoom(this.room.id)
+        .catch((error) => {
+          this.errorMsg = error[0].toUpperCase() + error.slice(1);
+          console.error(this.errorMsg);
+        });
+        if (rta) {
+          console.log(rta.result);
+          this.$root.$emit('Finished add', 3);
+          this.resetVar();
+        } else {
+          this.error = true;
+        }
+      }
+    },
     resetVar() {
       this.overlay = false;
       this.error = false;
@@ -1945,6 +2000,7 @@ Vue.component('edit-room', {
   },
   mounted() {
     console.log(this.room);
+    this.image = images.indexOf(this.room.meta.image);
     // here we extract all the data
   }
 })
@@ -1998,7 +2054,7 @@ Vue.component('device-bar', {
           <div class="headline ml-5 text-left">{{ title }}</div>
         </v-col>
       </v-row>
-    </v-container>` 
+    </v-container>`
 })
 
 Vue.component('test', {
@@ -2017,7 +2073,7 @@ Vue.component('test', {
     }
   },
   template:
-  `<v-container>
+    `<v-container>
     <v-row>
       <div class="title grey--text text-capitalize mt-4 ml-5">{{ title }}</div>
     </v-row>
