@@ -1917,7 +1917,7 @@ Vue.component('edit-room', {
         this.error = true;
       } else {
         this.room.name = this.name;
-        this.room.meta.image = images[image];
+        this.room.meta.image = this.images[this.image];
         console.log(this.room);
         let rta = await modifyRoom(this.room)
         .catch((error) => {
