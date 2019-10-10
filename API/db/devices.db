@@ -1,8 +1,10 @@
-{"_id":"15590c7cdddbfb29","name":"ADASE","typeId":"c89b94e8581855bc","state":{"status":"stopped","volume":5,"genre":"pop","songIndex":0,"playingSince":null,"pausedSince":null,"pausedInteval":0},"roomId":"61d8ac195eb1d92c","meta":{"favorite":false}}
-{"_id":"24770aa96238d29e","name":"ventana","typeId":"eu0v2xgprrhhg41g","state":{"status":"opened","actionEndBy":null,"actionTimerIndex":null},"roomId":"61d8ac195eb1d92c","meta":{"favorite":false}}
-{"_id":"2bcc9902fa8cbdce","name":"Bose","typeId":"c89b94e8581855bc","state":{"status":"playing","volume":5,"genre":"pop","songIndex":0,"playingSince":1570642530899,"pausedSince":null,"pausedInteval":0},"meta":{"favorite":false}}
-{"_id":"40f1c69191abd227","name":"horno","typeId":"im77xxyulpegfmv8","state":{"status":"off","temperature":90,"heat":"conventional","grill":"off","convection":"off"},"roomId":"61d8ac195eb1d92c","meta":{"favorite":false}}
-{"_id":"8524a118cfa4a74c","name":"123","typeId":"lsf78ly0eqrjbz91","state":{"status":"closed","lock":"unlocked"},"roomId":"61d8ac195eb1d92c","meta":{"favorite":false}}
-{"_id":"b3a74f1bc1941db3","name":"poapod","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"roomId":"61d8ac195eb1d92c","meta":{"favorite":false}}
 {"$$indexCreated":{"fieldName":"name","unique":true,"sparse":false}}
+<<<<<<< HEAD
+{"_id":"e8f819b99dc6d0eb","name":"12132","typeId":"c89b94e8581855bc","state":{"status":"stopped","volume":5,"genre":"pop","songIndex":0,"playingSince":null,"pausedSince":null,"pausedInteval":0},"meta":{"favorite":false}}
+{"_id":"e8f819b99dc6d0eb","name":"12132","typeId":"c89b94e8581855bc","state":{"status":"stopped","volume":5,"genre":"pop","songIndex":0,"playingSince":null,"pausedSince":null,"pausedInteval":0},"roomId":"61d8ac195eb1d92c","meta":{"favorite":false}}
+{"_id":"e8f819b99dc6d0eb","name":"12132","typeId":"c89b94e8581855bc","state":{"status":"stopped","volume":5,"genre":"pop","songIndex":0,"playingSince":null,"pausedSince":null,"pausedInteval":0},"roomId":"61d8ac195eb1d92c","meta":{"favorite":true}}
+{"_id":"247e909bee53802e","name":"Lampara","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"meta":{"favorite":false}}
+{"_id":"247e909bee53802e","name":"Lampara","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"roomId":"61d8ac195eb1d92c","meta":{"favorite":false}}
+=======
 {"$$deleted":true,"_id":"2bcc9902fa8cbdce"}
+>>>>>>> 00f9ebaba070e4b02244b4425f98459848ca5731

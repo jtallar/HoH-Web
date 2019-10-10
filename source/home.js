@@ -9,7 +9,10 @@ new Vue({
     ],
     favDevices: [],
     favRooms: [],
-    favRoutines: []
+    favRoutines: [],
+    gotData: false,
+    error: false,
+    errorMsg: ''
   }),
   methods: {
     async getFavRooms() {
