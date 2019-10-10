@@ -1305,8 +1305,6 @@ Vue.component('add-room', {
       sheet: false,
       images: ['bedroom_01.jpg', 'bathroom_02.jpg', 'game_room_01.jpg', 'garage_01.jpg', 'kitchen_01.jpg', 'living_01.jpg', 'living_02.jpg', 'kitchen1.jpg'],
       image: undefined,
-      floors: ['First', 'Second', 'Other'],
-      floor: 'First',
       error: false,
       errorText: false,
       errorMsg: ''
@@ -1330,16 +1328,13 @@ Vue.component('add-room', {
                   <v-col cols="12">
                   <v-text-field v-model="name" label="Name" :error="errorText" required hint="Between 3 and 60 letters, numbers or spaces." clearable></v-text-field>
                   </v-col>
-                  <v-col cols="12" >
-                  <v-select v-model="floor" :items="floors" :value="floor" label="Floor" required></v-select>
-                  </v-col>
                   <v-row align="center" fixed>
-                    <v-col cols="3" >
+                    <v-col cols="3" sm="6">
                     <v-btn color="orange" dark @click="sheet = !sheet">
                         Select image...
                     </v-btn>
                     </v-col>
-                    <v-col>
+                    <v-col cols="3" sm="6">
                       <h3>{{ images[image] }}</h3>
                     </v-col>
                   </v-row>
@@ -1437,8 +1432,6 @@ Vue.component('new-routine', {
       snackbarCan: false,
       snackbarOk: false,
       sheet: false,
-      floors: ['First', 'Second', 'Other'],
-      floor: 'First',
       rooms: ['Living Room', 'Kitchen', 'Bathroom', 'Garage', 'Bedroom', 'Entertainement'],
       room: 'Living Room',
       devices: ['Light 1', 'Light 2', 'Oven', 'Aire Aconditioner'],
@@ -1467,12 +1460,9 @@ Vue.component('new-routine', {
                   <v-text-field v-model="desc" label="Action Description" required></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="6">
-                  <v-select v-model="floor" :items="floors" :value="floor" label="Floor" required></v-select>
-                </v-col>
-                <v-col cols="12" sm="6">
                   <v-select v-model="room" :items="rooms" :value="room" label="Room" required></v-text-field>
                 </v-col>
-                <v-col cols="12" >
+                <v-col cols="12" sm="6">
                   <sel-dev :name="name" :room="room" cat="Light" ></sel-dev>
                 </v-col>
                 <v-col cols="12" >
@@ -1695,6 +1685,7 @@ Vue.component('room-bar', {
   },
   data() {
     return {
+      overlay: false
     }
   },
   template:
@@ -1713,10 +1704,13 @@ Vue.component('room-bar', {
             <v-icon v-show="!room.meta.favorite" size="40">mdi-star-outline</v-icon>
           </v-btn>
 
-          <v-btn right class="mx-5" icon href="rooms.html">
+          <v-btn right class="mx-5" icon @click="overlay = true">
             <v-icon size="35">mdi-settings</v-icon>
           </v-btn>
         </v-row>
+
+        <component v-show="overlay" :is="'edit-room'" :room="room"> </component>
+
       </v-container>`,
   methods: {
     async toggleFavorite () {
@@ -1733,9 +1727,157 @@ Vue.component('room-bar', {
         this.error = true;
       }
     }
+    
   },
   mounted() {
+    this.$root.$on('Finished add', (state) => {
+      this.overlay = false;
+      switch(state) {
+        case 0:
+          this.snackbarOk = true;
+          break;
+        case 1:
+          this.snackbarCan = true;
+          break;
+      }
+    });
+  }
+})
 
+Vue.component('edit-room', {
+  props: {
+    room: {
+      type: Object,
+      required: true
+    }
+  },
+  data() {
+    return {
+      name: this.room.name,
+      overlay: true,
+      sheet: false,
+      images: ['bedroom_01.jpg', 'bathroom_02.jpg', 'game_room_01.jpg', 'garage_01.jpg', 'kitchen_01.jpg', 'living_01.jpg', 'living_02.jpg', 'kitchen1.jpg'],
+      image: images.indexOf(this.room.meta.image),
+      error: false,
+      errorText: false,
+      errorMsg: ''
+    }
+  },
+  watch: { // here we set the new values
+
+  },
+  template:
+    `<v-container fluid>
+
+      <v-overlay>
+      <v-card max-width="700" light>
+          <v-card-title>
+              <span class="headline">Edit {{room.name}}</span>
+          </v-card-title>
+          
+          <v-card-text>
+              <v-container>
+              <v-row>
+                  <v-col cols="12">
+                  <v-text-field v-model="name" label="Name" :error="errorText" required hint="Between 3 and 60 letters, numbers or spaces." clearable></v-text-field>
+                  </v-col>
+                  <v-row align="center" fixed>
+                    <v-col cols="3" sm="6">
+                    <v-btn color="orange" dark @click="sheet = !sheet">
+                        Select image...
+                    </v-btn>
+                    </v-col>
+                    <v-col cols="3" sm="6">
+                      <h3> {{ images[image] }} </h3>
+                    </v-col>
+                  </v-row>
+              </v-row>
+              </v-container>
+          </v-card-text>
+          
+          <v-bottom-sheet v-model="sheet">
+          <v-sheet  dark class="text-center" height="500px">
+              <v-card dark max-width="15000" class="mx-auto">
+                  <v-container class="pa-1">
+                      <v-item-group v-model="image">
+                          <v-row>
+                          <v-col v-for="(item, i) in images" :key="i" cols="12" md="2">
+                              <v-item v-slot:default="{ active, toggle }">
+                              <v-img :src="\`./resources/images/\${item}\`" height="150" width="300" class="text-right pa-2" @click="toggle">
+                                  <v-btn icon dark >
+                                  <v-icon color="orange darken-2 ">
+                                      {{ active ? 'mdi-check-circle' : 'mdi-circle-outline' }}
+                                  </v-icon>
+                                  </v-btn>
+                              </v-img>
+                              </v-item>
+                          </v-col>
+                          </v-row>
+                          <div class="flex-grow-1"></div>
+                          <v-btn class="my-2" color="orange darken-2" @click="sheet = false">SELECT</v-btn>
+                      </v-item-group>
+                  </v-container>
+              </v-card>
+          </v-sheet>
+          </v-bottom-sheet>
+
+          <v-card-actions>
+              <div class="flex-grow-1"></div>
+              <v-btn color="red darken-1" text @click="cancel()">Cancel</v-btn>
+              <v-btn color="green darken-1" text @click="apply()">Apply</v-btn>
+          </v-card-actions>
+      </v-card>
+      </v-overlay>
+
+      <v-snackbar v-model="error" > {{ errorMsg }}
+        <v-btn color="red" text @click="error = false; errorText = false"> OK </v-btn>
+      </v-snackbar>
+
+    </v-container>`,
+
+  methods: {
+    async apply () {
+      if (this.name.length < 3 || this.name.length > 60) {
+        this.errorMsg = 'Name must have between 3 and 60 characters!';
+        this.error = true;
+        this.errorText = true;
+      } else if (!/^([a-zA-Z0-9 _]+)$/.test(this.name)) {
+        this.errorMsg = 'Name must have letters, numbers or spaces!';
+        this.error = true;
+        this.errorText = true;
+      } else if (this.image === undefined) {
+        this.errorMsg = 'Select an image for the room!';
+        this.error = true;
+      } else {
+        this.room.name = this.name;
+        this.room.meta.image = images[image];
+        console.log(this.room);
+        let rta = await modifyRoom(this.room)
+        .catch((error) => {
+          this.errorMsg = error[0].toUpperCase() + error.slice(1);
+          console.error(this.errorMsg);
+        });
+        if (rta) {
+          this.resetVar();
+          this.$root.$emit('Finished edit', 0);
+          console.log(rta.result);
+        } else {
+          this.error = true;
+        }
+      }
+    },
+    cancel() {
+      this.resetVar();
+      this.$root.$emit('Finished edit', 1);
+    },
+    resetVar() {
+      this.overlay = false;
+      this.error = false;
+      this.errorText = false;
+    }
+  },
+  mounted() {
+    // here we extract all the data
   }
 })
 
