@@ -447,9 +447,9 @@ Vue.component('dev-btn', {
             return './resources/icons/web/door_closed.svg';
           else{ 
             if(stat === "opened")
-              return './resources/icons/web/door_opened.svg';
+              return './resources/icons/web/door_opened.svg'; // NO EXISTS
             else
-              return './resources/icons/web/door_locked.svg';
+              return './resources/icons/web/door_locked.svg'; // NO EXISTS
           }
         case "blinds":
           if(stat === "closed")
