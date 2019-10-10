@@ -301,3 +301,31 @@ function createDevice(name, type, fav) {
 function addDeviceToRoom(roomId, deviceId) {
   return api.room.addDevice(roomId, deviceId);
 }
+
+function getRoom(id) {
+  return api.room.get(id);
+}
+
+function modifyRoom(room) {
+  return api.room.modify({
+    "name": room.name,
+    "meta": {
+      "image": room.meta.image,
+      "favorite": room.meta.fav
+    }
+  });
+}
+
+/*
+let rta = await createRoom(this.name, this.images[this.image], false)
+.catch((error) => {
+  this.errorMsg = error[0].toUpperCase() + error.slice(1);
+  console.error(this.errorMsg);
+});
+if (rta) {
+  this.resetVar();
+  this.$root.$emit('Finished add', 0);
+} else {
+  this.error = true;
+}
+*/

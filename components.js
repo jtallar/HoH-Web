@@ -198,6 +198,10 @@ Vue.component('card-btn', {
     width: {
       type: Number,
       default: 6
+    },
+    id: {
+      type: String,
+      required: true
     }
   },
   data() {
@@ -223,9 +227,9 @@ Vue.component('card-btn', {
     getHref() {
       switch (this.type) {
         case "room":
-          return "room.html?" + this.title.split(' ').join('_'); // mejor pasar id del room
+          return "room.html?" + this.id + "+" + this.title.split(' ').join('_');
         case "device":
-          return "device.html?" + this.title.split(' ').join('_'); // mejor pasar id del room
+          return "device.html?" + this.id + "+" + this.title.split(' ').join('_'); // mejor pasar id del room
         default:
             return "home.html"; // no deberia entrar nunca
       }
@@ -931,7 +935,9 @@ Vue.component('panel-vacuum', {
       mode: 0, // 0: vacuum, 1: mop
       room: 'Living Room',
       charging_base: 'Bathroom',
-      rooms: []
+      rooms: [],
+      error: false,
+      errorMsg: ''
     }
   },
   watch: { // here we set the new values
@@ -1008,17 +1014,21 @@ Vue.component('panel-vacuum', {
     }
   },
   async mounted() {
-    let errorMsg;
-    let rta = await getAll("Room").catch((error) => {
-      errorMsg = error;
-      console.log(error);
+    let rta = await getAll("Room")
+    .catch((error) => {
+      this.errorMsg = error[0].toUpperCase() + error.slice(1);
+      console.error(this.errorMsg);
     });;
     if (rta) {
       for (i of rta.result) {
         this.rooms.push(i.name);
       }
     } else {
-      console.error(errorMsg);
+      this.error = true;
+    }
+
+    if (!this.error) {
+      
     }
   }
 })
@@ -1683,9 +1693,9 @@ Vue.component('add-btn', {
   }
 })
 
-Vue.component('no-fav', {
+Vue.component('no-card', {
   props: {
-    type: {
+    text: {
       type: String,
       required: true
     },
@@ -1698,17 +1708,10 @@ Vue.component('no-fav', {
       default: 2
     }
   },
-  data() {
-    return {
-      overlay: false,
-      snackbarCan: false,
-      snackbarOk: false
-    }
-  },
   template:
     `<v-card dark class="ma-3 ml-5" :width="getWidth" :height="getHeight">
-      <v-card-title class="mt-1"></v-card-title>
-      <v-card-title class="headline ma-5 ">No favorites {{type}} added!</v-card-title>
+      <v-card-title></v-card-title>
+      <v-card-title class="headline ma-5 justify-center">{{text}}</v-card-title>
     </v-card>`,
     computed: {
       getWidth() {
@@ -1718,4 +1721,33 @@ Vue.component('no-fav', {
         return screen.width/ 6 / this.ratio;
       },
     }
+})
+
+Vue.component('toolbar-login', {
+  template:
+    `<v-app-bar app clipped-right color="black" dark >
+          <!-- button/avatar/image for logo -->
+          <v-btn icon href="./login.html">
+            <v-avatar size="35">
+              <v-img src="./resources/images/logo.png"></v-img>
+            </v-avatar>
+          </v-btn>
+  
+          <!-- title of toolbar -->
+          <v-toolbar-title>House of Hands</v-toolbar-title>
+  
+          <div class="flex-grow-1"></div>
+  
+          <!-- login -->
+          <template v-if="$vuetify.breakpoint.smAndUp">
+            <input filled placeholder="Username">
+            <input type="password" placeholder="Password">
+            <v-btn icon href="./home.html">
+                <v-icon>mdi-forward</v-icon>
+            </v-btn>
+            <v-btn icon>
+                <v-icon>mdi-dots-vertical</v-icon>
+            </v-btn>
+          </template>
+        </v-app-bar>`,
 })

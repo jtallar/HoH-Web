@@ -23,11 +23,13 @@
               </v-btn>
             </v-col>
             <v-col>
-                <div class="headline ml-5 text-left">{{ title }}</div>
+                <div class="headline ml-5 text-left">{{ room.name }}</div>
             </v-col>
-            <v-btn right class="ml-5" icon href="rooms.html">
-              <v-icon size="40">mdi-star-outline</v-icon>
+            <v-btn right class="ml-5" icon @click="toggleFavorite">
+              <v-icon v-show="room.meta.favorite" size="40">mdi-star</v-icon>
+              <v-icon v-show="!room.meta.favorite" size="40">mdi-star-outline</v-icon>
             </v-btn>
+
             <v-btn right class="mx-5" icon href="rooms.html">
               <v-icon size="35">mdi-settings</v-icon>
             </v-btn>
@@ -46,16 +48,7 @@
           </v-row>
         </v-container>
 
-        <v-container>
-          <v-row>
-            <div class="title grey--text ml-5">Speakers</div>
-          </v-row>
-          <v-row>
-            <v-col v-for="i in 3" cols="auto">
-              <dev-btn name="Prueba" cat="Air Conditioner" room="Living Room"></dev-btn>
-            </v-col>
-          </v-row>
-        </v-container>
+        
 
         
            
