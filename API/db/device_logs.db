@@ -1,2 +1,12 @@
 {"_id":"59e34e91facdb5a5","timestamp":"2019-10-10T21:10:56.273Z","deviceId":"247e909bee53802e","action":"setBrightness","params":[20],"result":100}
 {"_id":"355d0ce02b02b8aa","timestamp":"2019-10-10T21:26:01.794Z","deviceId":"247e909bee53802e","action":"turnOn","params":[],"result":true}
+{"_id":"895fba9cdedefc1b","timestamp":"2019-10-10T21:52:29.789Z","deviceId":"247e909bee53802e","action":"turnOn","params":[],"result":false}
+{"_id":"f3fe9186f631badc","timestamp":"2019-10-10T21:52:31.006Z","deviceId":"247e909bee53802e","action":"turnOff","params":[],"result":true}
+{"_id":"595a616398f87f9a","timestamp":"2019-10-10T21:52:33.792Z","deviceId":"247e909bee53802e","action":"turnOn","params":[],"result":true}
+{"_id":"09a8753116c7bf33","timestamp":"2019-10-10T21:52:40.586Z","deviceId":"247e909bee53802e","action":"turnOff","params":[],"result":true}
+{"_id":"6352146632393c18","timestamp":"2019-10-10T21:52:43.001Z","deviceId":"247e909bee53802e","action":"turnOn","params":[],"result":true}
+{"_id":"289c88517c2c388d","timestamp":"2019-10-10T21:52:56.357Z","deviceId":"247e909bee53802e","action":"turnOn","params":[],"result":false}
+{"_id":"6cc6856184f699f2","timestamp":"2019-10-10T21:54:10.031Z","deviceId":"247e909bee53802e","action":"turnOn","params":[],"result":false}
+{"_id":"c9447bb2b774699d","timestamp":"2019-10-10T21:54:43.663Z","deviceId":"247e909bee53802e","action":"turnOn","params":[],"result":false}
+{"_id":"b6afdaaf04dbe353","timestamp":"2019-10-10T21:57:34.980Z","deviceId":"247e909bee53802e","action":"turnOff","params":[],"result":true}
+{"_id":"e7bff8c842de4bcd","timestamp":"2019-10-10T21:59:21.373Z","deviceId":"247e909bee53802e","action":"turnOff","params":[],"result":false}

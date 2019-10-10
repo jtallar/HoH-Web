@@ -208,7 +208,9 @@ api.device = class {
   /* Executes an action in a specific device with params {[]} */
   static execAction(id, action, param) {
     // return api.put(api.device.url + id + '/' + action, ((param === undefined) ? "{}" : param));
-    return api.put(api.device.url + id + '/' + action, param);
+    console.log(api.device.url + id + '/' + action);
+    console.log(((param === undefined) ? "{}" : param));
+    return api.put(api.device.url + id + '/' + action, ((param === undefined) ? "{}" : param));
   }
 }
 
