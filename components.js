@@ -439,6 +439,10 @@ Vue.component('dev-btn', {
     },
   },
   methods: {
+    updateDev(device) {
+      this.device.state.status = device.state.status;
+      this.device.name = device.name;
+    },
     toggleSelected() {
       this.selected = !this.selected;
       console.log(this.device);
@@ -456,8 +460,7 @@ Vue.component('dev-btn', {
         });
       if (rta) {
         console.log(rta.result);
-        if (rta.result.length >= 1)
-            this.device = rta.result;
+        this.updateDev(rta.result);
       } else {
         this.error = true;
       }
@@ -468,7 +471,7 @@ Vue.component('dev-btn', {
       if (this.selected && device.id != this.device.id) this.selected = !this.selected;
     });
     this.getData();
-    let timer = setInterval(()=> this.getData(), 1000);
+    let timer = setInterval(() => this.getData(), 1000);
   }
 })
 
@@ -481,27 +484,26 @@ Vue.component('panel-light', {
   },
   data() {
     return {
-      state: false,
-      color: '#FFF100',
-      brightness: 10,
-      id: undefined,
+      state: (this.device.state.status == "on"),
+      color: "#" + this.device.state.color,
+      brightness: this.device.state.brightness,
       error: false,
-      errorMsg: ''
+      errorMsg: '',
     }
   },
   watch: { // here we set the new values
     state(newVal, oldVal) {
       if (newVal) {
-        this.sendAction(this.id, "turnOn");
+        this.sendAction("turnOn", []);
       } else {
-        this.sendAction(this.id, "turnOff");
+        this.sendAction("turnOff", []);
       }
     },
     color(newVal, oldVal) {
-
+      this.sendAction("setColor", [newVal.substr(1)]);
     },
     brightness(newVal, oldVal) {
-
+      this.sendAction("setBrightness", [newVal])
     }
   },
   template:
@@ -511,7 +513,7 @@ Vue.component('panel-light', {
           <h3>Off</h3>
         </v-layout>
         <v-layout column>
-          <v-switch class="align-center justify-center" v-model="state" color="orange"></v-switch>
+          <v-switch class="align-center justify-center" v-model="state" :key="state" color="orange"></v-switch>
         </v-layout>
         <v-layout column>
           <h3>On</h3>
@@ -526,8 +528,13 @@ Vue.component('panel-light', {
         thumb-label="always" thumb-size="25" color="orange" track-color="black" thumb-color="orange darken-2"></v-slider>
     </v-container>`,
   methods: {
-    async sendAction(id, action, param) {
-      let rta = await execAction(id, action, param)
+    updateDev(dev) {
+      this.state = (dev.state.status == "on");
+      this.color = "#" + dev.state.color;
+      this.brightness = dev.state.brightness;
+    },
+    async sendAction(action, param) {
+      let rta = await execAction(this.device.id, action, param)
         .catch((error) => {
           this.errorMsg = error[0].toUpperCase() + error.slice(1);
           console.error(this.errorMsg);
@@ -535,13 +542,24 @@ Vue.component('panel-light', {
       if (!rta) {
         this.error = true;
       }
+    },
+    async getData() {
+      let rta = await getDevice(this.device.id)
+        .catch((error) => {
+          this.errorMsg = error[0].toUpperCase() + error.slice(1);
+          console.error(this.errorMsg);
+        });
+      if (rta) {
+        console.log(rta.result);
+        this.updateDev(rta.result);
+      } else {
+        this.error = true;
+      }
     }
   },
   mounted() {
-    this.state = (this.device.state.status == "on");
-    this.color = this.device.state.color;
-    this.brightness = this.device.state.brightness;
-    this.id = this.device.id;
+    this.getData();
+    let timer = setInterval(() => this.getData(), 1000);
   }
 })
 
@@ -554,28 +572,47 @@ Vue.component('panel-oven', {
   },
   data() {
     return {
-      state: false,
-      temperature: 90,
-      heat_source: 2, // takes values from 0 to 2
-      convection_mode: 2, // same
-      grill_mode: 2 // same
+      state: (this.device.state.status == "on"),
+      temperature: this.device.state.temperature,
+      heat_source: this.getHeatIndex(this.device.state.heat),
+      convection_mode: this.getConvectionIndex(this.device.state.convection),
+      grill_mode: this.getGrillIndex(this.device.state.grill)
     }
   },
   watch: { // here we set the new values
     state(newVal, oldVal) {
-
+      if (newVal) {
+        this.sendAction("turnOn", []);
+      } else {
+        this.sendAction("turnOff", []);
+      }
     },
     temperature(newVal, oldVal) {
-
+      this.sendAction("setTemperature", [newVal])
     },
     heat_source(newVal, oldVal) {
-
+      var aux = "conventional";
+      if (newVal === 0)
+        aux = "top";
+      else if (newVal === 1)
+        aux = "bottom";
+      this.sendAction("setHeat", [aux]);
     },
     convection_mode(newVal, oldVal) {
-
+      var aux = "normal";
+      if (newVal === 0)
+        aux = "off";
+      else if (newVal === 1)
+        aux = "eco";
+      this.sendAction("setConvection", [aux]);
     },
     grill_mode(newVal, oldVal) {
-
+      var aux = "large";
+      if (newVal === 0)
+        aux = "off";
+      else if (newVal === 1)
+        aux = "eco";
+      this.sendAction("setGrill", [aux]);
     }
   },
   template:
@@ -623,8 +660,71 @@ Vue.component('panel-oven', {
         </v-btn-toggle>
       </v-layout>
     </v-container>`,
+  methods: {
+    async sendAction(action, param) {
+      let rta = await execAction(this.device.id, action, param)
+        .catch((error) => {
+          this.errorMsg = error[0].toUpperCase() + error.slice(1);
+          console.error(this.errorMsg);
+        });
+      if (!rta) {
+        this.error = true;
+      }
+    },
+    getHeatIndex(name) {
+      switch (name) {
+        case "top":
+          return 0;
+        case "bottom":
+          return 1;
+        case "conventional":
+          return 2;
+      }
+    },
+    getGrillIndex(name) {
+      switch (name) {
+        case "off":
+          return 0;
+        case "eco":
+          return 1;
+        case "large":
+          return 2;
+      }
+    },
+    getConvectionIndex(name) {
+      switch (name) {
+        case "off":
+          return 0;
+        case "eco":
+          return 1;
+        case "normal":
+          return 2;
+      }
+    },
+    updateDev(device) {
+      this.state = (device.state.status == "on");
+      this.temperature = device.state.temperature;
+      this.heat_source = this.getHeatIndex(device.state.heat);
+      this.convection_mode = this.getConvectionIndex(device.state.convection);
+      this.grill_mode = this.getGrillIndex(device.state.grill);
+    },
+    async getData() {
+      let rta = await getDevice(this.device.id)
+        .catch((error) => {
+          this.errorMsg = error[0].toUpperCase() + error.slice(1);
+          console.error(this.errorMsg);
+        });
+      if (rta) {
+        console.log(rta.result);
+        this.updateDev(rta.result);
+      } else {
+        this.error = true;
+      }
+    }
+  },
   mounted() {
-    // here we extract all the data
+    this.getData();
+    let timer = setInterval(() => this.getData(), 1000);
   }
 })
 
@@ -643,7 +743,7 @@ Vue.component('panel-speaker', {
       song_name: 'No Song in Queue',
       song_artist: 'Unknown Artist',
       play: true,
-      volume: 5,
+      volume: this.device.state.volume,
       genres: ['Reggae', 'Reggaeton', 'Rock', 'Cumbia', 'Pop', 'Jazz', 'Folklore'],
       genre: 'Rock'
     }
@@ -721,6 +821,11 @@ Vue.component('panel-speaker', {
       
       <v-select v-model="genre" :items="genres" required ></v-select>
     </v-container>`,
+  computed: {
+    getTime() {
+      return this.elapsed_time; // here to do conversion secs to something printable
+    }
+  },
   methods: {
     skipPrevious() {
       // do something here to skip song
@@ -740,15 +845,24 @@ Vue.component('panel-speaker', {
     addPlaylist() {
       this.playlist = !this.playlist;
       // send stop to back
-    }
-  },
-  computed: {
-    getTime() {
-      return this.elapsed_time; // here to do conversion secs to something printable
+    },
+    async getData() {
+      let rta = await getDevice(this.device.id)
+        .catch((error) => {
+          this.errorMsg = error[0].toUpperCase() + error.slice(1);
+          console.error(this.errorMsg);
+        });
+      if (rta) {
+        console.log(rta.result);
+        // this.device = rta.result; // updateDev
+      } else {
+        this.error = true;
+      }
     }
   },
   mounted() {
-    // here we extract all the data
+    this.getData();
+    let timer = setInterval(() => this.getData(), 1000);
   }
 })
 
@@ -761,13 +875,28 @@ Vue.component('panel-door', {
   },
   data() {
     return {
-      closed: 0, // 0: closed, 1: open
-      locked: false
+      closed: (this.device.state.status === "opened") ? 1 : 0,
+      locked: (this.device.state.lock === "locked")
+    }
+  },
+  watch: {
+    closed(newVal, oldVal) {
+      if (newVal === 0)
+        this.sendAction("close", []);
+      else {
+        this.sendAction("open", []);
+        this.locked = false;
+      }
+    },
+    locked(newVal, oldVal) {
+      if (newVal)
+        this.sendAction("lock", []);
+      else this.sendAction("unlock", []);
     }
   },
   template:
     `<v-container fluid>
-      <v-layout align-center>
+      <v-layout align-center class="ma-5">
         <v-layout column>
           <v-btn-toggle v-model="closed" tile color="orange darken-2" group mandatory>
             <v-btn>Closed</v-btn>
@@ -788,11 +917,38 @@ Vue.component('panel-door', {
       if (this.locked) {
         this.closed = 0;
       }
-      // send stop to back
+    },
+    async sendAction(action, param) {
+      let rta = await execAction(this.device.id, action, param)
+        .catch((error) => {
+          this.errorMsg = error[0].toUpperCase() + error.slice(1);
+          console.error(this.errorMsg);
+        });
+      if (!rta) {
+        this.error = true;
+      }
+    },
+    updateDev(device) {
+      this.closed = (device.state.status === "opened") ? 1 : 0;
+      this.locked = (device.state.lock === "locked");
+    },
+    async getData() {
+      let rta = await getDevice(this.device.id)
+        .catch((error) => {
+          this.errorMsg = error[0].toUpperCase() + error.slice(1);
+          console.error(this.errorMsg);
+        });
+      if (rta) {
+        console.log(rta.result);
+        this.updateDev(rta.result);
+      } else {
+        this.error = true;
+      }
     }
   },
   mounted() {
-    // here we extract all the data
+    this.getData();
+    let timer = setInterval(() => this.getData(), 1000);
   }
 })
 
@@ -805,20 +961,74 @@ Vue.component('panel-window', {
   },
   data() {
     return {
-      closed: 0, // 0: closed, 1: open
+      closed: this.getClosedIndex(this.device.state.status),
+      moving: this.getStatus(this.device.state.status),
+      progress: this.device.state.level,
+    }
+  },
+  watch: {
+    closed(newVal, oldVal) {
+      if (newVal === 0) {
+        this.sendAction("close", []);
+        this.closing = true;
+      } else {
+        this.sendAction("open", []);
+        this.opening = true;
+      }
     }
   },
   template:
     `<v-container fluid>
-      <v-layout column align-center>
+      <v-layout column align-center class="ma-5">
         <v-btn-toggle v-model="closed" tile color="orange darken-2" group mandatory>
-            <v-btn>Closed</v-btn>
-            <v-btn>Open</v-btn>
+            <v-btn :disabled="moving" >Closed</v-btn>
+            <v-btn :disabled="moving" >Open</v-btn>
         </v-btn-toggle>
+        <v-subheader v-show="progress > 0 && progress < 100" class="text-capitalize">{{device.state.status}}</v-subheader>
+        <v-progress-linear v-show="progress > 0 && progress < 100" v-model="progress" color="orange"></v-progress-linear>
       </v-layout>
     </v-container>`,
+  methods: {
+    async sendAction(action, param) {
+      let rta = await execAction(this.device.id, action, param)
+        .catch((error) => {
+          this.errorMsg = error[0].toUpperCase() + error.slice(1);
+          console.error(this.errorMsg);
+        });
+      if (!rta) {
+        this.error = true;
+      }
+    },
+    getClosedIndex(status) {
+      if (status === "closed" || status == "closing") return 0;
+      return 1;
+    },
+    getStatus(status) {
+      return (status === "opening" || status == "closing");
+    },
+    updateDev(device) {
+      this.device.state.status = device.state.status;
+      this.closed = this.getClosedIndex(device.state.status);
+      this.moving = this.getStatus(device.state.status);
+      this.progress = device.state.level;
+    },
+    async getData() {
+      let rta = await getDevice(this.device.id)
+        .catch((error) => {
+          this.errorMsg = error[0].toUpperCase() + error.slice(1);
+          console.error(this.errorMsg);
+        });
+      if (rta) {
+        console.log(rta.result);
+        this.updateDev(rta.result);
+      } else {
+        this.error = true;
+      }
+    }
+  },
   mounted() {
-    // here we extract all the data
+    this.getData();
+    let timer = setInterval(() => this.getData(), 1000);
   }
 })
 
@@ -831,44 +1041,58 @@ Vue.component('panel-airconditioner', {
   },
   data() {
     return {
-      state: false,
-      temperature: 24,
-      mode: 2, // takes values from 0 to 2
-      fan_speed: 25, // 25, 50, 75, 100
-      auto_fan_speed: false,
-      vertical_wings: 90, // 22.5, 45, 77.5, 90 (VER SI SE REDONDEA LOS QUE TIENEN COMA)
-      auto_vertical_wings: false,
-      horizontal_wings: 0, // -90, -45, 0, 45, 90
-      auto_horizontal_wings: false,
+      state: (this.device.state.status === "on"),
+      temperature: this.device.state.temperature,
+      mode: this.getModeIndex(this.device.state.mode),
+      fan_speed: this.getSpeedNumber(this.device.state.fanSpeed),
+      auto_fan_speed: (this.device.state.fanSpeed === "auto"),
+      vertical_wings: this.getSwingNumber(this.device.state.verticalSwing),
+      auto_vertical_wings: (this.device.state.verticalSwing === "auto"),
+      horizontal_wings: this.getSwingNumber(this.device.state.horizontalSwing),
+      auto_horizontal_wings: (this.device.state.horizontalSwing === "auto"),
     }
   },
-  watch: { // here we set the new values
+  watch: { 
     state(newVal, oldVal) {
-
+      if (newVal)
+        this.sendAction("turnOn", []);
+      else this.sendAction("turnOff", []);
     },
     temperature(newVal, oldVal) {
-
+      this.sendAction("setTemperature", [newVal]);
     },
     mode(newVal, oldVal) {
-
+      var aux = "heat";
+      if (newVal === 0)
+        aux = "cold";
+      else if (newVal === 1)
+        aux = "fan";
+      this.sendAction("setMode", [aux]);
     },
     fan_speed(newVal, oldVal) {
-
+      this.sendAction("setFanSpeed", [newVal.toString()]);
     },
     auto_fan_speed(newVal, oldVal) {
+      if (newVal)
+        this.sendAction("setFanSpeed", ["auto"]);
+      else this.sendAction("setFanSpeed", [this.fan_speed.toString()]);
 
     },
     vertical_wings(newVal, oldVal) {
-
+      this.sendAction("setVerticalSwing", [Math.trunc(newVal).toString()]);
     },
     auto_vertical_wings(newVal, oldVal) {
-
+      if (newVal)
+        this.sendAction("setVerticalSwing", ["auto"]);
+      else this.sendAction("setVerticalSwing", [Math.trunc(this.vertical_wings).toString()]);
     },
     horizontal_wings(newVal, oldVal) {
-
+      this.sendAction("setHorizontalSwing", [newVal.toString()]);
     },
     auto_horizontal_wings(newVal, oldVal) {
-
+      if (newVal)
+        this.sendAction("setHorizontalSwing", ["auto"]);
+      else this.sendAction("setHorizontalSwing", [this.horizontal_wings.toString()]);
     }
   },
   template:
@@ -905,7 +1129,7 @@ Vue.component('panel-airconditioner', {
           thumb-color="orange darken-2" :disabled="auto_fan_speed"></v-slider>
         </v-col>
         <v-col>
-          <v-checkbox label="Auto" color="orange darken-2" @change="auto_fan_speed = !auto_fan_speed"></v-checkbox>
+          <v-checkbox label="Auto" color="orange darken-2" v-model="auto_fan_speed"></v-checkbox>
         </v-col>
       </v-row>
       <v-subheader>Vertical Wings</v-subheader>
@@ -916,7 +1140,7 @@ Vue.component('panel-airconditioner', {
           thumb-color="orange darken-2" :disabled="auto_vertical_wings"></v-slider>
         </v-col>
         <v-col>
-          <v-checkbox label="Auto" color="orange darken-2" @change="auto_vertical_wings = !auto_vertical_wings"></v-checkbox>
+          <v-checkbox label="Auto" color="orange darken-2" v-model="auto_vertical_wings"></v-checkbox>
         </v-col>
       </v-row>
       <v-subheader>Horizontal Wings</v-subheader>
@@ -927,12 +1151,67 @@ Vue.component('panel-airconditioner', {
           thumb-color="orange darken-2" :disabled="auto_horizontal_wings"></v-slider>
         </v-col>
         <v-col>
-          <v-checkbox label="Auto" color="orange darken-2" @change="auto_horizontal_wings = !auto_horizontal_wings"></v-checkbox>
+          <v-checkbox label="Auto" color="orange darken-2" v-model="auto_horizontal_wings"></v-checkbox>
         </v-col>
       </v-row>
     </v-container>`,
+  methods: {
+    getSpeedNumber(str) {
+      if (str === "auto") return 50;
+      return parseInt(str, 10);
+    },
+    getSwingNumber(str) {
+      if (str === "auto") return 45;
+      return parseInt(str, 10);
+    },
+    getModeIndex(mode) {
+      switch (mode) {
+        case "cool":
+          return 0;
+        case "fan":
+          return 1;
+        case "heat":
+          return 2;
+      }
+    },
+    async sendAction(action, param) {
+      let rta = await execAction(this.device.id, action, param)
+        .catch((error) => {
+          this.errorMsg = error[0].toUpperCase() + error.slice(1);
+          console.error(this.errorMsg);
+        });
+      if (!rta) {
+        this.error = true;
+      }
+    },
+    updateDev(device) {
+      this.state = (device.state.status === "on");
+      this.temperature = device.state.temperature;
+      this.mode = this.getModeIndex(device.state.mode);
+      this.fan_speed = this.getSpeedNumber(device.state.fanSpeed);
+      this.auto_fan_speed = (device.state.fanSpeed === "auto");
+      this.vertical_wings = this.getSwingNumber(device.state.verticalSwing);
+      this.auto_vertical_wings = (device.state.verticalSwing === "auto");
+      this.horizontal_wings = this.getSwingNumber(device.state.horizontalSwing);
+      this.auto_horizontal_wings = (device.state.horizontalSwing === "auto");
+    },
+    async getData() {
+      let rta = await getDevice(this.device.id)
+        .catch((error) => {
+          this.errorMsg = error[0].toUpperCase() + error.slice(1);
+          console.error(this.errorMsg);
+        });
+      if (rta) {
+        console.log(rta.result);
+        this.updateDev(rta.result);
+      } else {
+        this.error = true;
+      }
+    }
+  },
   mounted() {
-    // here we extract all the data
+    this.getData();
+    let timer = setInterval(() => this.getData(), 1000);
   }
 })
 
