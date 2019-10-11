@@ -17,3 +17,14 @@
 {"_id":"5bc56071e9e4b52c","timestamp":"2019-10-11T20:44:36.735Z","deviceId":"1dadf673b0fa917a","action":"play","params":[],"result":true}
 {"_id":"f35d25c2df48c747","timestamp":"2019-10-11T20:44:39.369Z","deviceId":"1dadf673b0fa917a","action":"stop","params":[],"result":true}
 {"_id":"17f33049070106b4","timestamp":"2019-10-11T20:44:49.611Z","deviceId":"1dadf673b0fa917a","action":"setVolume","params":[3],"result":5}
+{"_id":"8087a5059035ef50","timestamp":"2019-10-11T21:29:22.186Z","deviceId":"99c74d51a1557e9d","action":"turnOn","params":[],"result":true}
+{"_id":"595e694038bf866b","timestamp":"2019-10-11T21:29:23.382Z","deviceId":"99c74d51a1557e9d","action":"setColor","params":["6B3B3B"],"result":"FFFFFF"}
+{"_id":"f8c392cdc2c47eda","timestamp":"2019-10-11T21:29:23.918Z","deviceId":"99c74d51a1557e9d","action":"setColor","params":["862929"],"result":"6B3B3B"}
+{"_id":"5afb0cc866c1bfca","timestamp":"2019-10-11T21:29:24.400Z","deviceId":"99c74d51a1557e9d","action":"setColor","params":["8B6464"],"result":"862929"}
+{"_id":"faa174667d986f09","timestamp":"2019-10-11T21:29:25.485Z","deviceId":"99c74d51a1557e9d","action":"setBrightness","params":[55],"result":100}
+{"_id":"9c1bcd779b96b55c","timestamp":"2019-10-11T21:29:44.941Z","deviceId":"22bce7a908e96f1d","action":"turnOn","params":[],"result":true}
+{"_id":"f9c0c284d10711bd","timestamp":"2019-10-11T21:29:45.906Z","deviceId":"22bce7a908e96f1d","action":"setTemperature","params":[29],"result":24}
+{"_id":"2cbb0afc5aa214f8","timestamp":"2019-10-11T21:29:46.567Z","deviceId":"22bce7a908e96f1d","action":"setMode","params":["fan"],"result":"cool"}
+{"_id":"e951f41bf1f07c00","timestamp":"2019-10-11T21:29:48.000Z","deviceId":"22bce7a908e96f1d","action":"turnOff","params":[],"result":true}
+{"_id":"a120486edd2ec414","timestamp":"2019-10-11T21:30:28.022Z","deviceId":"c5f1690dc9c9c180","action":"setMode","params":["vacation"],"result":"default"}
+{"_id":"b8bd5818baf80b57","timestamp":"2019-10-11T21:30:28.127Z","deviceId":"c5f1690dc9c9c180","action":"setTemperature","params":[5],"result":null}

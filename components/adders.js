@@ -218,6 +218,7 @@ Vue.component('add-device', {
           this.rooms.push(el);
           if (el.id === this.default) this.room = el.id;
         }
+        if (this.default === "") this.room = this.rooms[0].id;
         let rta2 = await getAll("Type")
           .catch((error) => {
             this.errorMsg = error[0].toUpperCase() + error.slice(1);
