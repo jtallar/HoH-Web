@@ -98,12 +98,12 @@ Vue.component('edit-room', {
     `<v-container fluid>
 
       <v-overlay>
-      <v-card width="700" light>
+      <v-card class="add-room-card" light>
           <v-card-title>
               <span class="headline">Editing "{{room.name}}"</span>
               <v-row justify="end">
               <v-btn right class="mx-5" icon @click="dialog = true">
-                <v-icon size="30">mdi-delete</v-icon>
+                <v-icon size="40">mdi-delete</v-icon>
               </v-btn>
               </v-row>
           </v-card-title>
@@ -129,14 +129,14 @@ Vue.component('edit-room', {
           </v-card-text>
           
           <v-bottom-sheet v-model="sheet">
-          <v-sheet  dark class="text-center" height="500px">
+          <v-sheet  dark class="text-center" height="getHeight / 2">
               <v-card dark max-width="15000" class="mx-auto">
                   <v-container class="pa-1">
                       <v-item-group v-model="image">
                           <v-row>
                           <v-col v-for="(item, i) in images" :key="i" cols="12" md="2">
                               <v-item v-slot:default="{ active, toggle }">
-                              <v-img :src="\`./resources/images/\${item}\`" height="150" width="300" class="text-right pa-2" @click="toggle">
+                              <v-img :src="\`./resources/images/\${item}\`" class="text-right pa-2 add-room-img" @click="toggle">
                                   <v-btn icon dark >
                                   <v-icon color="orange darken-2 ">
                                       {{ active ? 'mdi-check-circle' : 'mdi-circle-outline' }}
@@ -179,6 +179,14 @@ Vue.component('edit-room', {
       </v-dialog>
 
     </v-container>`,
+  computed: {
+    getWidth() {
+      return screen.width / this.width; // ver si da limitarlo con max y min
+    },
+    getHeight() {
+      return this.getWidth / this.ratio;
+    },
+  },
 
   methods: {
     async apply() {

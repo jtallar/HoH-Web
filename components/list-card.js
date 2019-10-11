@@ -100,7 +100,7 @@ Vue.component('routine-btn', {
   },
   template:
     `<v-container fluid>
-
+      <!-- Cannot use css with v-dialog  -->
       <v-dialog v-model="dialog" persistent width="410">
         <template v-slot:activator="{ on }">
           <v-btn v-on="on" tile class="ma-3" :width="getWidth" :height="getHeight" >

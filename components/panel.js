@@ -166,7 +166,7 @@ Vue.component('edit-device', {
               <span class="headline">Editing "{{device.name}}"</span>
               <v-row justify="end">
               <v-btn right class="mx-5" icon @click="dialog = true">
-                <v-icon size="30">mdi-delete</v-icon>
+                <v-icon size="40">mdi-delete</v-icon>
               </v-btn>
               </v-row>
           </v-card-title>
@@ -197,6 +197,7 @@ Vue.component('edit-device', {
         <v-btn color="red" text @click="error = false; errorText = false"> OK </v-btn>
       </v-snackbar>
      
+      <!-- Cannot use css with v-dialog  -->
       <v-dialog v-model="dialog" persistent width="410">        
         <v-card>
           <v-card-title>Device: {{name}}</v-card-title>
