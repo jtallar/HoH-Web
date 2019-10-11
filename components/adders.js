@@ -385,7 +385,7 @@ Vue.component('new-routine', {
   watch: { // here we set the new values
 
   },
-  template: // en sel-dev hay que ver que mandarle bien, segun como armes esto @Mati Brula
+  template: 
     `<v-container fluid>
 
       <v-overlay>      
@@ -476,39 +476,5 @@ Vue.component('new-routine', {
   },
   mounted() {
     // here we extract all the data
-  }
-})
-
-Vue.component('sel-dev', {
-  props: {
-    room: {
-      type: String,
-      required: true
-    }
-  },
-  data() {
-    return {
-      selected: false,
-      devices: ['Light 1', 'Light 2', 'Oven', 'Air Aconditioner'],
-      device: '',
-    }
-  },
-  template:
-    `<v-select v-model="device" :items="devices" :value="cat" label="Device" required @change="toggleSelected()"></v-text-field> `,
-  methods: {
-    toggleSelected() {
-      this.selected = !this.selected;
-      if (this.selected) {
-        this.$root.$emit('Device Selected', this.device);
-      } else {
-        this.$root.$emit('Device Deselected');
-      }
-    }
-  },
-  computed: {
-
-  },
-  mounted() {
-
   }
 })
