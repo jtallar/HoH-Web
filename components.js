@@ -1515,15 +1515,18 @@ Vue.component('add-room', {
 Vue.component('new-routine', {
   data() {
     return {
+      overlay: true,
       desc: ' ',
       name: ' ',
       snackbarCan: false,
       snackbarOk: false,
       sheet: false,
       rooms: ['Living Room', 'Kitchen', 'Bathroom', 'Garage', 'Bedroom', 'Entertainement'],
-      room: 'Living Room',
-      devices: ['Light 1', 'Light 2', 'Oven', 'Aire Aconditioner'],
-      device: 'Light 1',
+      room: ' ',
+      devices: ['1','2'],
+      device: ' ',
+      options: [],
+      option: ' ',
       actions: [],
       chip: true,
     }
@@ -1531,45 +1534,53 @@ Vue.component('new-routine', {
   watch: { // here we set the new values
 
   },
-  template:
+  template: // en sel-dev hay que ver que mandarle bien, segun como armes esto @Mati Brula
     `<v-container fluid>
-      
+
+      <v-overlay>      
         <v-card light max-height="600">
-        <v-card-title>
-            <span class="headline">New Routine</span>
-            <v-col cols="12">
-              <v-text-field outlined v-model="name" label="Routine Name" required></v-text-field>
-            </v-col>
-        </v-card-title>
-        <v-card-text>
-            <v-container>
-            <v-row>
-                <v-col cols="12">
-                  <v-text-field v-model="desc" label="Action Description" required></v-text-field>
-                </v-col>
-                <v-col cols="12" sm="6">
-                  <v-select v-model="room" :items="rooms" :value="room" label="Room" required></v-text-field>
-                </v-col>
-                <v-col cols="12" >
-                  <sel-dev :name="name" :room="room" cat="Light" ></sel-dev>
-                </v-col>
-                <v-col cols="12" >
-                  <div class="text-right">
-                    <v-btn dark text right v-on="on" x-large color="orange darken-2" @click="addAction"> ADD ACTION </v-btn>
-                  </div>
-                </v-col>
-                <v-col cols="12" >
-                  <div class="text-right">
-                      <v-btn dark text right v-on="on" x-large color="red darken-2" @click="snackbarCan = true"> CANCEL </v-btn>
-                      <v-btn dark text right v-on="on" x-large color="green darken-2" @click="snackbarOk = true"> CREATE </v-btn>
-                  </div>
-                </v-col>
-            </v-row>
-            </v-container>
-          </v-card-text>
+          <v-card-title>
+              <span class="headline">New Routine</span>
+              <v-col cols="12">
+                <v-text-field outlined v-model="name" label="Routine Name" required></v-text-field>
+              </v-col>
+          </v-card-title>
+          <v-card-text>
+              <v-container>
+              <v-row>
+                  <v-col cols="12">
+                    <v-text-field v-model="desc" label="Action Description" required></v-text-field>
+                  </v-col>
+                  <v-col cols="3" >
+                    <v-select v-model="room" :items="rooms" :value="room" label="Room" required></v-text-field>
+                  </v-col>
+                  <v-col cols="4" >
+                    <v-select v-model="device" :items="devices" :value="device" label="Device" required></v-text-field>
+                  </v-col>
+                  <v-col cols="5" >
+                    <v-select v-model="option" :items="options" :value="option" label="Action" required></v-text-field>
+                  </v-col>
+                  <v-container>
+                        <h1>CAJITA DEL DEVICE CUANDO CORRESPONDA</h1>
+                  </v-container>
+                  <v-col cols="12" >
+                    <div class="text-right">
+                      <v-btn dark text right v-on="on" x-large color="orange darken-2" @click="addAction"> ADD ACTION </v-btn>
+                    </div>
+                  </v-col>
+                  <v-col cols="12" >
+                    <div class="text-right">
+                        <v-btn dark text right v-on="on" x-large color="red darken-2" @click="cancel()"> CANCEL </v-btn>
+                        <v-btn dark text right v-on="on" x-large color="green darken-2" @click="create()"> CREATE </v-btn>
+                    </div>
+                  </v-col>
+              </v-row>
+              </v-container>
+
+            </v-card-text>
           </v-card>
           <br>
-          <v-card light>
+          <v-card light max-height="300" class="scroll">
               <v-card-title>
                   <span class="headline">Added actions</span>
               </v-card-title>
@@ -1585,18 +1596,31 @@ Vue.component('new-routine', {
                   </v-container>
               </v-card-text>
               <v-snackbar v-model="snackbarOk" > Successfully created!
-                      <v-btn color="green" text @click="snackbarOk = false" href="routines.html"> OK </v-btn>
+                      <v-btn color="green" text @click="snackbarOk = false"> OK </v-btn>
               </v-snackbar>
               <v-snackbar v-model="snackbarCan" > Operation cancelled!
-                      <v-btn color="red" text @click="snackbarCan = false" href="routines.html"> OK </v-btn>
+                      <v-btn color="red" text @click="snackbarCan = false"> OK </v-btn>
               </v-snackbar>
           </v-card> 
+      </v-overlay>
 
     </v-container>`,
   methods: {
     // send form to back
+    create(){
+        this.resetVar();
+        this.$root.$emit('Finished add', 0);
+    },
+    cancel(){
+        this.resetVar();
+        this.$root.$emit('Finished add', 1);
+    },
     addAction() {
-      this.actions.push(this.desc + ' - ' + this.room);
+      this.actions.push(this.desc + ' - ' + this.device + ' - ' + this.room);
+    },
+    resetVar() {
+      this.overlay = false;
+      // todo lo que haya que apagar
     }
   },
   mounted() {
@@ -1666,9 +1690,10 @@ Vue.component('add-btn', {
             <v-btn fixed fab dark bottom right v-on="on" x-large class="mx-2 mt-5" color="orange darken-2" @click="overlay = true">
               <v-icon dark>mdi-plus</v-icon>
             </v-btn>
-        </template>
+          </template>
         <span v-show="getContext=='add-device'">Add Device</span>
         <span v-show="getContext=='add-room'">Add Room</span>
+        <span v-show="getContext=='new-routine'">Add Routine</span>
       </v-tooltip>
       <component v-show="overlay" :is="getContext"> </component>
 
@@ -1686,6 +1711,8 @@ Vue.component('add-btn', {
           return 'add-room';
         case 'device':
           return 'add-device';
+        case 'routine':
+          return 'new-routine';
         default:
           console.log('error');
       }
