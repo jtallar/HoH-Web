@@ -179,22 +179,27 @@ Vue.component('panel', {
       this.device = { name: "No Device Selected", room: { name: "Please Select a Device" }, type: { name: "" }, meta: { favorite: false } };
       this.selected = false;
     });
-    this.$root.$on('Finished edit', (state) => {
+    this.$root.$on('Finished edit', (name, exit) => {
       this.settings = false;
-      switch (state) {
-        case 1:
-          this.snackbarMsg = 'Operation cancelled!';
-          this.snackbarCan = true;
-          break;
-        case 2:
-          this.snackbarMsg = 'Successfully edited!';
-          this.snackbarOk = true;
-          break;
-        case 3:
-          this.snackbarMsg = 'Successfully deleted!';
-          this.snackbarCan = true;
-          break;
+      this.device.name = name;
+      if (exit) {
+        this.device = { name: "No Device Selected", room: { name: "Please Select a Device" }, type: { name: "" }, meta: { favorite: false } };
+        this.selected = false;
       }
+      // switch (state) {
+      //   case 1:
+      //     this.snackbarMsg = 'Operation cancelled!';
+      //     this.snackbarCan = true;
+      //     break;
+      //   case 2:
+      //     this.snackbarMsg = 'Successfully edited!';
+      //     this.snackbarOk = true;
+      //     break;
+      //   case 3:
+      //     this.snackbarMsg = 'Successfully deleted!';
+      //     this.snackbarCan = true;
+      //     break;
+      // }
     });
   }
 })
@@ -502,7 +507,7 @@ Vue.component('dev-btn', {
     }
   },
   async mounted() {
-    this.$root.$on('Device Selected', (device) => { // change for id
+    this.$root.$on('Device Selected', (device) => {
       if (this.selected && device.id != this.device.id) this.selected = !this.selected;
     });
     this.getData();
@@ -1613,17 +1618,18 @@ Vue.component('edit-device', {
         this.error = true;
         this.errorText = true;
       } else {
-        // this.device.name = this.name;
-        // this.device.room = this.room;
+        this.device.name = this.name;
+        // this.device.room.id = this.room;
         let rta = await modifyDevice(this.device.id, this.name, this.device.meta.favorite)
           .catch((error) => {
             this.errorMsg = error[0].toUpperCase() + error.slice(1);
             console.error(this.errorMsg);
           });
         if (rta) {
-          console.error(this.room.id);
+          console.error(this.room);
           console.error(this.device.room.id);
-          if (this.room != this.device.room.id) {
+          let roomChanged = (this.room != this.device.room.id);
+          if (roomChanged) {
             let rta = await deleteDeviceFromRoom(this.device.id)
             .catch((error) => {
               this.errorMsg = error[0].toUpperCase() + error.slice(1);
@@ -1644,7 +1650,8 @@ Vue.component('edit-device', {
           }
           if (!this.error) {
             this.resetVar();
-            this.$root.$emit('Finished edit', 2);
+            this.$root.$emit('Finished edit', this.name, roomChanged);
+            this.$root.$emit('Finished add', 2);
           }
         } else {
           this.error = true;
@@ -1653,12 +1660,12 @@ Vue.component('edit-device', {
     },
     cancel() {
       this.resetVar();
-      this.$root.$emit('Finished edit', 1);
+      this.$root.$emit('Finished edit', this.name, false);
+      this.$root.$emit('Finished add', 1);
     },
     cancelRemove() {
       this.dialog = false;
-      this.errorMsg = 'Canceled Delete';
-      this.error = true;
+      this.$root.$emit('Finished add', 1);
     },
     async removeDevice () {
       this.dialog = false;
@@ -1670,14 +1677,16 @@ Vue.component('edit-device', {
       });
       if (rta) {
         this.resetVar();
-        this.$root.$emit('Device Deselected');
+        this.$root.$emit('Finished edit', this.name, true);
+        this.$root.$emit('Finished add', 3);
+        this.$root.$emit('Device Deleted');
       } else {
         this.error = true;
       }
     },
     resetVar() {
       this.name = this.device.name;
-      this.room = this.device.room;
+      this.room = this.device.room.id;
       this.overlay = false;
       this.error = false;
       this.errorText = false;
