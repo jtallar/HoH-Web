@@ -19,9 +19,9 @@
         <v-divider class="mx-5"></v-divider>
 
         <div v-for="room in rooms" :key="room.id">
-          <test :room_id="room.id" :title="room.name" :devices="devices"></test>
+          <dev-cat :room="room" :devices="devices"></dev-cat>
         </div>
-       
+
         <add-btn context="device"></add-btn>
       </v-content>
     </v-app>

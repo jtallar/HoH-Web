@@ -2410,14 +2410,10 @@ Vue.component('device-bar', {
     </v-container>`
 })
 
-Vue.component('test', {
+Vue.component('dev-cat', {
   props: {
-    room_id: {
-      type: String,
-      required: true
-    },
-    title: {
-      type: String,
+    room: {
+      type: Object,
       required: true
     },
     devices: {
@@ -2427,13 +2423,15 @@ Vue.component('test', {
   },
   template:
     `<v-container>
-    <v-row>
-      <div class="title grey--text text-capitalize mt-4 ml-5">{{ title }}</div>
-    </v-row>
-    <v-row>
-      <v-col v-for="dev in devices" cols="auto">
-        <dev-btn :device="dev"></dev-btn>
-      </v-col>
-    </v-row>
-  </v-container>`
+      <v-row>
+        <div class="title grey--text text-capitalize mt-4 ml-5">{{ room.name }}</div>
+      </v-row>
+      <v-row >
+        <div v-for="dev in devices" :key="dev.id">
+          <v-col v-if="dev.room.id === room.id" cols="auto">
+            <dev-btn :device="dev"></dev-btn>
+          </v-col>
+        </div>
+      </v-row>
+    </v-container>`
 })
