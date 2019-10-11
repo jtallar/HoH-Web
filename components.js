@@ -887,66 +887,52 @@ Vue.component('panel-speaker', {
   },
   data() {
     return {
-      state: undefined,
-      playlist: true,
-      elapsed_time: '2:05', // should be a number
-      song_name: 'No Song in Queue',
-      song_artist: 'Unknown Artist',
-      play: true,
+      song: this.getSong(this.device),
+      play: (this.device.state.status === "playing"),
+      stopped: (this.device.state.status === "stopped"),
       volume: this.device.state.volume,
-      genres: ['Reggae', 'Reggaeton', 'Rock', 'Cumbia', 'Pop', 'Jazz', 'Folklore'],
-      genre: 'Rock'
+      genres: ['pop', 'rock', 'latina', 'dance', 'country', 'classical'],
+      genre: this.device.state.genre
     }
   },
-  watch: { // here we set the new values
-    state(newVal, oldVal) {
-
-    },
+  watch: {
     play(newVal, oldVal) {
-      // se podria hacer aca el play ya que tiene v-model
+      if (newVal)
+        this.sendAction("play", []);
+      else if (!this.stopped) this.sendAction("pause", []);
+    },
+    stopped(newVal, oldVal) {
+      if (newVal) {
+        this.play = false;
+        this.sendAction("stop", []);
+      }
     },
     volume(newVal, oldVal) {
-      // update volume
+      this.sendAction("setVolume", [newVal]);
     },
     genre(newVal, oldVal) {
-
+      this.sendAction("setGenre", [newVal]);
     }
   },
   template:
     `<v-container fluid>
-      <v-layout align-center wrap>
-        <v-layout column align-end mr-2>
-          <h3>Off</h3>
-        </v-layout>
-        <v-layout column>
-          <v-switch class="align-center justify-center" v-model="state" color="orange"></v-switch>
-        </v-layout>
-        <v-layout column>
-          <h3>On</h3>
-        </v-layout>
-      </v-layout>
-
       <v-list-item three-line>
         <v-list-item-content>
-          <v-list-item-subtitle>{{ getTime }}</v-list-item-subtitle>
-          <v-list-item-title>{{ song_name }}</v-list-item-title>
-          <v-list-item-subtitle>{{ song_artist }}</v-list-item-subtitle>
+          <v-list-item-subtitle>{{ song.progress }} / {{ song.duration }}</v-list-item-subtitle>  
+          <v-list-item-title>{{ song.title }}</v-list-item-title>
+          <v-list-item-subtitle>{{ song.artist }} - {{ song.album }}</v-list-item-subtitle>
         </v-list-item-content>
-        <v-btn icon @click="addPlaylist()" >
-          <v-icon v-show="playlist" size="40">mdi-playlist-plus</v-icon>
-          <v-icon v-show="!playlist" size="40">mdi-playlist-check</v-icon>
-        </v-btn>
       </v-list-item>
 
       <v-layout align-center wrap ma-3>
         <v-layout column>
-          <v-btn icon @click="skipPrevious()">
+          <v-btn icon @click="skipPrev()">
             <v-icon size="60">mdi-skip-previous-circle</v-icon>
           </v-btn>
         </v-layout>
 
         <v-layout column>
-          <v-btn icon @click="playPause()">
+          <v-btn icon @click="play = !play">
             <v-icon v-show="!play" size="60">mdi-play-circle</v-icon>
             <v-icon v-show="play" size="60">mdi-pause-circle</v-icon>
           </v-btn>
@@ -959,17 +945,17 @@ Vue.component('panel-speaker', {
         </v-layout>
 
         <v-layout column align-end>
-          <v-btn icon @click="stop()">
+          <v-btn icon @click="stopped = true">
             <v-icon size="60">mdi-stop-circle</v-icon>
           </v-btn>
         </v-layout>
       </v-layout>
 
       <v-subheader>Volume</v-subheader>
-      <v-slider v-model="volume" class="mt-4" prepend-icon="mdi-volume-medium" thumb-label="always"
+      <v-slider v-model="volume" class="mt-4" prepend-icon="mdi-volume-medium" thumb-label="always" min="0" max="10" step="1"
         thumb-size="25" color="orange" track-color="black" thumb-color="orange darken-2"></v-slider>
       
-      <v-select v-model="genre" :items="genres" required ></v-select>
+      <v-select v-model="genre" :items="genres" class="text-capitalize" required ></v-select>
     </v-container>`,
   computed: {
     getTime() {
@@ -977,24 +963,36 @@ Vue.component('panel-speaker', {
     }
   },
   methods: {
-    skipPrevious() {
-      // do something here to skip song
-      // update values
+    skipNext(){
+      this.sendAction("nextSong", []);
     },
-    skipNext() {
-      // same 
+    skipPrev(){
+      this.sendAction("previousSong", []);
     },
-    playPause() {
-      this.play = !this.play;
-      // sennd play to back
+    getSong(device) {
+      if (this.device.state.status === "stopped") return {title: "-",
+                                                          artist: "-",
+                                                          album: "-",
+                                                          duration: "-",
+                                                          progress: "-"};
+      return device.state.song;
     },
-    stop() {
-      this.play = false;
-      // send stop to back
+    async sendAction(action, param) {
+      let rta = await execAction(this.device.id, action, param)
+        .catch((error) => {
+          this.errorMsg = error[0].toUpperCase() + error.slice(1);
+          console.error(this.errorMsg);
+        });
+      if (!rta) {
+        this.error = true;
+      }
     },
-    addPlaylist() {
-      this.playlist = !this.playlist;
-      // send stop to back
+    updateDev(device) {
+      this.song = this.getSong(device);
+      this.play = (device.state.status === "playing");
+      this.stopped = (device.state.status === "stopped");
+      this.volume = device.state.volume;
+      this.genre = device.state.genre;
     },
     async getData() {
       let rta = await getDevice(this.device.id)
@@ -1004,7 +1002,7 @@ Vue.component('panel-speaker', {
         });
       if (rta) {
         console.log(rta.result);
-        // this.device = rta.result; // updateDev
+        this.updateDev(rta.result);
       } else {
         this.error = true;
       }
