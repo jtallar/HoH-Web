@@ -28,14 +28,19 @@ new Vue({
               var aux = i.room;
               this.rooms.push(aux);
             }
-            this.rooms = new Set(this.rooms);
-            this.rooms = [...this.rooms];
-            console.log("heloooooo");
+            this.rooms = this.deleteDup(this.rooms);
           }
         } else {
           this.error = true;
         }
       }
+    },
+    deleteDup(arr) {
+      return uniqueArray = arr.filter((item,index) => {
+        return index === arr.findIndex(obj => {
+          return JSON.stringify(obj) === JSON.stringify(item);
+        });
+      });
     },
     getDataFromUrl() {
       var aux = location.search.substr(2).split('+');
