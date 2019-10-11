@@ -1538,7 +1538,8 @@ Vue.component('edit-device', {
       name: this.device.name,
       overlay: true,
       rooms: [],
-      room: { name: this.device.room.name, id: this.device.room.id },
+      // room: { name: this.device.room.name, id: this.device.room.id },
+      room: this.device.room.id,
       types: [],
       type: { name: this.device.type.name[0].toUpperCase() + this.device.type.name.slice(1), id: this.device.type.id },
       dialog: false,
@@ -1620,7 +1621,7 @@ Vue.component('edit-device', {
             console.error(this.errorMsg);
           });
         if (rta) {
-          console.error(this.room);
+          console.error(this.room.id);
           console.error(this.device.room.id);
           if (this.room != this.device.room.id) {
             let rta = await deleteDeviceFromRoom(this.device.id)
