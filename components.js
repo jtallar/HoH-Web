@@ -85,7 +85,7 @@ Vue.component('panel', {
             <v-list-item-title class="text-capitalize">{{ device.name }}</v-list-item-title>
             <v-list-item-subtitle class="text-capitalize">{{ device.room.name }}</v-list-item-subtitle>
           </v-list-item-content>
-          <v-btn icon v-show="selected" @click="toggleFav">
+          <v-btn icon v-show="selected" @click="toggleFavorite">
             <v-icon v-show="device.meta.favorite">mdi-star</v-icon>
             <v-icon v-show="!device.meta.favorite">mdi-star-outline</v-icon>
           </v-btn>
@@ -109,12 +109,19 @@ Vue.component('panel', {
       </v-snackbar>
     </v-navigation-drawer>`,
   methods: {
-    toggleFav() {
-      // this.device.meta.favorite = !this.device.meta.favorite;
-      // if (this.device.meta.favorite) favDevices.push({
-      //   devName, devCat, devRoom
-      // });
-      // console.log(favDevices);
+    async toggleFavorite() {
+      this.device.meta.favorite = !this.device.meta.favorite;
+      console.log(this.device);
+      let rta = await modifyDevice(this.device.id, this.device.name, this.device.meta.favorite)
+        .catch((error) => {
+          this.errorMsg = error[0].toUpperCase() + error.slice(1);
+          console.error(this.errorMsg);
+        });
+      if (rta) {
+        console.log(rta.result);
+      } else {
+        this.error = true;
+      }
     },
     launchSettings() {
       // do something here when motherfucker touches settings
@@ -1679,7 +1686,7 @@ Vue.component('edit-device', {
         this.resetVar();
         this.$root.$emit('Finished edit', this.name, true);
         this.$root.$emit('Finished add', 3);
-        this.$root.$emit('Device Deleted');
+        window.location.reload();
       } else {
         this.error = true;
       }
