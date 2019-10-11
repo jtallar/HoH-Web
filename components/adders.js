@@ -3,6 +3,10 @@ Vue.component('add-btn', {
     context: {
       type: String,
       required: true
+    },
+    room: {
+      type: String,
+      required: false
     }
   },
   data() {
@@ -25,7 +29,7 @@ Vue.component('add-btn', {
         <span v-show="getContext=='add-room'">Add Room</span>
         <span v-show="getContext=='new-routine'">Add Routine</span>
       </v-tooltip>
-      <component v-show="overlay" :is="getContext"> </component>
+      <component v-show="overlay" :is="getContext" :default="room"> </component>
 
       <v-snackbar v-model="snackbarOk" > {{snackbarMsg}}
               <v-btn color="green" text @click="snackbarOk = false"> OK </v-btn>
@@ -75,12 +79,18 @@ Vue.component('add-btn', {
 })
 
 Vue.component('add-device', {
+  props: {
+    default: {
+      type: String,
+      required: true
+    }
+  },
   data() {
     return {
       name: '',
       overlay: false,
       rooms: [],
-      room: undefined,
+      room: "",
       types: [],
       typedIds: [],
       type: undefined,
@@ -206,9 +216,8 @@ Vue.component('add-device', {
         for (i of rta.result) {
           var el = { name: i.name, id: i.id };
           this.rooms.push(el);
+          if (el.id === this.default) this.room = el.id;
         }
-        this.room = this.rooms[0].id;
-
         let rta2 = await getAll("Type")
           .catch((error) => {
             this.errorMsg = error[0].toUpperCase() + error.slice(1);

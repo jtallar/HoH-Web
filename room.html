@@ -25,7 +25,7 @@
         <room-cat v-show="gotData && entertainment.length > 0" :devices="entertainment" category="Entertainment"></room-cat>
         <room-cat v-show="gotData && doorswindows.length > 0" :devices="doorswindows" category="Doors & Windows"></room-cat>
         
-        <add-btn context="device"></add-btn>
+        <add-btn context="device" :room="id"></add-btn>
   
 
       </v-content>
