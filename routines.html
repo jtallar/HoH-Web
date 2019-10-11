@@ -14,19 +14,27 @@
     <v-app id="inspire">
       <toolbar :tab="3"></toolbar>
       <v-content>
+        <v-container>
           <v-row justify="center">
-              <v-col v-for="routine in routines" :key="routine.id" cols="auto">
-                <routine-btn :title="routine.name" :img_name="routine.meta.img"></routine-btn>
-              </v-col>
+            <v-col v-for="routine in routines" :key="routine.id" cols="auto">
+              <routine-btn :title="routine.name" :img_name="routine.meta.img"></routine-btn>
+            </v-col>
+            <v-col v-if="routines.length === 0 && gotData" cols="auto">
+              <no-card text="No Routines created!"></no-card>
+            </v-col>
           </v-row>
-          <add-btn context="routine"> </add-btn>
+        </v-container>
+        <add-btn context="routine"> </add-btn>
       </v-content>
     </v-app>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
   <script src="./source/api.js"></script>
-  <script src="components.js"></script>
+  <script src="./components/toolbar.js"></script>
+  <script src="./components/list-card.js"></script>
+  <script src="./components/adders.js"></script>
+  
   <script src="source/routines.js"></script>
 
 </body>

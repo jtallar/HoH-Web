@@ -17,7 +17,7 @@
       <v-content v-if="!error">
         <v-container>
 
-          <div class="mt-4 ml-4 mb-2 title font-weight-bold">Favorites Devices</div>
+          <div class="mt-4 ml-4 mb-2 title font-weight-bold">Favorite Devices</div>
           <v-slide-group light>
             <v-slide-item v-for="device in favDevices" :key="device.id">
               <dev-btn :device=device></dev-btn>
@@ -27,7 +27,7 @@
             </v-slide-item>
           </v-slide-group>
 
-          <div class="mt-4 ml-4 mb-2 title font-weight-bold">Favorites Rooms</div>
+          <div class="mt-4 ml-4 mb-2 title font-weight-bold">Favorite Rooms</div>
           <v-slide-group light>
             <v-slide-item v-for="room in favRooms" :key="room.id">
               <card-btn type="room" :title="room.name" :img_name="room.meta.image" :id="room.id"></card-btn>
@@ -37,7 +37,7 @@
             </v-slide-item>
           </v-slide-group>
 
-          <div class="mt-4 ml-4 mb-2 title font-weight-bold">Favorites Routines</div>
+          <div class="mt-4 ml-4 mb-2 title font-weight-bold">Favorite Routines</div>
           <v-slide-group light>
             <v-slide-item v-for="routine in favRoutines" :key="routine.id">
               <routine-btn :title="routine.name" :img_name="routine.meta.image"></routine-btn>
@@ -65,7 +65,11 @@
   <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
   <script src="./source/api.js"></script>
-  <script src="components.js"></script>
+  <script src="./components/toolbar.js"></script>
+  <script src="./components/list-card.js"></script>
+  <script src="./components/list-dev.js"></script>
+  <script src="./components/panel.js"></script>
+  
   <script src="source/home.js"></script>
   <noscript>
     <div class="noScriptHeader">

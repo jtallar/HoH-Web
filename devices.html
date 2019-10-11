@@ -15,7 +15,7 @@
       <toolbar :tab="2"></toolbar>
       <v-content>
         <v-row justify="center" class="mt-5">
-          <v-col v-for="cat in categories" cols="auto">
+          <v-col v-for="cat in categories" :key="cat.title" cols="auto">
             <card-btn type="device" :width="4" :title="cat.title" :img_name="cat.img" :id="cat.id"></card-btn>
           </v-col>
         </v-row>
@@ -29,7 +29,10 @@
   <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
   <script src="./source/api.js"></script>
-  <script src="components.js"></script>
+  <script src="./components/toolbar.js"></script>
+  <script src="./components/list-card.js"></script>
+  <script src="./components/adders.js"></script>
+  
   <script src="source/devices.js"></script>
 
 </body>

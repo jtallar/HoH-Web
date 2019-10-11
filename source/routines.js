@@ -5,6 +5,7 @@ new Vue({
         error: false,
         errorMsg: '',
         routines: [],
+        gotData: false
     }),
     methods: {
         async getRoutines() {
@@ -18,6 +19,7 @@ new Vue({
                 if (rta.result.length >= 1)
                     for (i of rta.result)
                         this.routines.push(i);
+                this.gotData = true;
             } else {
                 this.error = true;
             }
