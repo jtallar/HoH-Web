@@ -712,11 +712,11 @@ Vue.component('panel-speaker', {
   },
   data() {
     return {
+      stopped: (this.device.state.status === "stopped"),
       song: this.getSong(this.device),
       play: (this.device.state.status === "playing"),
-      stopped: (this.device.state.status === "stopped"),
       volume: this.device.state.volume,
-      genres: ['pop', 'rock', 'latina', 'dance', 'country', 'classical'],
+      genres: ['pop', 'rock', 'dance', 'country', 'classical'],
       genre: this.device.state.genre
     }
   },
@@ -795,11 +795,11 @@ Vue.component('panel-speaker', {
       this.sendAction("previousSong", []);
     },
     getSong(device) {
-      if (this.device.state.status === "stopped") return {title: "-",
-                                                          artist: "-",
-                                                          album: "-",
-                                                          duration: "-",
-                                                          progress: "-"};
+      if (this.stopped || device.state.song === undefined) return {title: "-",
+                                                                    artist: "",
+                                                                    album: "",
+                                                                    duration: "-",
+                                                                    progress: "-"};
       return device.state.song;
     },
     async sendAction(action, param) {
