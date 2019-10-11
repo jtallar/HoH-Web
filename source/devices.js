@@ -21,6 +21,11 @@ new Vue({
           console.error(this.errorMsg);
         });
       if (rta) {
+        this.categories[0].id = "";
+        this.categories[1].id = "";
+        this.categories[2].id = "";
+        this.categories[3].id = "";
+        this.categories[4].id = "";
         console.log(rta.result);
         if (rta.result.length >= 1) {
           for (i of rta.result) {
@@ -41,6 +46,7 @@ new Vue({
           this.categories[4].id += "+" + type.id + "+" + type.name;
           break;
         case "lamp":
+          console.error("hellllo");
           this.categories[0].id += "+" + type.id + "+" + type.name;
           break;
         case "oven":
