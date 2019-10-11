@@ -52,6 +52,7 @@ new Vue({
         this.types.push(aux2);
       }
       this.title = aux[aux.length - 1].split('_').join(' ');
+      document.title = this.title;
     }
   },
   mounted() {

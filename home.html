@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
   <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
@@ -7,6 +7,7 @@
   <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
   <link href="./source/main.css" rel="stylesheet">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+  <title>Home</title>
 </head>
 
 <body>
@@ -52,7 +53,7 @@
       <v-content v-if="error">
         <v-container>
           <v-row class="justify-center">
-              <img src="./resources/images/robot.png" alt="errorAjax" height="300px"></img>
+              <img src="./resources/images/robot.png" alt="Error Ajax" class="robot-img"></img>
           </v-row>
           <v-row class="justify-center">
             <h1>Could not connect to Ajax!</h1>
@@ -73,11 +74,11 @@
   <script src="source/home.js"></script>
   <noscript>
     <div class="noScriptHeader">
-      <a href="#home" class="logo"><img src="./resources/images/logo.png" alt="logo" height="40px"></a>
+      <a href="#home" class="logo"><img src="./resources/images/logo.png" alt="logo" class="logo-img"></a>
       <a href="#home" class="logo">House of Hands</a>
     </div>
     <div class="noScriptErrorMsg">
-      <img src="./resources/images/robot.png" alt="error" height="300px"></img>
+      <img src="./resources/images/robot.png" alt="Error JavaScript" class="robot-img"></img>
       <h1>Your browser does not support JavaScript!</h1>
     </div>
   </noscript>

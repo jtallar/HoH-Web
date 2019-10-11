@@ -6,6 +6,31 @@
     background-color: rgba(22, 22, 22, 0.5),
 }
 
+.error-img-width {
+  width: 50px;
+}
+
+.robot-img {
+  height: 300px;
+}
+
+.logo-img {
+  height: 35px;
+}
+
+.add-room-card {
+  width: 700px;
+}
+
+.add-room-img {
+  height: 150px;
+  width: 300px;
+}
+
+.add-room-sheet {
+  height: 500px;
+}
+
 .noScriptHeader {
     overflow: hidden;
     background-color: #000000;

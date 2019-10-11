@@ -74,6 +74,7 @@ new Vue({
             dev.room = { id: this.id, name: this.room.name };
             this.addToCat(dev);
           }
+          document.title = this.room.name;
           this.gotData = true;
         } else {
           this.error = true;

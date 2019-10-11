@@ -125,7 +125,7 @@ Vue.component('add-device', {
           <v-card-title/>
           <v-row class="align-center">
             <v-col class="ml-4" cols="2">
-              <v-img src="./resources/images/error.png" width="50"></v-img>
+              <v-img src="./resources/images/error.png" class="error-img-width"></v-img>
             </v-col>
             <v-col cols="9">
               <v-card-text class="body-1">Please create a room before adding devices</v-card-text>
@@ -256,7 +256,7 @@ Vue.component('add-room', {
     `<v-container fluid>
 
       <v-overlay>
-      <v-card width="700" light>
+      <v-card class="add-room-card" light>
           <v-card-title>
               <span class="headline">Add Room</span>
           </v-card-title>
@@ -282,7 +282,7 @@ Vue.component('add-room', {
           </v-card-text>
           
           <v-bottom-sheet v-model="sheet">
-          <v-sheet  dark class="text-center" height="500px">
+          <v-sheet  dark class="text-center" height="getHeight / 2">
               <v-card dark max-width="15000" class="mx-auto">
                   <v-container class="pa-1">
                       <v-item-group v-model="image">
@@ -290,7 +290,7 @@ Vue.component('add-room', {
                           <v-col v-for="(item, i) in images" :key="i" cols="12" md="2">
                               <v-item v-slot:default="{ active, toggle }">
                               <v-img :src="\`./resources/images/\${item}\`"
-                                  height="150" width="300" class="text-right pa-2" @click="toggle">
+                                  class="text-right pa-2 add-room-img" @click="toggle">
                                   <v-btn icon dark >
                                   <v-icon color="orange darken-2 ">
                                       {{ active ? 'mdi-check-circle' : 'mdi-circle-outline' }}
@@ -319,6 +319,14 @@ Vue.component('add-room', {
         <v-btn color="red" text @click="error = false; errorText = false"> OK </v-btn>
       </v-snackbar>
     </v-container>`,
+  computed: {
+    getWidth() {
+      return screen.width / this.width; // ver si da limitarlo con max y min
+    },
+    getHeight() {
+      return this.getWidth / this.ratio;
+    },
+  },
   methods: {
     async accept() {
       if (this.name.length < 3 || this.name.length > 60) {

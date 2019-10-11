@@ -2,6 +2,7 @@ new Vue({
   el: '#app',
   vuetify: new Vuetify(),
   data: () => ({
+    width: 4,
     error: false,
     errorMsg: '',
     categories: [
