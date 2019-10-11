@@ -74,6 +74,7 @@ new Vue({
           }
         }
         this.gotData = true;
+        this.error = false;
       } else {
         this.error = true;
       }
