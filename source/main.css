@@ -5,4 +5,29 @@
 .button-text{
     background-color: rgba(22, 22, 22, 0.5),
 }
-  
+
+.noScriptHeader {
+    overflow: hidden;
+    background-color: #000000;
+    padding: 0px 10px;
+  }
+.noScriptHeader a {
+  float: left;
+  color: rgb(255, 255, 255);
+  text-align: center;
+  padding: 10px;
+  text-decoration: none;
+  font-size: 18px; 
+  line-height: 25px;
+}
+.noScriptHeader a.logo {
+  font-size: 25px;
+  font-weight: bold;
+}
+.noScriptHeader-right {
+  float: right;
+}
+.noScriptErrorMsg {
+  padding: 50px;
+  text-align: center;
+}

@@ -14,7 +14,7 @@
     <v-app id="inspire">
       <toolbar :tab="0"></toolbar>
       <panel></panel>
-      <v-content>
+      <v-content v-if="!error">
         <v-container>
 
           <div class="mt-4 ml-4 mb-2 title font-weight-bold">Favorites Devices</div>
@@ -49,6 +49,17 @@
 
         </v-container>
       </v-content>
+      <v-content v-if="error">
+        <v-container>
+          <v-row class="justify-center">
+              <img src="./resources/images/robot.jpg" alt="errorAjax" height="300px"></img>
+          </v-row>
+          <v-row class="justify-center">
+            <h1>Could not connect to Ajax!</h1>
+          </v-row>
+          
+        </v-container>
+      </v-content>
     </v-app>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
@@ -56,6 +67,16 @@
   <script src="./source/api.js"></script>
   <script src="components.js"></script>
   <script src="source/home.js"></script>
+  <noscript>
+    <div class="noScriptHeader">
+      <a href="#home" class="logo"><img src="./resources/images/logo.png" alt="logo" height="40px"></a>
+      <a href="#home" class="logo">House of Hands</a>
+    </div>
+    <div class="noScriptErrorMsg">
+      <img src="./resources/images/robot.jpg" alt="error" height="300px"></img>
+      <h1>Your browser does not support JavaScript!</h1>
+    </div>
+  </noscript>
 
 </body>
 
