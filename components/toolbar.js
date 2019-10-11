@@ -77,8 +77,14 @@ Vue.component('toolbar-login', {
   
           <!-- login -->
           <template v-if="$vuetify.breakpoint.smAndUp">
-            <input filled placeholder="Username">
-            <input type="password" placeholder="Password">
+          <v-row justify="end">
+              <v-col cols="6" sm="3">
+                <v-text-field label="Username" filled></v-text-field>
+              </v-col>
+              <v-col cols="6" sm="3">
+                <v-text-field label="Password" type="password" filled></v-text-field>
+              </v-col>
+            </v-row>
             <v-btn icon href="./home.html">
                 <v-icon>mdi-forward</v-icon>
             </v-btn>
