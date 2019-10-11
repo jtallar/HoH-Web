@@ -18,8 +18,10 @@ new Vue({
     async getFavRooms() {
       let rta = await getAll("Room")
         .catch((error) => {
-          this.errorMsg = error[0].toUpperCase() + error.slice(1);
-          console.error(this.errorMsg);
+          if (!error === undefined) {
+            this.errorMsg = error[0].toUpperCase() + error.slice(1);
+            console.error(this.errorMsg);
+          }
         });
       if (rta) {
         this.favRooms = [];
@@ -39,8 +41,10 @@ new Vue({
     async getFavDevices() {
       let rta = await getAll("Device")
         .catch((error) => {
-          this.errorMsg = error[0].toUpperCase() + error.slice(1);
-          console.error(this.errorMsg);
+          if (!error === undefined) {
+            this.errorMsg = error[0].toUpperCase() + error.slice(1);
+            console.error(this.errorMsg);
+          }
         });
       if (rta) {
         this.favDevices = [];
@@ -56,8 +60,10 @@ new Vue({
     async getFavRoutines() {
       let rta = await getAll("Routine")
         .catch((error) => {
-          this.errorMsg = error[0].toUpperCase() + error.slice(1);
-          console.error(this.errorMsg);
+          if (!error === undefined) {
+            this.errorMsg = error[0].toUpperCase() + error.slice(1);
+            console.error(this.errorMsg);
+          }
         });
       if (rta) {
         this.favRoutines = [];
