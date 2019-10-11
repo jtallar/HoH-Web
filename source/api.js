@@ -127,6 +127,10 @@ api.room = class {
   static addDevice(roomId, deviceId, param) {
     return api.post(api.room.url + roomId + '/devices/' + deviceId, (param === undefined) ? "{}" : param);
   }
+
+  static deleteDevice(deviceId) {
+    return api.delete(api.room.url + 'devices/' + deviceId);
+  }
 }
 
 api.device = class {
@@ -299,7 +303,7 @@ function createDevice(name, type, fav) {
     "meta": {
       "favorite": fav
     }
-  })
+  });
 }
 
 function deleteRoom(id){
@@ -312,6 +316,10 @@ function deleteDevice(id){
 
 function addDeviceToRoom(roomId, deviceId) {
   return api.room.addDevice(roomId, deviceId);
+}
+
+function deleteDeviceFromRoom(deviceId) {
+  return api.room.deleteDevice(deviceId);
 }
 
 function getRoom(id) {
@@ -328,6 +336,16 @@ function getRoomDevices(roomId) {
 
 function getDevice(id) {
   return api.device.get(id);
+}
+
+function modifyDevice(id, name, fav) {
+  return api.device.modify({
+    "id": id,
+    "name": name,
+    "meta": {
+      "favorite": fav
+    }
+  });
 }
 
 function getAllFromType(id) {
