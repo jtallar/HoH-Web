@@ -7,10 +7,12 @@ new Vue({
     title: "",
     types: [],
     devices: [],
-    rooms: []
+    rooms: [],
   }),
   methods: {
     async getDevices() {
+      var auxDev = [];
+      var auxRooms = [];
       for (type of this.types) {
         let rta = await getAllFromType(type.id)
           .catch((error) => {
@@ -20,27 +22,27 @@ new Vue({
         if (rta) {
           console.log(rta.result);
           if (rta.result.length >= 1) {
-            this.devices = [];
-            this.rooms = [];
             for (i of rta.result) {
               i["type"] = type;
-              this.devices.push(i);
+              auxDev.push(i);
               var aux = i.room;
-              this.rooms.push(aux);
+              if (this.notContains(aux, auxRooms)) auxRooms.push(aux);
             }
-            this.rooms = this.deleteDup(this.rooms);
+          }
+          if (type === this.types[this.types.length-1]) {
+            this.rooms = auxRooms;
+            this.devices = auxDev;
           }
         } else {
           this.error = true;
         }
       }
     },
-    deleteDup(arr) {
-      return uniqueArray = arr.filter((item,index) => {
-        return index === arr.findIndex(obj => {
-          return JSON.stringify(obj) === JSON.stringify(item);
-        });
-      });
+    notContains(room, arr) {
+      for (data of arr) {
+        if (data.id === room.id) return false;
+      }
+      return true;
     },
     getDataFromUrl() {
       var aux = location.search.substr(2).split('+');
@@ -55,7 +57,7 @@ new Vue({
   mounted() {
     this.getDataFromUrl();
     this.getDevices();
-    let timer = setInterval(()=> this.getDevices(), 1000);
+    let timer = setInterval(() => this.getDevices(), 3000);
   }
 
 })

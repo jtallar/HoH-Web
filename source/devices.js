@@ -46,7 +46,6 @@ new Vue({
           this.categories[4].id += "+" + type.id + "+" + type.name;
           break;
         case "lamp":
-          console.error("hellllo");
           this.categories[0].id += "+" + type.id + "+" + type.name;
           break;
         case "oven":
@@ -57,9 +56,6 @@ new Vue({
           break;
         case "door":
           this.categories[4].id += "+" + type.id + "+" + type.name;
-          break;
-        case "vacuum":
-          this.categories[1].id += "+" + type.id + "+" + type.name;
           break;
         case "refrigerator":
           this.categories[1].id += "+" + type.id + "+" + type.name;

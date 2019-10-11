@@ -148,6 +148,8 @@ Vue.component('panel', {
           return './resources/icons/web/speaker_playing.svg';
         case "oven":
           return './resources/icons/web/oven_on.svg';
+        case "refrigerator":
+          return './resources/icons/web/fridge.svg'
         default:
           return './resources/icons/generic/close.svg';
       }
@@ -156,8 +158,6 @@ Vue.component('panel', {
       switch (this.device.type.name) {
         case "lamp":
           return "panel-light";
-        case "vacuum":
-          return "panel-vacuum";
         case "ac":
           return "panel-airconditioner";
         case "door":
@@ -168,6 +168,8 @@ Vue.component('panel', {
           return "panel-speaker";
         case "oven":
           return "panel-oven";
+        case "refrigerator":
+          return "panel-refrigerator"
         default:
           return "panel-none";
       }
@@ -421,7 +423,7 @@ Vue.component('dev-btn', {
     `<v-col class="text-center">
       <v-btn class="mb-1" :outlined="!selected" :width="getSize" :height="getSize" fab color="grey darken-4" @click="toggleSelected">
         <div>
-          <v-img :max-width="getIconSize" :src="getImg" contain/>
+          <v-img eager :max-width="getIconSize" :src="getImg" contain/>
         </div>
       </v-btn>
       <div class="text-capitalize black--text font-weight-light mb-1">
@@ -433,6 +435,7 @@ Vue.component('dev-btn', {
       return screen.width / 13; // ver si da limitarlo con max y min
     },
     getIconSize() {
+      if (this.device.type.name === "refrigerator" || this.device.type.name === "door") return this.getSize / 3;
       return this.getSize / 2;
     },
     getName() {
@@ -480,6 +483,8 @@ Vue.component('dev-btn', {
             return './resources/icons/web/oven_on.svg';
           else
             return './resources/icons/web/oven_off.svg';
+        case "refrigerator":
+          return "./resources/icons/web/fridge.svg";
         default:
           return './resources/icons/generic/close.svg';
       }
@@ -754,6 +759,104 @@ Vue.component('panel-oven', {
       this.heat_source = this.getHeatIndex(device.state.heat);
       this.convection_mode = this.getConvectionIndex(device.state.convection);
       this.grill_mode = this.getGrillIndex(device.state.grill);
+    },
+    async getData() {
+      let rta = await getDevice(this.device.id)
+        .catch((error) => {
+          this.errorMsg = error[0].toUpperCase() + error.slice(1);
+          console.error(this.errorMsg);
+        });
+      if (rta) {
+        console.log(rta.result);
+        this.updateDev(rta.result);
+      } else {
+        this.error = true;
+      }
+    }
+  },
+  mounted() {
+    this.getData();
+    let timer = setInterval(() => this.getData(), 1000);
+  }
+})
+
+Vue.component('panel-refrigerator', {
+  props: {
+    device: {
+      type: Object,
+      required: true
+    }
+  },
+  data() {
+    return {
+      temperature: this.device.state.temperature,
+      freezer_temp: this.device.state.freezerTemperature,
+      mode: this.getModeIndex(this.device.state.mode)
+    }
+  },
+  watch: { // here we set the new values
+    temperature(newVal, oldVal) {
+      this.sendAction("setTemperature", [newVal])
+    },
+    freezer_temp(newVal, oldVal) {
+      this.sendAction("setFreezerTemperature", [newVal])
+    },
+    mode(newVal, oldVal) {
+      var aux = "party";
+      if (newVal === 0)
+        aux = "default";
+      else if (newVal === 1)
+        aux = "vacation";
+      this.sendAction("setMode", [aux]);
+    }
+  },
+  template:
+    `<v-container fluid>
+      <v-subheader class="mt-5">Temperature</v-subheader>
+      <v-slider v-model="temperature" class="mt-4" step="1" ticks="always" tick-size="4" min="2" max="8"
+        thumb-label="always" thumb-size="25" color="orange" track-color="black"
+        thumb-color="orange darken-2"></v-slider>
+
+      <v-subheader>Freezer Temperature</v-subheader>
+      <v-slider v-model="freezer_temp" class="mt-4" step="1" ticks="always" tick-size="4" min="-20" max="-8"
+        thumb-label="always" thumb-size="25" color="orange" track-color="black"
+        thumb-color="orange darken-2"></v-slider>
+    
+      <v-subheader>Mode</v-subheader>
+      <v-layout column align-center>
+        <v-btn-toggle v-model="mode" tile color="orange darken-2" group mandatory>
+          <v-btn>Normal</v-btn>
+          <v-btn>Vacation</v-btn>
+          <v-btn>Party</v-btn>
+        </v-btn-toggle>
+      </v-layout>
+
+    </v-container>`,
+  methods: {
+    async sendAction(action, param) {
+      let rta = await execAction(this.device.id, action, param)
+        .catch((error) => {
+          this.errorMsg = error[0].toUpperCase() + error.slice(1);
+          console.error(this.errorMsg);
+        });
+      if (!rta) {
+        this.error = true;
+      }
+    },
+    getModeIndex(name) {
+      switch (name) {
+        case "vacation":
+          return 1;
+        case "party":
+          return 2;
+        case "default":
+          return 0;
+      }
+    },
+    updateDev(device) {
+      this.temperature = device.state.temperature;
+      this.freezer_temp = device.state.freezerTemperature;
+      this.mode = this.getModeIndex(device.state.mode);
     },
     async getData() {
       let rta = await getDevice(this.device.id)
@@ -1099,7 +1202,7 @@ Vue.component('panel-airconditioner', {
       auto_horizontal_wings: (this.device.state.horizontalSwing === "auto"),
     }
   },
-  watch: { 
+  watch: {
     state(newVal, oldVal) {
       if (newVal)
         this.sendAction("turnOn", []);
@@ -1262,118 +1365,7 @@ Vue.component('panel-airconditioner', {
   }
 })
 
-Vue.component('panel-vacuum', {
-  props: {
-    device: {
-      type: Object,
-      required: true
-    }
-  },
-  data() {
-    return {
-      state: false,
-      play: false,
-      charging: false,
-      mode: 0, // 0: vacuum, 1: mop
-      room: 'Living Room',
-      charging_base: 'Bathroom',
-      rooms: [],
-      error: false,
-      errorMsg: ''
-    }
-  },
-  watch: { // here we set the new values
-    state(newVal, oldVal) {
 
-    },
-    play(newVal, oldVal) {
-      // se podria hacer aca el play ya que tiene v-model
-    },
-    charging(newVal, oldVal) {
-      // update volume
-    },
-    mode(newVal, oldVal) {
-
-    },
-    room(newVal, oldVal) {
-
-    },
-    charging_base(newVal, oldVal) {
-
-    }
-  },
-  template:
-    `<v-container fluid>
-      <v-layout align-center wrap>
-        <v-layout column align-end mr-2>
-          <h3>Off</h3>
-        </v-layout>
-        <v-layout column>
-          <v-switch class="align-center justify-center" v-model="state" color="orange"></v-switch>
-        </v-layout>
-        <v-layout column>
-          <h3>On</h3>
-        </v-layout>
-      </v-layout>
-
-      <v-layout align-center wrap ma-3>
-        <v-layout column ml-5>
-            <v-btn icon @click="playPause()">
-                <v-icon v-show="play" size="60">mdi-play-circle</v-icon>
-                <v-icon v-show="!play" size="60">mdi-pause-circle</v-icon>
-            </v-btn>
-        </v-layout>
-        <v-layout column>
-            <v-btn class="my-2" color="orange darken-2" block @click="goToCharge()" width="100">
-                <h3 v-show="!charging">GO CHARGE</h3>
-                <h3 v-show="charging">CHARGING</h3>
-            </v-btn>
-        </v-layout>
-      </v-layout>
-
-      <v-subheader>Mode</v-subheader>
-      <v-layout column align-center>
-          <v-btn-toggle v-model="mode" tile color="orange darken-2" group mandatory>
-              <v-btn>Vacuum</v-btn>
-              <v-btn>Mop</v-btn>
-          </v-btn-toggle>
-      </v-layout>
-
-      <v-subheader>Room to Clean</v-subheader>
-      <v-select v-model="room" :items="rooms" :value="room" required></v-select>
-      
-      <v-subheader>Charging Base in</v-subheader>
-      <v-select v-model="charging_base" :items="rooms" :value="charging_base" required></v-select>
-    </v-container>`,
-  methods: {
-    playPause() {
-      this.play = !this.play;
-      // sennd play to back
-    },
-    goToCharge() {
-      this.charging = !this.charging;
-      // send stop to back
-    }
-  },
-  async mounted() {
-    let rta = await getAll("Room")
-      .catch((error) => {
-        this.errorMsg = error[0].toUpperCase() + error.slice(1);
-        console.error(this.errorMsg);
-      });;
-    if (rta) {
-      for (i of rta.result) {
-        this.rooms.push(i.name);
-      }
-    } else {
-      this.error = true;
-    }
-
-    if (!this.error) {
-
-    }
-  }
-})
 
 Vue.component('add-device', {
 
@@ -1518,7 +1510,7 @@ Vue.component('add-device', {
           });
         if (rta2) {
           for (i of rta2.result) {
-            if (i.name != 'alarm' && i.name != 'refrigerator') {
+            if (i.name != 'alarm' && i.name != 'vacuum') {
               let el = { name: i.name[0].toUpperCase() + i.name.slice(1), id: i.id };
               this.types.push(el);
             }
@@ -1638,16 +1630,16 @@ Vue.component('edit-device', {
           let roomChanged = (this.room != this.device.room.id);
           if (roomChanged) {
             let rta = await deleteDeviceFromRoom(this.device.id)
-            .catch((error) => {
-              this.errorMsg = error[0].toUpperCase() + error.slice(1);
-              console.error(this.errorMsg);
-            });
-            if (rta) {
-              let rta = await addDeviceToRoom(this.room, this.device.id)
               .catch((error) => {
                 this.errorMsg = error[0].toUpperCase() + error.slice(1);
                 console.error(this.errorMsg);
               });
+            if (rta) {
+              let rta = await addDeviceToRoom(this.room, this.device.id)
+                .catch((error) => {
+                  this.errorMsg = error[0].toUpperCase() + error.slice(1);
+                  console.error(this.errorMsg);
+                });
               if (!rta) {
                 this.error = true;
               }
@@ -1674,14 +1666,14 @@ Vue.component('edit-device', {
       this.dialog = false;
       this.$root.$emit('Finished add', 1);
     },
-    async removeDevice () {
+    async removeDevice() {
       this.dialog = false;
 
       let rta = await deleteDevice(this.device.id)
-      .catch((error) => {
-        this.errorMsg = error[0].toUpperCase() + error.slice(1);
-        console.error(this.errorMsg);
-      });
+        .catch((error) => {
+          this.errorMsg = error[0].toUpperCase() + error.slice(1);
+          console.error(this.errorMsg);
+        });
       if (rta) {
         this.resetVar();
         this.$root.$emit('Finished edit', this.name, true);
@@ -1856,7 +1848,7 @@ Vue.component('new-routine', {
       sheet: false,
       rooms: ['Living Room', 'Kitchen', 'Bathroom', 'Garage', 'Bedroom', 'Entertainement'],
       room: ' ',
-      devices: ['1','2'],
+      devices: ['1', '2'],
       device: ' ',
       options: [],
       option: ' ',
@@ -1940,13 +1932,13 @@ Vue.component('new-routine', {
     </v-container>`,
   methods: {
     // send form to back
-    create(){
-        this.resetVar();
-        this.$root.$emit('Finished add', 0);
+    create() {
+      this.resetVar();
+      this.$root.$emit('Finished add', 0);
     },
-    cancel(){
-        this.resetVar();
-        this.$root.$emit('Finished add', 1);
+    cancel() {
+      this.resetVar();
+      this.$root.$emit('Finished add', 1);
     },
     addAction() {
       this.actions.push(this.desc + ' - ' + this.device + ' - ' + this.room);
@@ -2361,10 +2353,10 @@ Vue.component('edit-room', {
     },
     async removeDev(id) {
       let rta = await deleteDevice(id)
-      .catch((error) => {
-        this.errorMsg = error[0].toUpperCase() + error.slice(1);
-        console.error(this.errorMsg);
-      });
+        .catch((error) => {
+          this.errorMsg = error[0].toUpperCase() + error.slice(1);
+          console.error(this.errorMsg);
+        });
       if (!rta) {
         this.error = true;
       }
@@ -2373,10 +2365,10 @@ Vue.component('edit-room', {
       this.dialog = false;
 
       let rta = await getRoomDevices(this.room.id)
-      .catch((error) => {
-        this.errorMsg = error[0].toUpperCase() + error.slice(1);
-        console.error(this.errorMsg);
-      });
+        .catch((error) => {
+          this.errorMsg = error[0].toUpperCase() + error.slice(1);
+          console.error(this.errorMsg);
+        });
       if (rta) {
         for (dev of rta.result) {
           this.removeDev(dev.id);
@@ -2387,10 +2379,10 @@ Vue.component('edit-room', {
 
       if (!this.error) {
         let rta = await deleteRoom(this.room.id)
-        .catch((error) => {
-          this.errorMsg = error[0].toUpperCase() + error.slice(1);
-          console.error(this.errorMsg);
-        });
+          .catch((error) => {
+            this.errorMsg = error[0].toUpperCase() + error.slice(1);
+            console.error(this.errorMsg);
+          });
         if (rta) {
           this.resetVar();
           window.location.replace('rooms.html');
@@ -2464,14 +2456,10 @@ Vue.component('device-bar', {
     </v-container>`
 })
 
-Vue.component('test', {
+Vue.component('dev-cat', {
   props: {
-    room_id: {
-      type: String,
-      required: true
-    },
-    title: {
-      type: String,
+    room: {
+      type: Object,
       required: true
     },
     devices: {
@@ -2481,13 +2469,15 @@ Vue.component('test', {
   },
   template:
     `<v-container>
-    <v-row>
-      <div class="title grey--text text-capitalize mt-4 ml-5">{{ title }}</div>
-    </v-row>
-    <v-row>
-      <v-col v-for="dev in devices" cols="auto">
-        <dev-btn :device="dev"></dev-btn>
-      </v-col>
-    </v-row>
-  </v-container>`
+      <v-row>
+        <div class="title grey--text text-capitalize mt-4 ml-5">{{ room.name }}</div>
+      </v-row>
+      <v-row >
+        <div v-for="dev in devices" :key="dev.id">
+          <v-col v-if="dev.room.id === room.id" cols="auto">
+            <dev-btn :device="dev"></dev-btn>
+          </v-col>
+        </div>
+      </v-row>
+    </v-container>`
 })
