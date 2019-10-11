@@ -66,7 +66,11 @@ Vue.component('panel', {
     return {
       device: { name: "No Device Selected", room: { name: "Please Select a Device" }, type: { name: "" }, meta: { favorite: false } },
       selected: false,
-      settings: false
+      settings: false,
+
+      snackbarCan: false,
+      snackbarOk: false,
+      snackbarMsg: ''
     }
   },
   template:
@@ -81,7 +85,7 @@ Vue.component('panel', {
             <v-list-item-title class="text-capitalize">{{ device.name }}</v-list-item-title>
             <v-list-item-subtitle class="text-capitalize">{{ device.room.name }}</v-list-item-subtitle>
           </v-list-item-content>
-          <v-btn icon v-show="selected" @click="toggleFav">
+          <v-btn icon v-show="selected" @click="toggleFavorite">
             <v-icon v-show="device.meta.favorite">mdi-star</v-icon>
             <v-icon v-show="!device.meta.favorite">mdi-star-outline</v-icon>
           </v-btn>
@@ -96,14 +100,28 @@ Vue.component('panel', {
 
       <!-- information and settings -->
       <component :is="getPanelContent" :device="device"></component>
+
+      <v-snackbar v-model="snackbarOk" > {{snackbarMsg}}
+              <v-btn color="green" text @click="snackbarOk = false"> OK </v-btn>
+      </v-snackbar>
+      <v-snackbar v-model="snackbarCan" > {{snackbarMsg}}
+              <v-btn color="red" text @click="snackbarCan = false"> OK </v-btn>
+      </v-snackbar>
     </v-navigation-drawer>`,
   methods: {
-    toggleFav() {
-      // this.device.meta.favorite = !this.device.meta.favorite;
-      // if (this.device.meta.favorite) favDevices.push({
-      //   devName, devCat, devRoom
-      // });
-      // console.log(favDevices);
+    async toggleFavorite() {
+      this.device.meta.favorite = !this.device.meta.favorite;
+      console.log(this.device);
+      let rta = await modifyDevice(this.device.id, this.device.name, this.device.meta.favorite)
+        .catch((error) => {
+          this.errorMsg = error[0].toUpperCase() + error.slice(1);
+          console.error(this.errorMsg);
+        });
+      if (rta) {
+        console.log(rta.result);
+      } else {
+        this.error = true;
+      }
     },
     launchSettings() {
       // do something here when motherfucker touches settings
@@ -167,6 +185,28 @@ Vue.component('panel', {
     this.$root.$on('Device Deselected', () => {
       this.device = { name: "No Device Selected", room: { name: "Please Select a Device" }, type: { name: "" }, meta: { favorite: false } };
       this.selected = false;
+    });
+    this.$root.$on('Finished edit', (name, exit) => {
+      this.settings = false;
+      this.device.name = name;
+      if (exit) {
+        this.device = { name: "No Device Selected", room: { name: "Please Select a Device" }, type: { name: "" }, meta: { favorite: false } };
+        this.selected = false;
+      }
+      // switch (state) {
+      //   case 1:
+      //     this.snackbarMsg = 'Operation cancelled!';
+      //     this.snackbarCan = true;
+      //     break;
+      //   case 2:
+      //     this.snackbarMsg = 'Successfully edited!';
+      //     this.snackbarOk = true;
+      //     break;
+      //   case 3:
+      //     this.snackbarMsg = 'Successfully deleted!';
+      //     this.snackbarCan = true;
+      //     break;
+      // }
     });
   }
 })
@@ -474,7 +514,7 @@ Vue.component('dev-btn', {
     }
   },
   async mounted() {
-    this.$root.$on('Device Selected', (device) => { // change for id
+    this.$root.$on('Device Selected', (device) => {
       if (this.selected && device.id != this.device.id) this.selected = !this.selected;
     });
     this.getData();
@@ -1451,6 +1491,7 @@ Vue.component('add-device', {
     resetVar() {
       this.overlay = false;
       this.name = '';
+      this.error = false;
       this.errorText = false;
     }
   },
@@ -1506,17 +1547,17 @@ Vue.component('edit-device', {
   },
   data() {
     return {
-      name: '',
-      overlay: false,
+      name: this.device.name,
+      overlay: true,
       rooms: [],
-      room: undefined,
+      // room: { name: this.device.room.name, id: this.device.room.id },
+      room: this.device.room.id,
       types: [],
-      typedIds: [],
-      type: undefined,
+      type: { name: this.device.type.name[0].toUpperCase() + this.device.type.name.slice(1), id: this.device.type.id },
+      dialog: false,
       error: false,
       errorText: false,
-      errorMsg: '',
-      noRooms: 0 // 0: sin cargar ; 1: hay rooms ; 2: no hay rooms
+      errorMsg: ''
     }
   },
   watch: { // here we set the new values
@@ -1525,10 +1566,16 @@ Vue.component('edit-device', {
   template:
     `<v-container fluid>
       <v-overlay>
-        <v-card v-show="noRooms == 1" max-width="700" light>
+        <v-card max-width="700" light>
           <v-card-title>
-              <span class="headline">Edit Device</span>
+              <span class="headline">Editing "{{device.name}}"</span>
+              <v-row justify="end">
+              <v-btn right class="mx-5" icon @click="dialog = true">
+                <v-icon size="30">mdi-delete</v-icon>
+              </v-btn>
+              </v-row>
           </v-card-title>
+
           <v-card-text>
               <v-container>
               <v-row>
@@ -1539,7 +1586,7 @@ Vue.component('edit-device', {
                       <v-select v-model="room" :items="rooms" item-text="name" item-value="id" :value="room" label="Room" required></v-select>
                   </v-col>
                   <v-col cols="12" sm="6">
-                      <v-select v-model="type" :items="types" item-text="name" item-value="id" :value="type" label="Type" required></v-select>
+                      <v-select disabled :label="type.name" required></v-select>
                   </v-col>
               </v-row>
               </v-container>
@@ -1547,22 +1594,7 @@ Vue.component('edit-device', {
           <v-card-actions>
               <div class="flex-grow-1"></div>
               <v-btn color="red darken-1" text @click="cancel()">Cancel</v-btn>
-              <v-btn color="green darken-1" text @click="accept()">Create</v-btn>
-          </v-card-actions>
-        </v-card>
-        <v-card v-show="noRooms == 2" max-width="700" max-height="200" light justify-center>
-          <v-card-title/>
-          <v-row class="align-center">
-            <v-col class="ml-4" cols="2">
-              <v-img src="./resources/images/error.png" width="50"></v-img>
-            </v-col>
-            <v-col cols="9">
-              <v-card-text class="body-1">Please create a room before adding devices</v-card-text>
-            </v-col>
-          </v-row>
-          <v-card-actions>
-            <div class="flex-grow-1"></div>
-            <v-btn color="red darken-1" text @click="okNoRooms()">OK</v-btn>
+              <v-btn color="green darken-1" text @click="apply()">Apply</v-btn>
           </v-card-actions>
         </v-card>
       </v-overlay>
@@ -1570,9 +1602,20 @@ Vue.component('edit-device', {
         <v-btn color="red" text @click="error = false; errorText = false"> OK </v-btn>
       </v-snackbar>
      
+      <v-dialog v-model="dialog" persistent width="410">        
+        <v-card>
+          <v-card-title>Device: {{name}}</v-card-title>
+          <v-card-text class="body-1">Are you sure you want to delete it?</v-card-text>
+          <v-card-actions>
+            <div class="flex-grow-1"></div>
+            <v-btn color="red darken-1" text @click="cancelRemove()">Cancel</v-btn>
+            <v-btn color="green darken-1" text @click="removeDevice()">Delete</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </v-container>`,
   methods: {
-    async accept() {
+    async apply() {
       if (this.name.length < 3 || this.name.length > 60) {
         this.errorMsg = 'Name must have between 3 and 60 characters!';
         this.error = true;
@@ -1582,25 +1625,40 @@ Vue.component('edit-device', {
         this.error = true;
         this.errorText = true;
       } else {
-        /* Crear device y luego agregar a room */
-        console.log(this.type);
-        let rta = await createDevice(this.name, this.type, false)
+        this.device.name = this.name;
+        // this.device.room.id = this.room;
+        let rta = await modifyDevice(this.device.id, this.name, this.device.meta.favorite)
           .catch((error) => {
             this.errorMsg = error[0].toUpperCase() + error.slice(1);
             console.error(this.errorMsg);
           });
-        console.log(rta);
         if (rta) {
-          let rta2 = await addDeviceToRoom(this.room, rta.result.id)
+          console.error(this.room);
+          console.error(this.device.room.id);
+          let roomChanged = (this.room != this.device.room.id);
+          if (roomChanged) {
+            let rta = await deleteDeviceFromRoom(this.device.id)
             .catch((error) => {
               this.errorMsg = error[0].toUpperCase() + error.slice(1);
               console.error(this.errorMsg);
             });
-          if (rta2) {
+            if (rta) {
+              let rta = await addDeviceToRoom(this.room, this.device.id)
+              .catch((error) => {
+                this.errorMsg = error[0].toUpperCase() + error.slice(1);
+                console.error(this.errorMsg);
+              });
+              if (!rta) {
+                this.error = true;
+              }
+            } else {
+              this.error = true;
+            }
+          }
+          if (!this.error) {
             this.resetVar();
-            this.$root.$emit('Finished add', 0);
-          } else {
-            this.error = true;
+            this.$root.$emit('Finished edit', this.name, roomChanged);
+            this.$root.$emit('Finished add', 2);
           }
         } else {
           this.error = true;
@@ -1609,15 +1667,35 @@ Vue.component('edit-device', {
     },
     cancel() {
       this.resetVar();
+      this.$root.$emit('Finished edit', this.name, false);
       this.$root.$emit('Finished add', 1);
     },
-    okNoRooms() {
-      this.resetVar();
+    cancelRemove() {
+      this.dialog = false;
       this.$root.$emit('Finished add', 1);
+    },
+    async removeDevice () {
+      this.dialog = false;
+
+      let rta = await deleteDevice(this.device.id)
+      .catch((error) => {
+        this.errorMsg = error[0].toUpperCase() + error.slice(1);
+        console.error(this.errorMsg);
+      });
+      if (rta) {
+        this.resetVar();
+        this.$root.$emit('Finished edit', this.name, true);
+        this.$root.$emit('Finished add', 3);
+        window.location.reload();
+      } else {
+        this.error = true;
+      }
     },
     resetVar() {
+      this.name = this.device.name;
+      this.room = this.device.room.id;
       this.overlay = false;
-      this.name = '';
+      this.error = false;
       this.errorText = false;
     }
   },
@@ -1629,35 +1707,11 @@ Vue.component('edit-device', {
         console.error(this.errorMsg);
       });
     if (rta) {
-      if (rta.result.length >= 1) {
-        console.log(rta.result);
-        for (i of rta.result) {
-          var el = { name: i.name, id: i.id };
-          this.rooms.push(el);
-        }
-        this.room = this.rooms[0].id;
-
-        let rta2 = await getAll("Type")
-          .catch((error) => {
-            this.errorMsg = error[0].toUpperCase() + error.slice(1);
-            console.error(this.errorMsg);
-          });
-        if (rta2) {
-          for (i of rta2.result) {
-            if (i.name != 'alarm' && i.name != 'refrigerator') {
-              let el = { name: i.name[0].toUpperCase() + i.name.slice(1), id: i.id };
-              this.types.push(el);
-            }
-          }
-          this.type = this.types[0].id;
-          this.overlay = true;
-          this.noRooms = 1;
-        } else {
-          this.error = true;
-        }
-      } else {
-        this.noRooms = 2;
+      for (i of rta.result) {
+        var el = { name: i.name, id: i.id };
+        this.rooms.push(el);
       }
+      this.overlay = true;
     } else {
       this.error = true;
     }
