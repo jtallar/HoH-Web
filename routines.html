@@ -16,21 +16,10 @@
       <v-content>
           <v-row justify="center">
               <v-col v-for="routine in routines" :key="routine.id" cols="auto">
-       <routine-btn :title="routine.name" :img_name="routine.meta.img"></routine-btn>
-      </v-col>
-    </v-row>
-
-        <v-container fluid>
-          <v-tooltip top>
-            <template v-slot:activator="{ on }">
-              <v-btn fixed dark fab bottom right v-on="on" x-large class="mx-2 mt-5" color="orange darken-2" href="newroutine.html">
-                <v-icon dark>mdi-plus</v-icon>
-              </v-btn>
-            </template>
-            <span>Add Routine</span>
-          </v-tooltip>
-        </v-container>
-
+                <routine-btn :title="routine.name" :img_name="routine.meta.img"></routine-btn>
+              </v-col>
+          </v-row>
+          <add-btn context="routine"> </add-btn>
       </v-content>
     </v-app>
   </div>

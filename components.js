@@ -65,7 +65,8 @@ Vue.component('panel', {
   data() {
     return {
       device: { name: "No Device Selected", room: { name: "Please Select a Device" }, type: { name: "" }, meta: { favorite: false } },
-      selected: false
+      selected: false,
+      settings: false
     }
   },
   template:
@@ -80,17 +81,19 @@ Vue.component('panel', {
             <v-list-item-title class="text-capitalize">{{ device.name }}</v-list-item-title>
             <v-list-item-subtitle class="text-capitalize">{{ device.room.name }}</v-list-item-subtitle>
           </v-list-item-content>
-          <v-btn icon @click="toggleFav">
-            <v-icon v-show="device.meta.favorite && selected">mdi-star</v-icon>
-            <v-icon v-show="!device.meta.favorite && selected">mdi-star-outline</v-icon>
+          <v-btn icon v-show="selected" @click="toggleFav">
+            <v-icon v-show="device.meta.favorite">mdi-star</v-icon>
+            <v-icon v-show="!device.meta.favorite">mdi-star-outline</v-icon>
           </v-btn>
-          <v-btn icon @click="launchSettings">
-            <v-icon v-show="selected">mdi-settings</v-icon>
+          <v-btn icon v-show="selected" @click="settings = true">
+            <v-icon>mdi-settings</v-icon>
           </v-btn>
         </v-list-item>
       </template>
-      <v-divider class="mx-5"></v-divider>
-        
+      <v-divider class="mx-5"></v-divider>        
+      
+      <component v-show="settings" :is="getComp" :device="device"> </component>
+
       <!-- information and settings -->
       <component :is="getPanelContent" :device="device"></component>
     </v-navigation-drawer>`,
@@ -107,6 +110,10 @@ Vue.component('panel', {
     }
   },
   computed: {
+    getComp() {
+      if (this.selected)
+        return 'edit-device';
+    },
     getImg() {
       switch (this.device.type.name) {
         case "lamp":
@@ -737,7 +744,7 @@ Vue.component('panel-speaker', {
   },
   data() {
     return {
-      state: false,
+      state: undefined,
       playlist: true,
       elapsed_time: '2:05', // should be a number
       song_name: 'No Song in Queue',
@@ -1439,7 +1446,7 @@ Vue.component('add-device', {
     },
     okNoRooms() {
       this.resetVar();
-      this.$root.$emit('Finished add', 2);
+      this.$root.$emit('Finished add', 1);
     },
     resetVar() {
       this.overlay = false;
@@ -1491,7 +1498,12 @@ Vue.component('add-device', {
 })
 
 Vue.component('edit-device', {
-
+  props: {
+    device: {
+      type: Object,
+      required: true
+    }
+  },
   data() {
     return {
       name: '',
@@ -1601,7 +1613,7 @@ Vue.component('edit-device', {
     },
     okNoRooms() {
       this.resetVar();
-      this.$root.$emit('Finished add', 2);
+      this.$root.$emit('Finished add', 1);
     },
     resetVar() {
       this.overlay = false;
@@ -1672,7 +1684,7 @@ Vue.component('add-room', {
     `<v-container fluid>
 
       <v-overlay>
-      <v-card max-width="700" light>
+      <v-card width="700" light>
           <v-card-title>
               <span class="headline">Add Room</span>
           </v-card-title>
@@ -1684,12 +1696,12 @@ Vue.component('add-room', {
                   <v-text-field v-model="name" label="Name" :error="errorText" required hint="Between 3 and 60 letters, numbers or spaces." clearable></v-text-field>
                   </v-col>
                   <v-row align="center" fixed>
-                    <v-col cols="3" sm="6">
+                    <v-col cols="4">
                     <v-btn color="orange" dark @click="sheet = !sheet">
                         Select image...
                     </v-btn>
                     </v-col>
-                    <v-col cols="3" sm="6">
+                    <v-col cols="8" >
                       <h3>{{ images[image] }}</h3>
                     </v-col>
                   </v-row>
@@ -1782,15 +1794,18 @@ Vue.component('add-room', {
 Vue.component('new-routine', {
   data() {
     return {
+      overlay: true,
       desc: ' ',
       name: ' ',
       snackbarCan: false,
       snackbarOk: false,
       sheet: false,
       rooms: ['Living Room', 'Kitchen', 'Bathroom', 'Garage', 'Bedroom', 'Entertainement'],
-      room: 'Living Room',
-      devices: ['Light 1', 'Light 2', 'Oven', 'Aire Aconditioner'],
-      device: 'Light 1',
+      room: ' ',
+      devices: ['1','2'],
+      device: ' ',
+      options: [],
+      option: ' ',
       actions: [],
       chip: true,
     }
@@ -1798,45 +1813,53 @@ Vue.component('new-routine', {
   watch: { // here we set the new values
 
   },
-  template:
+  template: // en sel-dev hay que ver que mandarle bien, segun como armes esto @Mati Brula
     `<v-container fluid>
-      
+
+      <v-overlay>      
         <v-card light max-height="600">
-        <v-card-title>
-            <span class="headline">New Routine</span>
-            <v-col cols="12">
-              <v-text-field outlined v-model="name" label="Routine Name" required></v-text-field>
-            </v-col>
-        </v-card-title>
-        <v-card-text>
-            <v-container>
-            <v-row>
-                <v-col cols="12">
-                  <v-text-field v-model="desc" label="Action Description" required></v-text-field>
-                </v-col>
-                <v-col cols="12" sm="6">
-                  <v-select v-model="room" :items="rooms" :value="room" label="Room" required></v-text-field>
-                </v-col>
-                <v-col cols="12" >
-                  <sel-dev :name="name" :room="room" cat="Light" ></sel-dev>
-                </v-col>
-                <v-col cols="12" >
-                  <div class="text-right">
-                    <v-btn dark text right v-on="on" x-large color="orange darken-2" @click="addAction"> ADD ACTION </v-btn>
-                  </div>
-                </v-col>
-                <v-col cols="12" >
-                  <div class="text-right">
-                      <v-btn dark text right v-on="on" x-large color="red darken-2" @click="snackbarCan = true"> CANCEL </v-btn>
-                      <v-btn dark text right v-on="on" x-large color="green darken-2" @click="snackbarOk = true"> CREATE </v-btn>
-                  </div>
-                </v-col>
-            </v-row>
-            </v-container>
-          </v-card-text>
+          <v-card-title>
+              <span class="headline">New Routine</span>
+              <v-col cols="12">
+                <v-text-field outlined v-model="name" label="Routine Name" required></v-text-field>
+              </v-col>
+          </v-card-title>
+          <v-card-text>
+              <v-container>
+              <v-row>
+                  <v-col cols="12">
+                    <v-text-field v-model="desc" label="Action Description" required></v-text-field>
+                  </v-col>
+                  <v-col cols="3" >
+                    <v-select v-model="room" :items="rooms" :value="room" label="Room" required></v-text-field>
+                  </v-col>
+                  <v-col cols="4" >
+                    <v-select v-model="device" :items="devices" :value="device" label="Device" required></v-text-field>
+                  </v-col>
+                  <v-col cols="5" >
+                    <v-select v-model="option" :items="options" :value="option" label="Action" required></v-text-field>
+                  </v-col>
+                  <v-container>
+                        <h1>CAJITA DEL DEVICE CUANDO CORRESPONDA</h1>
+                  </v-container>
+                  <v-col cols="12" >
+                    <div class="text-right">
+                      <v-btn dark text right v-on="on" x-large color="orange darken-2" @click="addAction"> ADD ACTION </v-btn>
+                    </div>
+                  </v-col>
+                  <v-col cols="12" >
+                    <div class="text-right">
+                        <v-btn dark text right v-on="on" x-large color="red darken-2" @click="cancel()"> CANCEL </v-btn>
+                        <v-btn dark text right v-on="on" x-large color="green darken-2" @click="create()"> CREATE </v-btn>
+                    </div>
+                  </v-col>
+              </v-row>
+              </v-container>
+
+            </v-card-text>
           </v-card>
           <br>
-          <v-card light>
+          <v-card light max-height="300" class="scroll">
               <v-card-title>
                   <span class="headline">Added actions</span>
               </v-card-title>
@@ -1852,18 +1875,31 @@ Vue.component('new-routine', {
                   </v-container>
               </v-card-text>
               <v-snackbar v-model="snackbarOk" > Successfully created!
-                      <v-btn color="green" text @click="snackbarOk = false" href="routines.html"> OK </v-btn>
+                      <v-btn color="green" text @click="snackbarOk = false"> OK </v-btn>
               </v-snackbar>
               <v-snackbar v-model="snackbarCan" > Operation cancelled!
-                      <v-btn color="red" text @click="snackbarCan = false" href="routines.html"> OK </v-btn>
+                      <v-btn color="red" text @click="snackbarCan = false"> OK </v-btn>
               </v-snackbar>
           </v-card> 
+      </v-overlay>
 
     </v-container>`,
   methods: {
     // send form to back
+    create(){
+        this.resetVar();
+        this.$root.$emit('Finished add', 0);
+    },
+    cancel(){
+        this.resetVar();
+        this.$root.$emit('Finished add', 1);
+    },
     addAction() {
-      this.actions.push(this.desc + ' - ' + this.room);
+      this.actions.push(this.desc + ' - ' + this.device + ' - ' + this.room);
+    },
+    resetVar() {
+      this.overlay = false;
+      // todo lo que haya que apagar
     }
   },
   mounted() {
@@ -1922,7 +1958,8 @@ Vue.component('add-btn', {
     return {
       overlay: false,
       snackbarCan: false,
-      snackbarOk: false
+      snackbarOk: false,
+      snackbarMsg: ''
     }
   },
   template:
@@ -1932,16 +1969,17 @@ Vue.component('add-btn', {
             <v-btn fixed fab dark bottom right v-on="on" x-large class="mx-2 mt-5" color="orange darken-2" @click="overlay = true">
               <v-icon dark>mdi-plus</v-icon>
             </v-btn>
-        </template>
+          </template>
         <span v-show="getContext=='add-device'">Add Device</span>
         <span v-show="getContext=='add-room'">Add Room</span>
+        <span v-show="getContext=='new-routine'">Add Routine</span>
       </v-tooltip>
       <component v-show="overlay" :is="getContext"> </component>
 
-      <v-snackbar v-model="snackbarOk" > Successfully created!
+      <v-snackbar v-model="snackbarOk" > {{snackbarMsg}}
               <v-btn color="green" text @click="snackbarOk = false"> OK </v-btn>
       </v-snackbar>
-      <v-snackbar v-model="snackbarCan" > Operation cancelled!
+      <v-snackbar v-model="snackbarCan" > {{snackbarMsg}}
               <v-btn color="red" text @click="snackbarCan = false"> OK </v-btn>
       </v-snackbar>
     </v-container>`,
@@ -1952,19 +1990,32 @@ Vue.component('add-btn', {
           return 'add-room';
         case 'device':
           return 'add-device';
+        case 'routine':
+          return 'new-routine';
         default:
           console.log('error');
       }
     }
   },
   mounted() {
+    // Convendria recibir state (error o no error para color) y mensaje
     this.$root.$on('Finished add', (state) => {
       this.overlay = false;
       switch (state) {
         case 0:
+          this.snackbarMsg = 'Successfully created!';
           this.snackbarOk = true;
           break;
         case 1:
+          this.snackbarMsg = 'Operation cancelled!';
+          this.snackbarCan = true;
+          break;
+        case 2:
+          this.snackbarMsg = 'Successfully edited!';
+          this.snackbarOk = true;
+          break;
+        case 3:
+          this.snackbarMsg = 'Successfully deleted!';
           this.snackbarCan = true;
           break;
       }
@@ -2118,8 +2169,8 @@ Vue.component('edit-room', {
       overlay: true,
       sheet: false,
       images: ['bedroom_01.jpg', 'bathroom_02.jpg', 'game_room_01.jpg', 'garage_01.jpg', 'kitchen_01.jpg', 'living_01.jpg', 'living_02.jpg', 'kitchen1.jpg'],
-      // image: images.indexOf(this.room.meta.image),
       image: 0,
+      dialog: false,
       error: false,
       errorText: false,
       errorMsg: ''
@@ -2132,9 +2183,14 @@ Vue.component('edit-room', {
     `<v-container fluid>
 
       <v-overlay>
-      <v-card max-width="700" light>
+      <v-card width="700" light>
           <v-card-title>
-              <span class="headline">Edit {{room.name}}</span>
+              <span class="headline">Editing "{{room.name}}"</span>
+              <v-row justify="end">
+              <v-btn right class="mx-5" icon @click="dialog = true">
+                <v-icon size="30">mdi-delete</v-icon>
+              </v-btn>
+              </v-row>
           </v-card-title>
           
           <v-card-text>
@@ -2144,12 +2200,12 @@ Vue.component('edit-room', {
                   <v-text-field v-model="name" label="Name" :error="errorText" required hint="Between 3 and 60 letters, numbers or spaces." clearable></v-text-field>
                   </v-col>
                   <v-row align="center" fixed>
-                    <v-col cols="3" sm="6" >
+                    <v-col cols="4" >
                     <v-btn color="orange" dark @click="sheet = !sheet">
                         Select image...
                     </v-btn>
                     </v-col>
-                    <v-col cols="3" sm="6">
+                    <v-col cols="8">
                       <h3> {{ images[image] }} </h3>
                     </v-col>
                   </v-row>
@@ -2195,6 +2251,18 @@ Vue.component('edit-room', {
         <v-btn color="red" text @click="error = false; errorText = false"> OK </v-btn>
       </v-snackbar>
 
+      <v-dialog v-model="dialog" persistent width="410">        
+        <v-card>
+          <v-card-title>Room: {{name}}</v-card-title>
+          <v-card-text class="body-1">Are you sure you want to delete it?</v-card-text>
+          <v-card-actions>
+            <div class="flex-grow-1"></div>
+            <v-btn color="red darken-1" text @click="cancelRemove()">Cancel</v-btn>
+            <v-btn color="green darken-1" text @click="removeRoom()">Delete</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+
     </v-container>`,
 
   methods: {
@@ -2212,7 +2280,7 @@ Vue.component('edit-room', {
         this.error = true;
       } else {
         this.room.name = this.name;
-        this.room.meta.image = images[image];
+        this.room.meta.image = this.images[this.image];
         console.log(this.room);
         let rta = await modifyRoom(this.room)
           .catch((error) => {
@@ -2221,7 +2289,7 @@ Vue.component('edit-room', {
           });
         if (rta) {
           console.log(rta.result);
-          this.$root.$emit('Finished add', 0);
+          this.$root.$emit('Finished add', 2);
           this.resetVar();
         } else {
           this.error = true;
@@ -2232,6 +2300,51 @@ Vue.component('edit-room', {
       this.resetVar();
       this.$root.$emit('Finished add', 1);
     },
+    cancelRemove() {
+      this.dialog = false;
+      this.errorMsg = 'Canceled Delete';
+      this.error = true;
+    },
+    async removeDev(id) {
+      let rta = await deleteDevice(id)
+      .catch((error) => {
+        this.errorMsg = error[0].toUpperCase() + error.slice(1);
+        console.error(this.errorMsg);
+      });
+      if (!rta) {
+        this.error = true;
+      }
+    },
+    async removeRoom() {
+      this.dialog = false;
+
+      let rta = await getRoomDevices(this.room.id)
+      .catch((error) => {
+        this.errorMsg = error[0].toUpperCase() + error.slice(1);
+        console.error(this.errorMsg);
+      });
+      if (rta) {
+        for (dev of rta.result) {
+          this.removeDev(dev.id);
+        }
+      } else {
+        this.error = true;
+      }
+
+      if (!this.error) {
+        let rta = await deleteRoom(this.room.id)
+        .catch((error) => {
+          this.errorMsg = error[0].toUpperCase() + error.slice(1);
+          console.error(this.errorMsg);
+        });
+        if (rta) {
+          this.resetVar();
+          window.location.replace('rooms.html');
+        } else {
+          this.error = true;
+        }
+      }
+    },
     resetVar() {
       this.overlay = false;
       this.error = false;
@@ -2240,6 +2353,7 @@ Vue.component('edit-room', {
   },
   mounted() {
     console.log(this.room);
+    this.image = this.images.indexOf(this.room.meta.image);
     // here we extract all the data
   }
 })
