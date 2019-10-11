@@ -1,3 +1,4 @@
+/* Toolbar component used through all the web */
 Vue.component('toolbar', {
   props: {
     tab: {
@@ -55,11 +56,13 @@ Vue.component('toolbar', {
               
           </template>
         </v-app-bar>`,
+  /* On mount select current tab */
   mounted() {
     this.active_tab = this.tabs[this.tab].dir;
   }
 })
 
+/* Toolbar for login page */
 Vue.component('toolbar-login', {
   template:
     `<v-app-bar app clipped-right color="black" dark >

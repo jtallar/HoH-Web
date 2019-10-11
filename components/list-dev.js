@@ -1,3 +1,4 @@
+/* Button for each device with all its functionality */
 Vue.component('dev-btn', {
   props: {
     device: {
@@ -22,16 +23,16 @@ Vue.component('dev-btn', {
       </div>
     </v-col>`,
   computed: {
+    /* Dimensions of the components */
     getSize() {
-      return screen.width / 13; // ver si da limitarlo con max y min
+      return screen.width / 13;
     },
+    /* Icon size depends on button size */
     getIconSize() {
       if (this.device.type.name === "refrigerator" || this.device.type.name === "door") return this.getSize / 3;
       return this.getSize / 2;
     },
-    getName() {
-      return this.device.name; // aca ver de poner max y min caracteres
-    },
+    /* Image source depending on the type of device */
     getImg() {
       let stat = this.device.state.status;
       switch (this.device.type.name) {
@@ -55,9 +56,9 @@ Vue.component('dev-btn', {
             return './resources/icons/web/door_closed.svg';
           else {
             if (stat === "opened")
-              return './resources/icons/web/door_opened.svg'; // NO EXISTS
+              return './resources/icons/web/door_opened.svg';
             else
-              return './resources/icons/web/door_locked.svg'; // NO EXISTS
+              return './resources/icons/web/door_locked.svg';
           }
         case "blinds":
           if (stat === "closed")
@@ -82,10 +83,12 @@ Vue.component('dev-btn', {
     },
   },
   methods: {
+    /* Update fundamental properties of the button */
     updateDev(device) {
       this.device.state.status = device.state.status;
       this.device.name = device.name;
     },
+    /* Emits a message when is selected or deselected the button in matter */
     toggleSelected() {
       this.selected = !this.selected;
       console.log(this.device);
@@ -95,6 +98,7 @@ Vue.component('dev-btn', {
         this.$root.$emit('Device Deselected');
       }
     },
+    /* Fetch data from the API */
     async getData() {
       let rta = await getDevice(this.device.id)
         .catch((error) => {
@@ -109,6 +113,8 @@ Vue.component('dev-btn', {
       }
     }
   },
+  /* Gets initial data, and sets to fetch it regularly. 
+  ** If another device is selected deselect current. */
   async mounted() {
     this.$root.$on('Device Selected', (device) => {
       if (this.selected && device.id != this.device.id) this.selected = !this.selected;
@@ -118,6 +124,7 @@ Vue.component('dev-btn', {
   }
 })
 
+/* Shows devices from Array given a specific room */
 Vue.component('dev-cat', {
   props: {
     room: {
@@ -144,6 +151,7 @@ Vue.component('dev-cat', {
     </v-container>`
 })
 
+/* Shows devices from Array given a specific categorie */
 Vue.component('room-cat', {
   props: {
     devices: {
@@ -153,10 +161,6 @@ Vue.component('room-cat', {
     category: {
       type: String,
       required: true
-    }
-  },
-  data() {
-    return {
     }
   },
   template:
@@ -169,7 +173,5 @@ Vue.component('room-cat', {
             <dev-btn :device="dev"></dev-btn>
           </v-col>
         </v-row>
-      </v-container>`,
-  mounted() {
-  }
+      </v-container>`
 })

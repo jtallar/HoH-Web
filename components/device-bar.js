@@ -1,3 +1,4 @@
+/* Component for the device page bar */
 Vue.component('device-bar', {
     props: {
       title: {

@@ -1,3 +1,4 @@
+/* Component for the room page bar */
 Vue.component('room-bar', {
   props: {
     room: {
@@ -32,15 +33,16 @@ Vue.component('room-bar', {
         </v-row>
 
         <component v-show="overlay" :is="getComp" :room="room"> </component>
-
       </v-container>`,
   computed: {
+    /* When in a existen room, edit is available */
     getComp() {
       if (this.room.name.length > 0)
         return 'edit-room';
     }
   },
   methods: {
+    /* Sets this room to favorites */
     async toggleFavorite() {
       this.room.meta.favorite = !this.room.meta.favorite;
       console.log(this.room);
@@ -56,6 +58,7 @@ Vue.component('room-bar', {
       }
     }
   },
+  /* Comunication with snackbars */
   mounted() {
     this.$root.$on('Finished add', (state) => {
       this.overlay = false;
@@ -71,6 +74,7 @@ Vue.component('room-bar', {
   }
 })
 
+/* Component for editing a room properties */
 Vue.component('edit-room', {
   props: {
     room: {
@@ -91,75 +95,72 @@ Vue.component('edit-room', {
       errorMsg: ''
     }
   },
-  watch: { // here we set the new values
-
-  },
   template:
     `<v-container fluid>
 
       <v-overlay>
-      <v-card class="add-room-card" light>
+        <v-card class="add-room-card" light>
           <v-card-title>
-              <span class="headline">Editing "{{room.name}}"</span>
-              <v-row justify="end">
+            <span class="headline">Editing "{{room.name}}"</span>
+            <v-row justify="end">
               <v-btn right class="mx-5" icon @click="dialog = true">
                 <v-icon size="40">mdi-delete</v-icon>
               </v-btn>
-              </v-row>
+            </v-row>
           </v-card-title>
           
           <v-card-text>
-              <v-container>
+            <v-container>
               <v-row>
-                  <v-col cols="12">
+                <v-col cols="12">
                   <v-text-field v-model="name" label="Name" :error="errorText" required hint="Between 3 and 60 letters, numbers or spaces." clearable></v-text-field>
-                  </v-col>
-                  <v-row align="center" fixed>
-                    <v-col cols="4" >
+                </v-col>
+                <v-row align="center" fixed>
+                  <v-col cols="4" >
                     <v-btn color="orange" dark @click="sheet = !sheet">
-                        Select image...
+                      Select image...
                     </v-btn>
-                    </v-col>
-                    <v-col cols="8">
-                      <h3> {{ images[image] }} </h3>
-                    </v-col>
-                  </v-row>
+                  </v-col>
+                  <v-col cols="8">
+                    <h3> {{ images[image] }} </h3>
+                  </v-col>
+                </v-row>
               </v-row>
-              </v-container>
+            </v-container>
           </v-card-text>
           
           <v-bottom-sheet v-model="sheet">
-          <v-sheet  dark class="text-center" height="getHeight / 2">
+            <v-sheet  dark class="text-center">
               <v-card dark max-width="15000" class="mx-auto">
-                  <v-container class="pa-1">
-                      <v-item-group v-model="image">
-                          <v-row>
-                          <v-col v-for="(item, i) in images" :key="i" cols="12" md="2">
-                              <v-item v-slot:default="{ active, toggle }">
-                              <v-img :src="\`./resources/images/\${item}\`" class="text-right pa-2 add-room-img" @click="toggle">
-                                  <v-btn icon dark >
-                                  <v-icon color="orange darken-2 ">
-                                      {{ active ? 'mdi-check-circle' : 'mdi-circle-outline' }}
-                                  </v-icon>
-                                  </v-btn>
-                              </v-img>
-                              </v-item>
-                          </v-col>
-                          </v-row>
-                          <div class="flex-grow-1"></div>
-                          <v-btn class="my-2" color="orange darken-2" @click="sheet = false">SELECT</v-btn>
-                      </v-item-group>
-                  </v-container>
+                <v-container class="pa-1">
+                  <v-item-group v-model="image">
+                    <v-row>
+                      <v-col v-for="(item, i) in images" :key="i" cols="12" md="2">
+                        <v-item v-slot:default="{ active, toggle }">
+                          <v-img :src="\`./resources/images/\${item}\`" class="text-right pa-2 add-room-img" @click="toggle">
+                            <v-btn icon dark >
+                              <v-icon color="orange darken-2 ">
+                                {{ active ? 'mdi-check-circle' : 'mdi-circle-outline' }}
+                              </v-icon>
+                            </v-btn>
+                          </v-img>
+                        </v-item>
+                      </v-col>
+                    </v-row>
+                    <div class="flex-grow-1"></div>
+                    <v-btn class="my-2" color="orange darken-2" @click="sheet = false">SELECT</v-btn>
+                  </v-item-group>
+                </v-container>
               </v-card>
-          </v-sheet>
+            </v-sheet>
           </v-bottom-sheet>
 
           <v-card-actions>
-              <div class="flex-grow-1"></div>
-              <v-btn color="red darken-1" text @click="cancel()">Cancel</v-btn>
-              <v-btn color="green darken-1" text @click="apply()">Apply</v-btn>
+            <div class="flex-grow-1"></div>
+            <v-btn color="red darken-1" text @click="cancel()">Cancel</v-btn>
+            <v-btn color="green darken-1" text @click="apply()">Apply</v-btn>
           </v-card-actions>
-      </v-card>
+        </v-card>
       </v-overlay>
 
       <v-snackbar v-model="error" > {{ errorMsg }}
@@ -179,16 +180,8 @@ Vue.component('edit-room', {
       </v-dialog>
 
     </v-container>`,
-  computed: {
-    getWidth() {
-      return screen.width / this.width; // ver si da limitarlo con max y min
-    },
-    getHeight() {
-      return this.getWidth / this.ratio;
-    },
-  },
-
   methods: {
+    /* For applying changes to the room in matter */
     async apply() {
       if (this.name.length < 3 || this.name.length > 60) {
         this.errorMsg = 'Name must have between 3 and 60 characters!';
@@ -219,15 +212,18 @@ Vue.component('edit-room', {
         }
       }
     },
+    /* When cancel editing */
     cancel() {
       this.resetVar();
       this.$root.$emit('Finished add', 1);
     },
+    /* When cancel remove */
     cancelRemove() {
       this.dialog = false;
       this.errorMsg = 'Canceled Delete';
       this.error = true;
     },
+    /* Removes a device given its id */
     async removeDev(id) {
       let rta = await deleteDevice(id)
         .catch((error) => {
@@ -238,6 +234,7 @@ Vue.component('edit-room', {
         this.error = true;
       }
     },
+    /* Removes the room in matter */
     async removeRoom() {
       this.dialog = false;
 
@@ -268,15 +265,16 @@ Vue.component('edit-room', {
         }
       }
     },
+    /* Resets variables */
     resetVar() {
       this.overlay = false;
       this.error = false;
       this.errorText = false;
     }
   },
+  /* Executed when mounted */
   mounted() {
     console.log(this.room);
     this.image = this.images.indexOf(this.room.meta.image);
-    // here we extract all the data
   }
 })

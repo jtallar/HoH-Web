@@ -1,3 +1,4 @@
+/* Component for card button for rooms or categories */
 Vue.component('card-btn', {
   props: {
     type: {
@@ -25,19 +26,13 @@ Vue.component('card-btn', {
       required: true
     }
   },
-  data() {
-    return {
-      minWidth: 100,
-      maxWidth: 400
-    }
-  },
   template:
     `<v-col class="text-center">
       <v-btn tile class="ma-3" :width="getWidth" :height="getHeight" :href="getHref">
         <v-img :src="getImg" :width="getWidth" :height="getHeight">
           <div class="text-left grey darken-2 mt-5 pl-3 pa-1">
             <span class="text-uppercase white--text font-weight-light">
-              {{ getTitle }}      
+              {{ title }}      
             </span>
           </div>
         </v-img>
@@ -45,6 +40,7 @@ Vue.component('card-btn', {
     </v-col>`,
 
   computed: {
+    /* Generates the proper url */
     getHref() {
       switch (this.type) {
         case "room":
@@ -52,24 +48,25 @@ Vue.component('card-btn', {
         case "device":
           return "device.html?" + this.id + "+" + this.title.split(' ').join('_');
         default:
-          return "home.html"; // no deberia entrar nunca
+          return "home.html";
       }
     },
+    /* Sizing of the card given the screen real size */
     getWidth() {
-      return screen.width / this.width; // ver si da limitarlo con max y min
+      return screen.width / this.width; 
     },
     getHeight() {
       return this.getWidth / this.ratio;
     },
+    /* Obtain image source */
     getImg() {
       return './resources/images/' + this.img_name;
-    },
-    getTitle() {
-      return this.title; // aca ver de poner max y min caracteres
     }
   }
 })
 
+// TODO implement functionality here
+/* Component for the routine card button with its  funcitonality */
 Vue.component('routine-btn', {
   props: {
     ratio: {
@@ -107,7 +104,7 @@ Vue.component('routine-btn', {
             <v-img :src="getImg" :width="getWidth" :height="getHeight">
               <div class="text-left grey darken-2 mt-5 pl-3 pa-1">
                 <span class="text-uppercase white--text font-weight-light">
-                  {{ getTitle }}      
+                  {{ title }}      
                 </span>
               </div>
             </v-img>
@@ -140,24 +137,21 @@ Vue.component('routine-btn', {
     }
   },
   computed: {
-    getHref() {
-      return this.href;
-    },
+    /* Sizing of the card given a certain screen */
     getWidth() {
-      return screen.width / this.width; // ver si da limitarlo con max y min
+      return screen.width / this.width; 
     },
     getHeight() {
       return this.getWidth / this.ratio;
     },
+    /* Obtain image source */
     getImg() {
-      return './resources/images/' + this.img_name + '.jpg';
-    },
-    getTitle() {
-      return this.title; // aca ver de poner max y min caracteres
+      return './resources/images/' + this.img_name;
     }
   }
 })
 
+/* Component used when there is no routine, room, or device created */
 Vue.component('no-card', {
   props: {
     text: {
@@ -179,8 +173,9 @@ Vue.component('no-card', {
       <v-card-title class="headline ma-5 justify-center">{{text}}</v-card-title>
     </v-card>`,
   computed: {
+    /* Card dimensions */
     getWidth() {
-      return screen.width / this.width; // ver si da limitarlo con max y min
+      return screen.width / this.width;
     },
     getHeight() {
       return screen.width / 6 / this.ratio;

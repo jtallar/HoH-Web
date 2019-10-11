@@ -1,3 +1,4 @@
+/* Panel container layout. Given a device shows its panel */
 Vue.component('panel', {
   data() {
     return {
@@ -45,27 +46,12 @@ Vue.component('panel', {
               <v-btn color="red" text @click="snackbarCan = false"> OK </v-btn>
       </v-snackbar>
     </v-navigation-drawer>`,
-  methods: {
-    async toggleFavorite() {
-      this.device.meta.favorite = !this.device.meta.favorite;
-      console.log(this.device);
-      let rta = await modifyDevice(this.device.id, this.device.name, this.device.meta.favorite)
-        .catch((error) => {
-          this.errorMsg = error[0].toUpperCase() + error.slice(1);
-          console.error(this.errorMsg);
-        });
-      if (rta) {
-        console.log(rta.result);
-      } else {
-        this.error = true;
-      }
-    }
-  },
   computed: {
     getComp() {
       if (this.selected)
         return 'edit-device';
     },
+    /* Given a device type gets image source for icon on top left */
     getImg() {
       switch (this.device.type.name) {
         case "lamp":
@@ -88,6 +74,7 @@ Vue.component('panel', {
           return './resources/icons/generic/close.svg';
       }
     },
+    /* Select the correct panel to show given a device type */
     getPanelContent() {
       switch (this.device.type.name) {
         case "lamp":
@@ -108,31 +95,55 @@ Vue.component('panel', {
           return "panel-none";
       }
     },
+    /* Width of the panel, relative to screen size */
     getWidth() {
       return screen.width / 5;
-    }
+    },
   },
-  async mounted() {
-    this.$root.$on('Device Selected', (device) => {
-      this.device = device;
-      this.selected = true;
-      console.log('Message recieved with ' + this.device);
-    });
-    this.$root.$on('Device Deselected', () => {
-      this.device = { name: "No Device Selected", room: { name: "Please Select a Device" }, type: { name: "" }, meta: { favorite: false } };
-      this.selected = false;
-    });
-    this.$root.$on('Finished edit', (name, exit) => {
-      this.settings = false;
-      this.device.name = name;
-      if (exit) {
+  methods: {
+    /* Set or unset the device from favorites (on API) */
+    async toggleFavorite() {
+      this.device.meta.favorite = !this.device.meta.favorite;
+      console.log(this.device);
+      let rta = await modifyDevice(this.device.id, this.device.name, this.device.meta.favorite)
+        .catch((error) => {
+          this.errorMsg = error[0].toUpperCase() + error.slice(1);
+          console.error(this.errorMsg);
+        });
+      if (rta) {
+        console.log(rta.result);
+      } else {
+        this.error = true;
+      }
+    },
+    /* Manages actions given the messages recieved */
+    messageManager() {
+      this.$root.$on('Device Selected', (device) => {
+        this.device = device;
+        this.selected = true;
+        console.log('Message recieved with ' + this.device);
+      });
+      this.$root.$on('Device Deselected', () => {
         this.device = { name: "No Device Selected", room: { name: "Please Select a Device" }, type: { name: "" }, meta: { favorite: false } };
         this.selected = false;
-      }
-    });
+      });
+      this.$root.$on('Finished edit', (name, exit) => {
+        this.settings = false;
+        this.device.name = name;
+        if (exit) {
+          this.device = { name: "No Device Selected", room: { name: "Please Select a Device" }, type: { name: "" }, meta: { favorite: false } };
+          this.selected = false;
+        }
+      });
+    }
+  },
+  /* Executed when component mounted */
+  mounted() {
+    this.messageManager();
   }
 })
 
+/* Component executed for editing a device */
 Vue.component('edit-device', {
   props: {
     device: {
@@ -145,7 +156,6 @@ Vue.component('edit-device', {
       name: this.device.name,
       overlay: true,
       rooms: [],
-      // room: { name: this.device.room.name, id: this.device.room.id },
       room: this.device.room.id,
       types: [],
       type: { name: this.device.type.name[0].toUpperCase() + this.device.type.name.slice(1), id: this.device.type.id },
@@ -155,41 +165,38 @@ Vue.component('edit-device', {
       errorMsg: ''
     }
   },
-  watch: { // here we set the new values
-
-  },
   template:
     `<v-container fluid>
       <v-overlay>
         <v-card max-width="700" light>
           <v-card-title>
-              <span class="headline">Editing "{{device.name}}"</span>
-              <v-row justify="end">
+            <span class="headline">Editing "{{device.name}}"</span>
+            <v-row justify="end">
               <v-btn right class="mx-5" icon @click="dialog = true">
                 <v-icon size="40">mdi-delete</v-icon>
               </v-btn>
-              </v-row>
+            </v-row>
           </v-card-title>
 
           <v-card-text>
-              <v-container>
+            <v-container>
               <v-row>
-                  <v-col cols="12">
+                <v-col cols="12">
                   <v-text-field v-model="name" label="Name" :error="errorText" required hint="Between 3 and 60 letters, numbers or spaces." clearable></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6">
-                      <v-select v-model="room" :items="rooms" item-text="name" item-value="id" :value="room" label="Room" required></v-select>
-                  </v-col>
-                  <v-col cols="12" sm="6">
-                      <v-select disabled :label="type.name" required></v-select>
-                  </v-col>
+                </v-col>
+                <v-col cols="12" sm="6">
+                  <v-select v-model="room" :items="rooms" item-text="name" item-value="id" :value="room" label="Room" required></v-select>
+                </v-col>
+                <v-col cols="12" sm="6">
+                  <v-select disabled :label="type.name" required></v-select>
+                </v-col>
               </v-row>
-              </v-container>
+            </v-container>
           </v-card-text>
           <v-card-actions>
-              <div class="flex-grow-1"></div>
-              <v-btn color="red darken-1" text @click="cancel()">Cancel</v-btn>
-              <v-btn color="green darken-1" text @click="apply()">Apply</v-btn>
+            <div class="flex-grow-1"></div>
+            <v-btn color="red darken-1" text @click="cancel()">Cancel</v-btn>
+            <v-btn color="green darken-1" text @click="apply()">Apply</v-btn>
           </v-card-actions>
         </v-card>
       </v-overlay>
@@ -211,6 +218,7 @@ Vue.component('edit-device', {
       </v-dialog>
     </v-container>`,
   methods: {
+    /* When applying changes */
     async apply() {
       if (this.name.length < 3 || this.name.length > 60) {
         this.errorMsg = 'Name must have between 3 and 60 characters!';
@@ -222,7 +230,6 @@ Vue.component('edit-device', {
         this.errorText = true;
       } else {
         this.device.name = this.name;
-        // this.device.room.id = this.room;
         let rta = await modifyDevice(this.device.id, this.name, this.device.meta.favorite)
           .catch((error) => {
             this.errorMsg = error[0].toUpperCase() + error.slice(1);
@@ -259,15 +266,18 @@ Vue.component('edit-device', {
         }
       }
     },
+    /* If canceling edit */
     cancel() {
       this.resetVar();
       this.$root.$emit('Finished edit', this.name, false);
       this.$root.$emit('Finished add', 1);
     },
+    /* If cancel remove */
     cancelRemove() {
       this.dialog = false;
       this.$root.$emit('Finished add', 1);
     },
+    /* Executed when device is to be removed */
     async removeDevice() {
       this.dialog = false;
 
@@ -285,16 +295,18 @@ Vue.component('edit-device', {
         this.error = true;
       }
     },
+    /* Resets variables */
     resetVar() {
       this.name = this.device.name;
       this.room = this.device.room.id;
       this.overlay = false;
       this.error = false;
       this.errorText = false;
-    }
+    },
+
   },
+  /* Fetchs data from the room to show on list when mounted */
   async mounted() {
-    // here we extract all the data
     let rta = await getAll("Room")
       .catch((error) => {
         this.errorMsg = error[0].toUpperCase() + error.slice(1);
@@ -312,16 +324,12 @@ Vue.component('edit-device', {
   }
 })
 
+/* Panel shown when is no device */
 Vue.component('panel-none', {
   props: {
     device: {
       type: Object,
       required: true
-    }
-  },
-  data() {
-    return {
-      closed: 0, // 0: closed, 1: open
     }
   },
   template:
@@ -346,12 +354,10 @@ Vue.component('panel-none', {
         <v-card-text>There are some tabs so you can find your devices faster! 
         Just click on them and choose the category you need.</v-card-text>
       </v-card>
-    </v-container>`,
-  mounted() {
-    // here we extract all the data
-  }
+    </v-container>`
 })
 
+/* Panel layout for a light */
 Vue.component('panel-light', {
   props: {
     device: {
@@ -368,7 +374,8 @@ Vue.component('panel-light', {
       errorMsg: '',
     }
   },
-  watch: { // here we set the new values
+  /* On data change, send to API */
+  watch: {
     state(newVal, oldVal) {
       if (newVal) {
         this.sendAction("turnOn", []);
@@ -405,11 +412,13 @@ Vue.component('panel-light', {
         thumb-label="always" thumb-size="25" color="orange" track-color="black" thumb-color="orange darken-2"></v-slider>
     </v-container>`,
   methods: {
+    /* Update used properties */
     updateDev(dev) {
       this.state = (dev.state.status == "on");
       this.color = "#" + dev.state.color;
       this.brightness = dev.state.brightness;
     },
+    /* Send action to API */
     async sendAction(action, param) {
       let rta = await execAction(this.device.id, action, param)
         .catch((error) => {
@@ -420,6 +429,7 @@ Vue.component('panel-light', {
         this.error = true;
       }
     },
+    /* Fetchs data from API */
     async getData() {
       let rta = await getDevice(this.device.id)
         .catch((error) => {
@@ -434,12 +444,14 @@ Vue.component('panel-light', {
       }
     }
   },
+  /* Initial fetch when mounted and set regular fetch */
   mounted() {
     this.getData();
     let timer = setInterval(() => this.getData(), 1000);
   }
 })
 
+/* Panel layout for oven */
 Vue.component('panel-oven', {
   props: {
     device: {
@@ -456,7 +468,8 @@ Vue.component('panel-oven', {
       grill_mode: this.getGrillIndex(this.device.state.grill)
     }
   },
-  watch: { // here we set the new values
+  /* On data change, send to API*/
+  watch: {
     state(newVal, oldVal) {
       if (newVal) {
         this.sendAction("turnOn", []);
@@ -538,6 +551,7 @@ Vue.component('panel-oven', {
       </v-layout>
     </v-container>`,
   methods: {
+    /* Sends action to API */
     async sendAction(action, param) {
       let rta = await execAction(this.device.id, action, param)
         .catch((error) => {
@@ -548,6 +562,7 @@ Vue.component('panel-oven', {
         this.error = true;
       }
     },
+    /* Translators of API intel */
     getHeatIndex(name) {
       switch (name) {
         case "top":
@@ -578,6 +593,7 @@ Vue.component('panel-oven', {
           return 2;
       }
     },
+    /* Updates used properties */
     updateDev(device) {
       this.state = (device.state.status == "on");
       this.temperature = device.state.temperature;
@@ -585,6 +601,7 @@ Vue.component('panel-oven', {
       this.convection_mode = this.getConvectionIndex(device.state.convection);
       this.grill_mode = this.getGrillIndex(device.state.grill);
     },
+    /* Fetch data from API */
     async getData() {
       let rta = await getDevice(this.device.id)
         .catch((error) => {
@@ -599,12 +616,14 @@ Vue.component('panel-oven', {
       }
     }
   },
+  /* Initial fetch when mounted and set regular fetch */
   mounted() {
     this.getData();
     let timer = setInterval(() => this.getData(), 1000);
   }
 })
 
+/* Panel layout for refrigerator */
 Vue.component('panel-refrigerator', {
   props: {
     device: {
@@ -619,7 +638,8 @@ Vue.component('panel-refrigerator', {
       mode: this.getModeIndex(this.device.state.mode)
     }
   },
-  watch: { // here we set the new values
+  /* On data change, send to API */
+  watch: {
     temperature(newVal, oldVal) {
       this.sendAction("setTemperature", [newVal])
     },
@@ -658,6 +678,7 @@ Vue.component('panel-refrigerator', {
 
     </v-container>`,
   methods: {
+    /* Send action to API */
     async sendAction(action, param) {
       let rta = await execAction(this.device.id, action, param)
         .catch((error) => {
@@ -668,6 +689,7 @@ Vue.component('panel-refrigerator', {
         this.error = true;
       }
     },
+    /* Translators of API intel */
     getModeIndex(name) {
       switch (name) {
         case "vacation":
@@ -678,11 +700,13 @@ Vue.component('panel-refrigerator', {
           return 0;
       }
     },
+    /* Updates used properties */
     updateDev(device) {
       this.temperature = device.state.temperature;
       this.freezer_temp = device.state.freezerTemperature;
       this.mode = this.getModeIndex(device.state.mode);
     },
+    /* Fetch data from API */
     async getData() {
       let rta = await getDevice(this.device.id)
         .catch((error) => {
@@ -697,12 +721,14 @@ Vue.component('panel-refrigerator', {
       }
     }
   },
+  /* Initial fetch when mounted and set regular fetch */
   mounted() {
     this.getData();
     let timer = setInterval(() => this.getData(), 1000);
   }
 })
 
+/* Panel layout for speaker */
 Vue.component('panel-speaker', {
   props: {
     device: {
@@ -720,6 +746,7 @@ Vue.component('panel-speaker', {
       genre: this.device.state.genre
     }
   },
+  /* On data change, send to API */
   watch: {
     play(newVal, oldVal) {
       if (newVal)
@@ -782,26 +809,27 @@ Vue.component('panel-speaker', {
       
       <v-select v-model="genre" :items="genres" class="text-capitalize" required ></v-select>
     </v-container>`,
-  computed: {
-    getTime() {
-      return this.elapsed_time; // here to do conversion secs to something printable
-    }
-  },
   methods: {
-    skipNext(){
+    /* Send action when next pressed */
+    skipNext() {
       this.sendAction("nextSong", []);
     },
-    skipPrev(){
+    /* Send action when previous pressed */
+    skipPrev() {
       this.sendAction("previousSong", []);
     },
+    /* Get song or default if stopped */
     getSong(device) {
-      if (this.stopped || device.state.song === undefined) return {title: "-",
-                                                                    artist: "",
-                                                                    album: "",
-                                                                    duration: "-",
-                                                                    progress: "-"};
+      if (this.stopped || device.state.song === undefined) return {
+        title: "-",
+        artist: "",
+        album: "",
+        duration: "-",
+        progress: "-"
+      };
       return device.state.song;
     },
+    /* Send action to API */
     async sendAction(action, param) {
       let rta = await execAction(this.device.id, action, param)
         .catch((error) => {
@@ -812,6 +840,7 @@ Vue.component('panel-speaker', {
         this.error = true;
       }
     },
+    /* Update used properties */
     updateDev(device) {
       this.song = this.getSong(device);
       this.play = (device.state.status === "playing");
@@ -819,6 +848,7 @@ Vue.component('panel-speaker', {
       this.volume = device.state.volume;
       this.genre = device.state.genre;
     },
+    /* Fetch data from API */
     async getData() {
       let rta = await getDevice(this.device.id)
         .catch((error) => {
@@ -833,12 +863,14 @@ Vue.component('panel-speaker', {
       }
     }
   },
+  /* Initial fetch when mounted and set regular fetch */
   mounted() {
     this.getData();
     let timer = setInterval(() => this.getData(), 1000);
   }
 })
 
+/* Panel layout for door */
 Vue.component('panel-door', {
   props: {
     device: {
@@ -852,6 +884,7 @@ Vue.component('panel-door', {
       locked: (this.device.state.lock === "locked")
     }
   },
+  /* On data change, send to API */
   watch: {
     closed(newVal, oldVal) {
       if (newVal === 0)
@@ -885,12 +918,14 @@ Vue.component('panel-door', {
       </v-layout>
     </v-container>`,
   methods: {
+    /* When lock button pressed */
     lock() {
       this.locked = !this.locked;
       if (this.locked) {
         this.closed = 0;
       }
     },
+    /* Send action to API */
     async sendAction(action, param) {
       let rta = await execAction(this.device.id, action, param)
         .catch((error) => {
@@ -901,10 +936,12 @@ Vue.component('panel-door', {
         this.error = true;
       }
     },
+    /* Update used properties */
     updateDev(device) {
       this.closed = (device.state.status === "opened") ? 1 : 0;
       this.locked = (device.state.lock === "locked");
     },
+    /* Fetch data from API */
     async getData() {
       let rta = await getDevice(this.device.id)
         .catch((error) => {
@@ -919,12 +956,14 @@ Vue.component('panel-door', {
       }
     }
   },
+  /* Initial fetch when mounted and set regular fetch */
   mounted() {
     this.getData();
     let timer = setInterval(() => this.getData(), 1000);
   }
 })
 
+/* Panel layout for window */
 Vue.component('panel-window', {
   props: {
     device: {
@@ -939,6 +978,7 @@ Vue.component('panel-window', {
       progress: this.device.state.level,
     }
   },
+  /* On data change, send to API */
   watch: {
     closed(newVal, oldVal) {
       if (newVal === 0) {
@@ -954,14 +994,15 @@ Vue.component('panel-window', {
     `<v-container fluid>
       <v-layout column align-center class="ma-5">
         <v-btn-toggle v-model="closed" tile color="orange darken-2" group mandatory>
-            <v-btn :disabled="moving" >Closed</v-btn>
-            <v-btn :disabled="moving" >Open</v-btn>
+          <v-btn :disabled="moving" >Closed</v-btn>
+          <v-btn :disabled="moving" >Open</v-btn>
         </v-btn-toggle>
         <v-subheader v-show="progress > 0 && progress < 100" class="text-capitalize">{{device.state.status}}</v-subheader>
         <v-progress-linear v-show="progress > 0 && progress < 100" v-model="progress" color="orange"></v-progress-linear>
       </v-layout>
     </v-container>`,
   methods: {
+    /* Send action to API */
     async sendAction(action, param) {
       let rta = await execAction(this.device.id, action, param)
         .catch((error) => {
@@ -972,6 +1013,7 @@ Vue.component('panel-window', {
         this.error = true;
       }
     },
+    /* Translators of API intel */
     getClosedIndex(status) {
       if (status === "closed" || status == "closing") return 0;
       return 1;
@@ -979,12 +1021,14 @@ Vue.component('panel-window', {
     getStatus(status) {
       return (status === "opening" || status == "closing");
     },
+    /* Update used properties */
     updateDev(device) {
       this.device.state.status = device.state.status;
       this.closed = this.getClosedIndex(device.state.status);
       this.moving = this.getStatus(device.state.status);
       this.progress = device.state.level;
     },
+    /* Fetch data form API */
     async getData() {
       let rta = await getDevice(this.device.id)
         .catch((error) => {
@@ -999,12 +1043,14 @@ Vue.component('panel-window', {
       }
     }
   },
+  /* Initial fetch when mounted and set regular fetch */
   mounted() {
     this.getData();
     let timer = setInterval(() => this.getData(), 1000);
   }
 })
 
+/* Panel layout for air aconditioner */
 Vue.component('panel-airconditioner', {
   props: {
     device: {
@@ -1025,6 +1071,7 @@ Vue.component('panel-airconditioner', {
       auto_horizontal_wings: (this.device.state.horizontalSwing === "auto"),
     }
   },
+  /* On data change, send to API */
   watch: {
     state(newVal, oldVal) {
       if (newVal)
@@ -1129,6 +1176,7 @@ Vue.component('panel-airconditioner', {
       </v-row>
     </v-container>`,
   methods: {
+    /* Translators of API intel */
     getSpeedNumber(str) {
       if (str === "auto") return 50;
       return parseInt(str, 10);
@@ -1147,6 +1195,7 @@ Vue.component('panel-airconditioner', {
           return 2;
       }
     },
+    /* Send action to API */
     async sendAction(action, param) {
       let rta = await execAction(this.device.id, action, param)
         .catch((error) => {
@@ -1157,6 +1206,7 @@ Vue.component('panel-airconditioner', {
         this.error = true;
       }
     },
+    /* Update used properties */
     updateDev(device) {
       this.state = (device.state.status === "on");
       this.temperature = device.state.temperature;
@@ -1168,6 +1218,7 @@ Vue.component('panel-airconditioner', {
       this.horizontal_wings = this.getSwingNumber(device.state.horizontalSwing);
       this.auto_horizontal_wings = (device.state.horizontalSwing === "auto");
     },
+    /* Fetch data from API */
     async getData() {
       let rta = await getDevice(this.device.id)
         .catch((error) => {
@@ -1182,6 +1233,7 @@ Vue.component('panel-airconditioner', {
       }
     }
   },
+  /* Initial fetch when mounted and set regular fetch */
   mounted() {
     this.getData();
     let timer = setInterval(() => this.getData(), 1000);
