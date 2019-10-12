@@ -60,7 +60,7 @@ Vue.component('card-btn', {
     },
     /* Obtain image source */
     getImg() {
-      return './resources/images/' + this.img_name;
+      return './resources/images/' + this.type + "/" + this.img_name;
     }
   }
 })
@@ -133,7 +133,7 @@ Vue.component('routine-btn', {
     },
     /* Obtain image source */
     getImg() {
-      return './resources/images/' + this.routine.meta.img;
+      return './resources/images/routine/' + this.routine.meta.img;
     }
   },
   methods: {

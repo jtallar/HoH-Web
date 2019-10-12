@@ -256,7 +256,9 @@ Vue.component('add-room', {
     return {
       name: '',
       sheet: false,
-      images: ['bedroom_01.jpg', 'bathroom_02.jpg', 'game_room_01.jpg', 'garage_01.jpg', 'kitchen_01.jpg', 'living_01.jpg', 'living_02.jpg', 'kitchen1.jpg'],
+      images: ['bathroom.jpg', 'bathroom1.jpg', 'bathroom2.jpg', 'bathroom3.jpg', 'bedroom.jpg', 'bedroom1.jpg', 'bedroom2.jpg', 'bedroom3.jpg', 'bedroom4.jpg',
+                'gameroom.jpg', 'gameroom1.jpg', 'garage.jpg', 'garden.jpg', 'hall.jpg', 'kitchen.jpg', 'kitchen1.jpg', 'livingroom.jpg', 'livingroom1.jpg',
+                'livingroom2.jpg', 'livingroom3.jpg', 'livingroom4.jpg'],
       image: undefined,
       error: false,
       errorText: false,
@@ -297,7 +299,7 @@ Vue.component('add-room', {
                     <v-row>
                       <v-col v-for="(item, i) in images" :key="i" cols="12" md="2">
                         <v-item v-slot:default="{ active, toggle }">
-                          <v-img :src="\`./resources/images/\${item}\`" class="text-right pa-2 add-room-img" @click="toggle">
+                          <v-img :src="\`./resources/images/room/\${item}\`" class="text-right pa-2 add-room-img" @click="toggle">
                             <v-btn icon dark >
                               <v-icon color="orange darken-2 ">
                                 {{ active ? 'mdi-check-circle' : 'mdi-circle-outline' }}
@@ -377,6 +379,10 @@ Vue.component('new-routine', {
       error: false,
       errorMsg: "",
 
+      sheet: false,
+      image: undefined,
+      images: ['work.jpg', 'vacations.jpg', 'sleep.jpg', 'home.jpg'],
+
       name: "",
       show_param: false,
       params: undefined,
@@ -401,13 +407,11 @@ Vue.component('new-routine', {
     room(newVal, oldVal) {
       if (newVal === "") return;
       this.getDevices(newVal);
-      this.option = "";
       this.resetParams();
     },
     device(newVal, oldVal) {
       if (newVal === "") return;
       this.getActions(this.devices.find(x => x.id === newVal).type.id);
-      this.option = "";
       this.resetParams();
     },
     option(newVal, oldVal) {
@@ -435,8 +439,14 @@ Vue.component('new-routine', {
           <v-card-text>
             <v-container>
               <v-row>
-                <v-col cols="12">
-                  <v-text-field outlined label="Routine Name" v-model="name" required></v-text-field>
+                <v-col cols="6">
+                  <v-text-field outlined label="Routine Name" v-model="name" required class="mx-5"></v-text-field>
+                </v-col>
+                <v-col cols="3">
+                    <v-btn class="mt-2" color="orange" dark @click="sheet = !sheet">Select image...</v-btn>
+                  </v-col>
+                  <v-col cols="3">
+                    <div class="mt-3"><h3>{{ images[image] }}</h3></div>
                 </v-col>
                 <v-col cols="4" >
                   <v-select flex-grow="false" v-model="room" :items="rooms" item-value="id" item-text="name" :value="room" label="Room" required></v-select>
@@ -494,6 +504,32 @@ Vue.component('new-routine', {
               <v-btn color="red" text @click="error = false"> OK </v-btn>
             </v-snackbar>
           </v-card> 
+
+          <v-bottom-sheet v-model="sheet">
+            <v-sheet  dark class="text-center" >
+              <v-card dark max-width="15000" class="mx-auto">
+                <v-container class="pa-1">
+                  <v-item-group v-model="image">
+                    <v-row>
+                      <v-col v-for="(item, i) in images" :key="i" cols="12" md="2">
+                        <v-item v-slot:default="{ active, toggle }">
+                          <v-img :src="\`./resources/images/routine/\${item}\`" class="text-right pa-2 add-room-img" @click="toggle">
+                            <v-btn icon dark >
+                              <v-icon color="orange darken-2 ">
+                                {{ active ? 'mdi-check-circle' : 'mdi-circle-outline' }}
+                              </v-icon>
+                            </v-btn>
+                          </v-img>
+                        </v-item>
+                      </v-col>
+                    </v-row>
+                    <div class="flex-grow-1"></div>
+                    <v-btn class="my-2" color="orange darken-2" @click="sheet = false">SELECT</v-btn>
+                  </v-item-group>
+                </v-container>
+              </v-card>
+            </v-sheet>
+          </v-bottom-sheet>
         </v-overlay>
       </v-container>`,
   methods: {
@@ -511,6 +547,16 @@ Vue.component('new-routine', {
     async create() {
       if (this.actions.length === 0) {
         this.errorMsg = 'Routine has no actions!';
+        this.error = true;
+        return;
+      }
+      if (this.name === "") {
+        this.errorMsg = 'Routine has no name!';
+        this.error = true;
+        return;
+      }
+      if (this.image === undefined) {
+        this.errorMsg = 'Routine has no image!';
         this.error = true;
         return;
       }
@@ -546,7 +592,6 @@ Vue.component('new-routine', {
           meta: { desc: desc }
         });
       }
-      console.error(this.actions);
       this.resetVar();
     },
     /* Resets params view */
@@ -555,27 +600,30 @@ Vue.component('new-routine', {
       this.picker = false;
       this.color = false;
       this.slider = false;
+      this.option = "";
     },
     /* Resets properties when action added */
     resetVar() {
       this.resetParams();
+      this.resetVar();
+      this.options = [];
+      this.devices = [];
+      this.error = false;
       this.room = "";
       this.device = "";
       this.option = "";
-      this.final_param = "";
+      this.final_param = "";      
     },
     /*  Resets all properties */
     resetAll() {
       this.resetVar();
       this.name = "";
       this.actions = [];
-      this.options = [];
-      this.devices = [];
-      this.error = false;
+      this.image = undefined;     
     },
     /* Adds routine to API */
     async addRtn() {
-      let rta = await addRoutine(this.name, this.actions, "sleeping_01.jpg") // TODO addd real handling of image
+      let rta = await addRoutine(this.name, this.actions, this.images[this.image]) // TODO addd real handling of image
         .catch((error) => {
           this.errorMsg = error[0].toUpperCase() + error.slice(1);
           console.error(this.errorMsg);
