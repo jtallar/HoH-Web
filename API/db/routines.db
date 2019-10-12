@@ -1,3 +1,1 @@
-{"_id":"0a1b750546cfab5f","name":"Final","actions":[{"device":{"id":"99c74d51a1557e9d"},"actionName":"turnOn","params":[],"meta":{"desc":"Test"}}],"meta":{"img":"sleeping_01.jpg"}}
-{"_id":"a981b892b2056041","name":"good night","actions":[{"device":{"id":"99c74d51a1557e9d"},"actionName":"turnOff","params":[]}],"meta":{"img":"sleeping_01.jpg"}}
 {"$$indexCreated":{"fieldName":"name","unique":true,"sparse":false}}

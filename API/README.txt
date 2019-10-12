@@ -6,7 +6,7 @@ Instalación del API:
 4) Copiar el archivo "package.json" que se encuentra en el directorio temporal del paso 1 al directorio creado en el paso 3.
 5) Utilizando la consola de línea de comandos o una terminal, posicionarse en el directorio creado en el paso 3, escribir "npm install" (sin las comillas) y presionar la tecla Enter. 
 6) Copiar los subdirectorios actions, config, db, initializers, locales, node_modules y public que se encuentran dentro del directorio temporal del paso 1 al directorio creado en el paso 3. Durante la copia se solicitará la confirmación para sobrescribir archivos existentes, aceptar la misma.
-7) Utilizando la consola de línea de comandos o una terminal, posicionarse en el directorio creado en el paso 3, escribir "./node_modules/.bin/actionhero link --name=ah-swagger-plugin" (sin las comillas y ajustando las barras de acuerdo a la plataforma) y presionar la tecla Enter. Ignorar la advertencia que se muestra por la existencia del archivo "swagger.js".
+7) Utilizando la consola de línea de comandos o una terminal, posicionarse en el directorio creado en el paso 3, escribir ".\node_modules\.bin\actionhero link --name=ah-swagger-plugin" (sin las comillas y ajustando las barras de acuerdo a la plataforma) y presionar la tecla Enter. Ignorar la advertencia que se muestra por la existencia del archivo "swagger.js".
 
 Iniciar el API:
 ---------------
