@@ -258,7 +258,7 @@ Vue.component('add-room', {
       sheet: false,
       images: ['bathroom.jpg', 'bathroom1.jpg', 'bathroom2.jpg', 'bathroom3.jpg', 'bedroom.jpg', 'bedroom1.jpg', 'bedroom2.jpg', 'bedroom3.jpg', 'bedroom4.jpg',
                 'gameroom.jpg', 'gameroom1.jpg', 'garage.jpg', 'garden.jpg', 'hall.jpg', 'kitchen.jpg', 'kitchen1.jpg', 'livingroom.jpg', 'livingroom1.jpg',
-                'livingroom2.jpg', 'livingroom3.jpg', 'livingroom4.jpg'],
+                'livingroom2.jpg', 'livingroom3.jpg', 'livingroom4.jpg', 'garden1.jpg', 'homeoffice.jpg', 'homeoffice1.jpg'],
       image: undefined,
       error: false,
       errorText: false,
@@ -377,10 +377,12 @@ Vue.component('new-routine', {
     return {
       error: false,
       errorMsg: "",
+      errorText: false,
 
       sheet: false,
       image: undefined,
-      images: ['work.jpg', 'vacations.jpg', 'sleep.jpg', 'home.jpg'],
+      images: ['work.jpg', 'vacations.jpg', 'sleep.jpg', 'home.jpg', 'party.jpg', 'homeoffice.jpg', 
+              'freezing.jpg', 'hot.jpg', 'movie.jpg', 'party.jpg', 'studying.jpg', 'reunion.jpg'],
 
       name: "",
       show_param: false,
@@ -407,21 +409,24 @@ Vue.component('new-routine', {
       if (newVal === "") return;
       this.getDevices(newVal);
       this.resetParams();
+      this.options = [];
+      this.option = "";
     },
     device(newVal, oldVal) {
       if (newVal === "") return;
       this.getActions(this.devices.find(x => x.id === newVal).type.id);
       this.resetParams();
+      this.option = "";
     },
     option(newVal, oldVal) {
       if (newVal === "") return;
       this.resetParams();
       var aux = this.options.find(x => x.name === newVal);
+      this.show_param = false;
       if (aux.params.length === 0) return;
       this.show_param = true;
       this.params = aux.params[0];
       this.params.name = this.getOptionName(this.params.name);
-      console.error(this.params);
       if (this.params.name === "Color") this.color = true;
       else if (this.params.name === "Mode" || this.params.type === "string") this.picker = true;
       else this.slider = true;
@@ -439,7 +444,7 @@ Vue.component('new-routine', {
             <v-container>
               <v-row>
                 <v-col cols="6">
-                  <v-text-field outlined label="Routine Name" v-model="name" required class="mx-5"></v-text-field>
+                  <v-text-field outlined label="Routine Name" v-model="name" required :error="errorText" required hint="Between 3 and 30 letters, numbers or spaces." class="mx-5"></v-text-field>
                 </v-col>
                 <v-col cols="3">
                     <v-btn class="mt-2" color="orange" dark @click="sheet = !sheet">Select image...</v-btn>
@@ -500,7 +505,7 @@ Vue.component('new-routine', {
               </v-container>
             </v-card-text>
             <v-snackbar v-model="error" > {{ errorMsg }}
-              <v-btn color="red" text @click="error = false"> OK </v-btn>
+              <v-btn color="red" text @click="error = false; errorText = false"> OK </v-btn>
             </v-snackbar>
           </v-card> 
 
@@ -544,6 +549,18 @@ Vue.component('new-routine', {
 
     /* When routine is created */
     async create() {
+      if (this.name.length < 3 || this.name.length > 30) {
+        this.errorMsg = 'Name must have between 3 and 30 characters!';
+        this.error = true;
+        this.errorText = true;
+        return;
+      }
+      if (!/^([a-zA-Z0-9 _]+)$/.test(this.name)) {
+        this.errorMsg = 'Name must have letters, numbers or spaces!';
+        this.error = true;
+        this.errorText = true;
+        return;
+      }
       if (this.actions.length === 0) {
         this.errorMsg = 'Routine has no actions!';
         this.error = true;
@@ -570,6 +587,12 @@ Vue.component('new-routine', {
     },
     /* Generates proper action format and adds it to actions Array */
     addAction() {
+      if (this.room === "" || this.device === "" || this.option === "" || (this.show_param && this.final_param === undefined)) {
+        
+        this.errorMsg = 'Action is missing data!';
+        this.error = true;
+        return;
+      }
       var room_name = this.rooms.find(x => x.id === this.room).name;
       var dev_name = this.devices.find(x => x.id === this.device).name;
       if (this.color) this.final_param = this.color_param.substr(1);
@@ -578,7 +601,7 @@ Vue.component('new-routine', {
 
       if (this.show_param) {
         this.actions.push({
-          device: { id: this.device },
+          device: { id: this.device.id },
           actionName: this.getActionName(this.option),
           params: [this.final_param],
           meta: { desc: desc }
@@ -599,19 +622,17 @@ Vue.component('new-routine', {
       this.picker = false;
       this.color = false;
       this.slider = false;
-      this.option = "";
     },
     /* Resets properties when action added */
     resetVar() {
       this.resetParams();
-      this.resetVar();
       this.options = [];
       this.devices = [];
       this.error = false;
       this.room = "";
       this.device = "";
-      this.option = "";
-      this.final_param = "";      
+      this.final_param = "";
+      this.option = "";      
     },
     /*  Resets all properties */
     resetAll() {

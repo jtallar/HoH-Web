@@ -1,0 +1,115 @@
+{"$$indexCreated":{"fieldName":"name","unique":true,"sparse":false}}
+{"_id":"525c5aad864b3369","name":"Ceiling Light","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"meta":{"favorite":false}}
+{"_id":"525c5aad864b3369","name":"Ceiling Light","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"roomId":"23925078bafcf393","meta":{"favorite":false}}
+{"_id":"41675b9e7b7005ae","name":"Work Table Light","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"meta":{"favorite":false}}
+{"_id":"41675b9e7b7005ae","name":"Work Table Light","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"roomId":"23925078bafcf393","meta":{"favorite":false}}
+{"$$deleted":true,"_id":"41675b9e7b7005ae"}
+{"_id":"069694bca0e0e6c0","name":"Garage Door","typeId":"lsf78ly0eqrjbz91","state":{"status":"closed","lock":"unlocked"},"meta":{"favorite":false}}
+{"_id":"069694bca0e0e6c0","name":"Garage Door","typeId":"lsf78ly0eqrjbz91","state":{"status":"closed","lock":"unlocked"},"roomId":"23925078bafcf393","meta":{"favorite":false}}
+{"_id":"4dc06ac3d43b6416","name":"Garage Gate","typeId":"eu0v2xgprrhhg41g","state":{"status":"opened","actionEndBy":null,"actionTimerIndex":null},"meta":{"favorite":false}}
+{"_id":"4dc06ac3d43b6416","name":"Garage Gate","typeId":"eu0v2xgprrhhg41g","state":{"status":"opened","actionEndBy":null,"actionTimerIndex":null},"roomId":"23925078bafcf393","meta":{"favorite":false}}
+{"_id":"473b9693a16f1e84","name":"Suite Light","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"meta":{"favorite":false}}
+{"_id":"473b9693a16f1e84","name":"Suite Light","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"roomId":"25f5a2dccc29c115","meta":{"favorite":false}}
+{"_id":"e8bc307914c2a38c","name":"Mirror Lights","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"meta":{"favorite":false}}
+{"_id":"e8bc307914c2a38c","name":"Mirror Lights","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"roomId":"25f5a2dccc29c115","meta":{"favorite":false}}
+{"_id":"929d52852d267774","name":"Juli Bed Light","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"meta":{"favorite":false}}
+{"_id":"929d52852d267774","name":"Juli Bed Light","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"roomId":"2d560d014587a3f3","meta":{"favorite":false}}
+{"_id":"2f5403b040bf9949","name":"Juli Desk Light","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"meta":{"favorite":false}}
+{"_id":"2f5403b040bf9949","name":"Juli Desk Light","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"roomId":"2d560d014587a3f3","meta":{"favorite":false}}
+{"_id":"1e7929cd37e64289","name":"Beats Pill","typeId":"c89b94e8581855bc","state":{"status":"stopped","volume":5,"genre":"pop","songIndex":0,"playingSince":null,"pausedSince":null,"pausedInteval":0},"meta":{"favorite":false}}
+{"_id":"1e7929cd37e64289","name":"Beats Pill","typeId":"c89b94e8581855bc","state":{"status":"stopped","volume":5,"genre":"pop","songIndex":0,"playingSince":null,"pausedSince":null,"pausedInteval":0},"roomId":"2d560d014587a3f3","meta":{"favorite":false}}
+{"_id":"45edb85148dc8669","name":"Julis Bedroom Blinds","typeId":"eu0v2xgprrhhg41g","state":{"status":"opened","actionEndBy":null,"actionTimerIndex":null},"meta":{"favorite":false}}
+{"_id":"45edb85148dc8669","name":"Julis Bedroom Blinds","typeId":"eu0v2xgprrhhg41g","state":{"status":"opened","actionEndBy":null,"actionTimerIndex":null},"roomId":"2d560d014587a3f3","meta":{"favorite":false}}
+{"_id":"a24eb221250f7290","name":"Julis Bedroom AC","typeId":"li6cbv5sdlatti0j","state":{"status":"off","temperature":24,"mode":"cool","verticalSwing":"auto","horizontalSwing":"auto","fanSpeed":"auto"},"meta":{"favorite":false}}
+{"_id":"a24eb221250f7290","name":"Julis Bedroom AC","typeId":"li6cbv5sdlatti0j","state":{"status":"off","temperature":24,"mode":"cool","verticalSwing":"auto","horizontalSwing":"auto","fanSpeed":"auto"},"roomId":"2d560d014587a3f3","meta":{"favorite":false}}
+{"_id":"2f5403b040bf9949","name":"Julis Desk Light","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"roomId":"2d560d014587a3f3","meta":{"favorite":false}}
+{"_id":"2f5403b040bf9949","name":"Julis Desk Light","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"roomId":"2d560d014587a3f3","meta":{"favorite":false}}
+{"_id":"929d52852d267774","name":"Julis Bed Light","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"roomId":"2d560d014587a3f3","meta":{"favorite":false}}
+{"_id":"b7d9fd55bfa4bd76","name":"Guests Bath Light","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"meta":{"favorite":false}}
+{"_id":"b7d9fd55bfa4bd76","name":"Guests Bath Light","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"roomId":"37e3e33be9d9c803","meta":{"favorite":false}}
+{"_id":"bb237e3a2a00824c","name":"Main Oven","typeId":"im77xxyulpegfmv8","state":{"status":"off","temperature":90,"heat":"conventional","grill":"off","convection":"off"},"meta":{"favorite":false}}
+{"_id":"bb237e3a2a00824c","name":"Main Oven","typeId":"im77xxyulpegfmv8","state":{"status":"off","temperature":90,"heat":"conventional","grill":"off","convection":"off"},"roomId":"413803f2c6abefc3","meta":{"favorite":false}}
+{"_id":"6b93ef32344503b2","name":"Fridge","typeId":"rnizejqr2di0okho","state":{"freezerTemperature":-8,"temperature":2,"mode":"default","previousFreezerTemperature":-8,"previousTemperature":2,"partyModeEndBy":null,"partyModeTimerIndex":null},"meta":{"favorite":false}}
+{"_id":"6b93ef32344503b2","name":"Fridge","typeId":"rnizejqr2di0okho","state":{"freezerTemperature":-8,"temperature":2,"mode":"default","previousFreezerTemperature":-8,"previousTemperature":2,"partyModeEndBy":null,"partyModeTimerIndex":null},"roomId":"413803f2c6abefc3","meta":{"favorite":false}}
+{"_id":"ec39be8f12891553","name":"Kitchen AC","typeId":"li6cbv5sdlatti0j","state":{"status":"off","temperature":24,"mode":"cool","verticalSwing":"auto","horizontalSwing":"auto","fanSpeed":"auto"},"meta":{"favorite":false}}
+{"_id":"ec39be8f12891553","name":"Kitchen AC","typeId":"li6cbv5sdlatti0j","state":{"status":"off","temperature":24,"mode":"cool","verticalSwing":"auto","horizontalSwing":"auto","fanSpeed":"auto"},"roomId":"413803f2c6abefc3","meta":{"favorite":false}}
+{"_id":"fae63220a641eef7","name":"Table Light","typeId":"li6cbv5sdlatti0j","state":{"status":"off","temperature":24,"mode":"cool","verticalSwing":"auto","horizontalSwing":"auto","fanSpeed":"auto"},"meta":{"favorite":false}}
+{"_id":"fae63220a641eef7","name":"Table Light","typeId":"li6cbv5sdlatti0j","state":{"status":"off","temperature":24,"mode":"cool","verticalSwing":"auto","horizontalSwing":"auto","fanSpeed":"auto"},"roomId":"413803f2c6abefc3","meta":{"favorite":false}}
+{"$$deleted":true,"_id":"fae63220a641eef7"}
+{"_id":"6c3c8738937597fa","name":"Kitchen Light","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"meta":{"favorite":false}}
+{"_id":"6c3c8738937597fa","name":"Kitchen Light","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"roomId":"413803f2c6abefc3","meta":{"favorite":false}}
+{"_id":"389a9a12bdab5140","name":"Kitchen Table Light","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"meta":{"favorite":false}}
+{"_id":"389a9a12bdab5140","name":"Kitchen Table Light","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"roomId":"413803f2c6abefc3","meta":{"favorite":false}}
+{"_id":"ea9d95b077070158","name":"Game Room Audio","typeId":"c89b94e8581855bc","state":{"status":"stopped","volume":5,"genre":"pop","songIndex":0,"playingSince":null,"pausedSince":null,"pausedInteval":0},"meta":{"favorite":false}}
+{"_id":"ea9d95b077070158","name":"Game Room Audio","typeId":"c89b94e8581855bc","state":{"status":"stopped","volume":5,"genre":"pop","songIndex":0,"playingSince":null,"pausedSince":null,"pausedInteval":0},"roomId":"4c78bfc5d51e9ef8","meta":{"favorite":false}}
+{"_id":"b06a417a96d477e0","name":"Game Room AC","typeId":"li6cbv5sdlatti0j","state":{"status":"off","temperature":24,"mode":"cool","verticalSwing":"auto","horizontalSwing":"auto","fanSpeed":"auto"},"meta":{"favorite":false}}
+{"_id":"b06a417a96d477e0","name":"Game Room AC","typeId":"li6cbv5sdlatti0j","state":{"status":"off","temperature":24,"mode":"cool","verticalSwing":"auto","horizontalSwing":"auto","fanSpeed":"auto"},"roomId":"4c78bfc5d51e9ef8","meta":{"favorite":false}}
+{"_id":"2fc900e291b90265","name":"Game Room Lights","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"meta":{"favorite":false}}
+{"_id":"2fc900e291b90265","name":"Game Room Lights","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"roomId":"4c78bfc5d51e9ef8","meta":{"favorite":false}}
+{"_id":"0744b23de602d86b","name":"Master Bed Blinds","typeId":"eu0v2xgprrhhg41g","state":{"status":"opened","actionEndBy":null,"actionTimerIndex":null},"meta":{"favorite":false}}
+{"_id":"0744b23de602d86b","name":"Master Bed Blinds","typeId":"eu0v2xgprrhhg41g","state":{"status":"opened","actionEndBy":null,"actionTimerIndex":null},"roomId":"7259d10a39e41e04","meta":{"favorite":false}}
+{"_id":"0e078e7ec0939a4a","name":"Master Bedroom AC","typeId":"li6cbv5sdlatti0j","state":{"status":"off","temperature":24,"mode":"cool","verticalSwing":"auto","horizontalSwing":"auto","fanSpeed":"auto"},"meta":{"favorite":false}}
+{"_id":"0e078e7ec0939a4a","name":"Master Bedroom AC","typeId":"li6cbv5sdlatti0j","state":{"status":"off","temperature":24,"mode":"cool","verticalSwing":"auto","horizontalSwing":"auto","fanSpeed":"auto"},"roomId":"7259d10a39e41e04","meta":{"favorite":false}}
+{"_id":"ea87da3786e32ed1","name":"Left Bed Light","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"meta":{"favorite":false}}
+{"_id":"ea87da3786e32ed1","name":"Left Bed Light","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"roomId":"7259d10a39e41e04","meta":{"favorite":false}}
+{"_id":"7ca7b49af9162e27","name":"Right Bed Light","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"meta":{"favorite":false}}
+{"_id":"7ca7b49af9162e27","name":"Right Bed Light","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"roomId":"7259d10a39e41e04","meta":{"favorite":false}}
+{"_id":"29929e402804a6ed","name":"Master Bed Light","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"meta":{"favorite":false}}
+{"_id":"29929e402804a6ed","name":"Master Bed Light","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"roomId":"7259d10a39e41e04","meta":{"favorite":false}}
+{"_id":"ee4d4e44fc571b5f","name":"Garden Lights","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"meta":{"favorite":false}}
+{"_id":"ee4d4e44fc571b5f","name":"Garden Lights","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"roomId":"7b3605151742a5c8","meta":{"favorite":false}}
+{"_id":"f697e950e14f4752","name":"Garden Back Door","typeId":"lsf78ly0eqrjbz91","state":{"status":"closed","lock":"unlocked"},"meta":{"favorite":false}}
+{"_id":"f697e950e14f4752","name":"Garden Back Door","typeId":"lsf78ly0eqrjbz91","state":{"status":"closed","lock":"unlocked"},"roomId":"7b3605151742a5c8","meta":{"favorite":false}}
+{"_id":"c95afa6cfe85926b","name":"Game Room Fridge","typeId":"rnizejqr2di0okho","state":{"freezerTemperature":-8,"temperature":2,"mode":"default","previousFreezerTemperature":-8,"previousTemperature":2,"partyModeEndBy":null,"partyModeTimerIndex":null},"meta":{"favorite":false}}
+{"_id":"c95afa6cfe85926b","name":"Game Room Fridge","typeId":"rnizejqr2di0okho","state":{"freezerTemperature":-8,"temperature":2,"mode":"default","previousFreezerTemperature":-8,"previousTemperature":2,"partyModeEndBy":null,"partyModeTimerIndex":null},"roomId":"4c78bfc5d51e9ef8","meta":{"favorite":false}}
+{"_id":"65c952890c1e72a8","name":"Guests Bed Blinds","typeId":"eu0v2xgprrhhg41g","state":{"status":"opened","actionEndBy":null,"actionTimerIndex":null},"meta":{"favorite":false}}
+{"_id":"65c952890c1e72a8","name":"Guests Bed Blinds","typeId":"eu0v2xgprrhhg41g","state":{"status":"opened","actionEndBy":null,"actionTimerIndex":null},"roomId":"b8fc7b5c589d796c","meta":{"favorite":false}}
+{"_id":"c8573c727fc4c58b","name":"Guests Bed Light","typeId":"eu0v2xgprrhhg41g","state":{"status":"opened","actionEndBy":null,"actionTimerIndex":null},"meta":{"favorite":false}}
+{"_id":"c8573c727fc4c58b","name":"Guests Bed Light","typeId":"eu0v2xgprrhhg41g","state":{"status":"opened","actionEndBy":null,"actionTimerIndex":null},"roomId":"b8fc7b5c589d796c","meta":{"favorite":false}}
+{"$$deleted":true,"_id":"c8573c727fc4c58b"}
+{"_id":"26d90d2decfb747b","name":"Guests Bed Light","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"meta":{"favorite":false}}
+{"_id":"26d90d2decfb747b","name":"Guests Bed Light","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"roomId":"b8fc7b5c589d796c","meta":{"favorite":false}}
+{"_id":"a94c920009c0e287","name":"Guests AC","typeId":"li6cbv5sdlatti0j","state":{"status":"off","temperature":24,"mode":"cool","verticalSwing":"auto","horizontalSwing":"auto","fanSpeed":"auto"},"meta":{"favorite":false}}
+{"_id":"a94c920009c0e287","name":"Guests AC","typeId":"li6cbv5sdlatti0j","state":{"status":"off","temperature":24,"mode":"cool","verticalSwing":"auto","horizontalSwing":"auto","fanSpeed":"auto"},"roomId":"b8fc7b5c589d796c","meta":{"favorite":false}}
+{"_id":"16b51ed91dfec93f","name":"Home Theater","typeId":"c89b94e8581855bc","state":{"status":"stopped","volume":5,"genre":"pop","songIndex":0,"playingSince":null,"pausedSince":null,"pausedInteval":0},"meta":{"favorite":false}}
+{"_id":"16b51ed91dfec93f","name":"Home Theater","typeId":"c89b94e8581855bc","state":{"status":"stopped","volume":5,"genre":"pop","songIndex":0,"playingSince":null,"pausedSince":null,"pausedInteval":0},"roomId":"c8765bcb661c56ba","meta":{"favorite":false}}
+{"_id":"fd601f9c60ee0b26","name":"Living Room Blinds","typeId":"eu0v2xgprrhhg41g","state":{"status":"opened","actionEndBy":null,"actionTimerIndex":null},"meta":{"favorite":false}}
+{"_id":"fd601f9c60ee0b26","name":"Living Room Blinds","typeId":"eu0v2xgprrhhg41g","state":{"status":"opened","actionEndBy":null,"actionTimerIndex":null},"roomId":"c8765bcb661c56ba","meta":{"favorite":false}}
+{"_id":"85d3dd0a98a040c8","name":"Living Room AC","typeId":"li6cbv5sdlatti0j","state":{"status":"off","temperature":24,"mode":"cool","verticalSwing":"auto","horizontalSwing":"auto","fanSpeed":"auto"},"meta":{"favorite":false}}
+{"_id":"85d3dd0a98a040c8","name":"Living Room AC","typeId":"li6cbv5sdlatti0j","state":{"status":"off","temperature":24,"mode":"cool","verticalSwing":"auto","horizontalSwing":"auto","fanSpeed":"auto"},"roomId":"c8765bcb661c56ba","meta":{"favorite":false}}
+{"_id":"0e60f2cb66097d2e","name":"LR Table Light","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"meta":{"favorite":false}}
+{"_id":"0e60f2cb66097d2e","name":"LR Table Light","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"roomId":"c8765bcb661c56ba","meta":{"favorite":false}}
+{"_id":"e6e2bc05e3b56c5e","name":"LR TV Lights","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"meta":{"favorite":false}}
+{"_id":"e6e2bc05e3b56c5e","name":"LR TV Lights","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"roomId":"c8765bcb661c56ba","meta":{"favorite":false}}
+{"_id":"ff0f49e763d86ff2","name":"LR Light","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"meta":{"favorite":false}}
+{"_id":"ff0f49e763d86ff2","name":"LR Light","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"roomId":"c8765bcb661c56ba","meta":{"favorite":false}}
+{"_id":"ff0f49e763d86ff2","name":"Living Room Light","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"roomId":"c8765bcb661c56ba","meta":{"favorite":false}}
+{"_id":"c7aa6c9bbcf6717e","name":"Front Door","typeId":"lsf78ly0eqrjbz91","state":{"status":"closed","lock":"unlocked"},"meta":{"favorite":false}}
+{"_id":"c7aa6c9bbcf6717e","name":"Front Door","typeId":"lsf78ly0eqrjbz91","state":{"status":"closed","lock":"unlocked"},"roomId":"ec77f7d09dbe57e3","meta":{"favorite":false}}
+{"_id":"d81d51b98aa2445c","name":"Front Lights","typeId":"lsf78ly0eqrjbz91","state":{"status":"closed","lock":"unlocked"},"meta":{"favorite":false}}
+{"_id":"d81d51b98aa2445c","name":"Front Lights","typeId":"lsf78ly0eqrjbz91","state":{"status":"closed","lock":"unlocked"},"roomId":"ec77f7d09dbe57e3","meta":{"favorite":false}}
+{"$$deleted":true,"_id":"d81d51b98aa2445c"}
+{"_id":"fb9a4d8d391d08c1","name":"Front Lights","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"meta":{"favorite":false}}
+{"_id":"fb9a4d8d391d08c1","name":"Front Lights","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"roomId":"ec77f7d09dbe57e3","meta":{"favorite":false}}
+{"_id":"ea5701799c86c111","name":"Hall Lights","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"meta":{"favorite":false}}
+{"_id":"ea5701799c86c111","name":"Hall Lights","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"roomId":"ec77f7d09dbe57e3","meta":{"favorite":false}}
+{"_id":"c7aa6c9bbcf6717e","name":"Front Door","typeId":"lsf78ly0eqrjbz91","state":{"status":"closed","lock":"unlocked"},"roomId":"ec77f7d09dbe57e3","meta":{"favorite":true}}
+{"_id":"bb237e3a2a00824c","name":"Main Oven","typeId":"im77xxyulpegfmv8","state":{"status":"off","temperature":90,"heat":"conventional","grill":"off","convection":"off"},"roomId":"413803f2c6abefc3","meta":{"favorite":true}}
+{"_id":"6b93ef32344503b2","name":"Fridge","typeId":"rnizejqr2di0okho","state":{"freezerTemperature":-8,"temperature":2,"mode":"default","previousFreezerTemperature":-8,"previousTemperature":2,"partyModeEndBy":null,"partyModeTimerIndex":null},"roomId":"413803f2c6abefc3","meta":{"favorite":true}}
+{"_id":"29929e402804a6ed","name":"Master Bed Light","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"roomId":"7259d10a39e41e04","meta":{"favorite":true}}
+{"_id":"16b51ed91dfec93f","name":"Home Theater","typeId":"c89b94e8581855bc","state":{"status":"stopped","volume":5,"genre":"pop","songIndex":0,"playingSince":null,"pausedSince":null,"pausedInteval":0},"roomId":"c8765bcb661c56ba","meta":{"favorite":true}}
+{"_id":"a24eb221250f7290","name":"Julis Bedroom AC","typeId":"li6cbv5sdlatti0j","state":{"status":"off","temperature":24,"mode":"cool","verticalSwing":"auto","horizontalSwing":"auto","fanSpeed":"auto"},"roomId":"2d560d014587a3f3","meta":{"favorite":true}}
+{"_id":"0744b23de602d86b","name":"Master Bed Blinds","typeId":"eu0v2xgprrhhg41g","state":{"status":"opened","actionEndBy":null,"actionTimerIndex":null},"roomId":"7259d10a39e41e04","meta":{"favorite":true}}
+{"_id":"069694bca0e0e6c0","name":"Garage Door","typeId":"lsf78ly0eqrjbz91","state":{"status":"closed","lock":"locked"},"roomId":"23925078bafcf393","meta":{"favorite":false}}
+{"_id":"4dc06ac3d43b6416","name":"Garage Gate","typeId":"eu0v2xgprrhhg41g","state":{"status":"closing","actionEndBy":1570908190560,"actionTimerIndex":null,"timerIndex":0},"roomId":"23925078bafcf393","meta":{"favorite":false}}
+{"_id":"f697e950e14f4752","name":"Garden Back Door","typeId":"lsf78ly0eqrjbz91","state":{"status":"closed","lock":"locked"},"roomId":"7b3605151742a5c8","meta":{"favorite":false}}
+{"_id":"c7aa6c9bbcf6717e","name":"Front Door","typeId":"lsf78ly0eqrjbz91","state":{"status":"closed","lock":"locked"},"roomId":"ec77f7d09dbe57e3","meta":{"favorite":true}}
+{"_id":"fb9a4d8d391d08c1","name":"Front Lights","typeId":"go46xmbqeomjrsjr","state":{"status":"on","color":"FFF77F","brightness":100},"roomId":"ec77f7d09dbe57e3","meta":{"favorite":false}}
+{"_id":"fb9a4d8d391d08c1","name":"Front Lights","typeId":"go46xmbqeomjrsjr","state":{"status":"on","color":"FFF77F","brightness":100},"roomId":"ec77f7d09dbe57e3","meta":{"favorite":false}}
+{"_id":"fb9a4d8d391d08c1","name":"Front Lights","typeId":"go46xmbqeomjrsjr","state":{"status":"on","color":"FFF77F","brightness":100},"roomId":"ec77f7d09dbe57e3","meta":{"favorite":false}}
+{"_id":"c7aa6c9bbcf6717e","name":"Front Door","typeId":"lsf78ly0eqrjbz91","state":{"status":"closed","lock":"unlocked"},"roomId":"ec77f7d09dbe57e3","meta":{"favorite":true}}
+{"_id":"c7aa6c9bbcf6717e","name":"Front Door","typeId":"lsf78ly0eqrjbz91","state":{"status":"closed","lock":"locked"},"roomId":"ec77f7d09dbe57e3","meta":{"favorite":true}}
+{"_id":"c7aa6c9bbcf6717e","name":"Front Door","typeId":"lsf78ly0eqrjbz91","state":{"status":"closed","lock":"unlocked"},"roomId":"ec77f7d09dbe57e3","meta":{"favorite":true}}
+{"_id":"c7aa6c9bbcf6717e","name":"Front Door","typeId":"lsf78ly0eqrjbz91","state":{"status":"opened","lock":"unlocked"},"roomId":"ec77f7d09dbe57e3","meta":{"favorite":true}}
+{"_id":"c7aa6c9bbcf6717e","name":"Front Door","typeId":"lsf78ly0eqrjbz91","state":{"status":"closed","lock":"unlocked"},"roomId":"ec77f7d09dbe57e3","meta":{"favorite":true}}
+{"_id":"c7aa6c9bbcf6717e","name":"Front Door","typeId":"lsf78ly0eqrjbz91","state":{"status":"closed","lock":"locked"},"roomId":"ec77f7d09dbe57e3","meta":{"favorite":true}}

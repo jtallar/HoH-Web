@@ -113,7 +113,7 @@ Vue.component('edit-room', {
             <v-container>
               <v-row>
                 <v-col cols="12">
-                  <v-text-field v-model="name" label="Name" :error="errorText" required hint="Between 3 and 60 letters, numbers or spaces." clearable></v-text-field>
+                  <v-text-field v-model="name" label="Name" :error="errorText" required hint="Between 3 and 30 letters, numbers or spaces." clearable></v-text-field>
                 </v-col>
                 <v-row align="center" fixed>
                   <v-col cols="4" >
@@ -183,8 +183,8 @@ Vue.component('edit-room', {
   methods: {
     /* For applying changes to the room in matter */
     async apply() {
-      if (this.name.length < 3 || this.name.length > 60) {
-        this.errorMsg = 'Name must have between 3 and 60 characters!';
+      if (this.name.length < 3 || this.name.length > 30) {
+        this.errorMsg = 'Name must have between 3 and 30 characters!';
         this.error = true;
         this.errorText = true;
       } else if (!/^([a-zA-Z0-9 _]+)$/.test(this.name)) {

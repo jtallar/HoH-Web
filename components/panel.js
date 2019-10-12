@@ -182,7 +182,7 @@ Vue.component('edit-device', {
             <v-container>
               <v-row>
                 <v-col cols="12">
-                  <v-text-field v-model="name" label="Name" :error="errorText" required hint="Between 3 and 60 letters, numbers or spaces." clearable></v-text-field>
+                  <v-text-field v-model="name" label="Name" :error="errorText" required hint="Between 3 and 20 letters, numbers or spaces." clearable></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="6">
                   <v-select v-model="room" :items="rooms" item-text="name" item-value="id" :value="room" label="Room" required></v-select>
@@ -220,8 +220,8 @@ Vue.component('edit-device', {
   methods: {
     /* When applying changes */
     async apply() {
-      if (this.name.length < 3 || this.name.length > 60) {
-        this.errorMsg = 'Name must have between 3 and 60 characters!';
+      if (this.name.length < 3 || this.name.length > 20) {
+        this.errorMsg = 'Name must have between 3 and 20 characters!';
         this.error = true;
         this.errorText = true;
       } else if (!/^([a-zA-Z0-9 _]+)$/.test(this.name)) {
