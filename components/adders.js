@@ -154,8 +154,8 @@ Vue.component('add-device', {
   methods: {
     /* Function to create a new device */
     async accept() {
-      if (this.name.length < 3 || this.name.length > 60) {
-        this.errorMsg = 'Name must have between 3 and 60 characters!';
+      if (this.name.length < 3 || this.name.length > 20) {
+        this.errorMsg = 'Name must have between 3 and 20 characters!';
         this.error = true;
         this.errorText = true;
       } else if (!/^([a-zA-Z0-9 _]+)$/.test(this.name)) {
@@ -333,8 +333,8 @@ Vue.component('add-room', {
   methods: {
     /* Function to create a new room */
     async accept() {
-      if (this.name.length < 3 || this.name.length > 60) {
-        this.errorMsg = 'Name must have between 3 and 60 characters!';
+      if (this.name.length < 3 || this.name.length > 30) {
+        this.errorMsg = 'Name must have between 3 and 30 characters!';
         this.error = true;
         this.errorText = true;
       } else if (!/^([a-zA-Z0-9 _]+)$/.test(this.name)) {
