@@ -1,3 +1,5 @@
+/* Class for APi handler */
+/* Base address for the API */
 var api = class {
   static get baseUrl() {
     return "http://127.0.0.1:8080/api/";
@@ -7,6 +9,7 @@ var api = class {
     return 60 * 1000;
   }
 
+  /* Data fetch from API */
   static fetch(url, init) {
     return new Promise((resolve, reject) => {
       var timeout = setTimeout(() => {
@@ -16,17 +19,13 @@ var api = class {
       fetch(url, init)
         .then((response) => {
           clearTimeout(timeout);
-          // if (!response.ok) {
-          //   reject(new Error(response.statusText));
-          // }
           return response.json();
         })
         .then((data) => {
           if (data.result || data.devices) {
             resolve(data);
-          } else{
+          } else {
             reject(`${data.error.description}`);
-            //reject(new Error(`'${data.error.description}' (code: '${data.error.code}')`));
           }
         })
         .catch((error) => {
@@ -35,10 +34,12 @@ var api = class {
     });
   }
 
+  /* Wrapper for get on api.fetch */
   static get(url) {
     return api.fetch(url)
   }
 
+  /* Wrapper for post on api.fetch */
   static post(url, data) {
     return api.fetch(url, {
       method: 'POST',
@@ -49,6 +50,7 @@ var api = class {
     });
   }
 
+  /* Wrapper for put on api.fetch */
   static put(url, data) {
     return api.fetch(url, {
       method: 'PUT',
@@ -59,6 +61,7 @@ var api = class {
     });
   }
 
+  /* Wrapper for delete on api.fetch */
   static delete(url) {
     return api.fetch(url, {
       method: 'DELETE',
@@ -71,26 +74,6 @@ api.room = class {
     return api.baseUrl + "rooms/";
   }
 
-  /* Room model FULL
-  {
-    "id": "4ec10fa6991b9754",
-    "name": "dasdsadsa",
-    "meta": {
-      "image": "game_room_01.jpg",
-      "favorite": false
-    }
-  }
-  */
-
-  /* CREATE Room model
-  {
-    "name": "kitchen",
-    "meta": {
-      "image": "game_room_01.jpg",
-      "favorite": false
-    }
-  }
-  */
   /* Create a new room */
   static add(room) {
     return api.post(api.room.url, room);
@@ -121,13 +104,14 @@ api.room = class {
     return api.get(api.room.url + id + '/devices');
   }
 
-  // To create a device, create device and then add to room
-  // Para que es el body --> Para nada en principio
+  /* To create a device, create device and then add to room */
+
   /* Adds a device to a specific room */
   static addDevice(roomId, deviceId, param) {
     return api.post(api.room.url + roomId + '/devices/' + deviceId, (param === undefined) ? "{}" : param);
   }
 
+  /* Deletes a device given an id */
   static deleteDevice(deviceId) {
     return api.delete(api.room.url + 'devices/' + deviceId);
   }
@@ -138,37 +122,6 @@ api.device = class {
     return api.baseUrl + "devices/";
   }
 
-  /* Device model FULL
-  {
-    "id": "06aff9e3be2fb763",
-    "name": "table ladsamp",
-    "type": {
-      "id": "go46xmbqeomjrsjr",
-      "name": "lamp"
-    },
-    "room": {
-      "id": "61d8ac195eb1d92c",
-      "name": "JULI"
-    },
-    "state": {
-      "status": "off",
-      "color": "FFFFFF",
-      "brightness": 100
-    },
-    "meta": {
-      "favorite": false
-    }
-  }
-  */
-  /* CREATE Device model
-  {
-    "type": {
-      "id": "go46xmbqeomjrsjr"
-    },
-    "name": "table ladsamp",
-    "meta": {"favorite":false}
-  }
-  */
   /* Create a new device */
   static add(device) {
     return api.post(api.device.url, device);
@@ -268,11 +221,11 @@ api.routine = class {
   }
 }
 
-/* Para todas estas funciones, debo llamarlas usando:
-    await ...
-*/
+/* NOTE: call all this functions with await function() */
+
+/*  Gets all the elements of key */
 function getAll(key) {
-  switch(key) {
+  switch (key) {
     case "Room":
       return api.room.getAll();
     case "Device":
@@ -281,9 +234,10 @@ function getAll(key) {
       return api.deviceType.getAll();
     case "Routine":
       return api.routine.getAll();
-  } 
+  }
 }
 
+/* Creates a room */
 function createRoom(name, image, fav) {
   return api.room.add({
     "name": name,
@@ -294,6 +248,7 @@ function createRoom(name, image, fav) {
   });
 }
 
+/* Creates a device */
 function createDevice(name, type, fav) {
   return api.device.add({
     "type": {
@@ -306,34 +261,42 @@ function createDevice(name, type, fav) {
   });
 }
 
-function deleteRoom(id){
+/* Deletes a room */
+function deleteRoom(id) {
   return api.room.delete(id);
 }
 
-function deleteDevice(id){
+/* Deletes a device */
+function deleteDevice(id) {
   return api.device.delete(id);
 }
 
+/* Adds a device to a room */
 function addDeviceToRoom(roomId, deviceId) {
   return api.room.addDevice(roomId, deviceId);
 }
 
+/* Deletes a device from a room */
 function deleteDeviceFromRoom(deviceId) {
   return api.room.deleteDevice(deviceId);
 }
 
+/* Gets room given an ID */
 function getRoom(id) {
   return api.room.get(id);
 }
 
+/* Modifies a room */
 function modifyRoom(room) {
   return api.room.modify(room);
 }
 
+/* Gets all devices from room */
 function getRoomDevices(roomId) {
   return api.room.getDevices(roomId);
 }
 
+/* Gets specific device */
 function getDevice(id) {
   return api.device.get(id);
 }
@@ -348,23 +311,12 @@ function modifyDevice(id, name, fav) {
   });
 }
 
+/* Gets all devices from specific type */
 function getAllFromType(id) {
   return api.device.getAllFromType(id);
 }
 
+/* Executes action on API (post) */
 function execAction(id, action, param) {
   return api.device.execAction(id, action, param);
 }
-/*
-let rta = await createRoom(this.name, this.images[this.image], false)
-.catch((error) => {
-  this.errorMsg = error[0].toUpperCase() + error.slice(1);
-  console.error(this.errorMsg);
-});
-if (rta) {
-  this.resetVar();
-  this.$root.$emit('Finished add', 0);
-} else {
-  this.error = true;
-}
-*/

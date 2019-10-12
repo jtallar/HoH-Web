@@ -14,6 +14,7 @@ new Vue({
     doorswindows: [],
   }),
   methods: {
+    /* Adds device to its category Array */
     addToCat(device) {
       switch (device.type.name) {
         case "lamp":
@@ -36,6 +37,7 @@ new Vue({
           break;
       }
     },
+    /* Gets data for room, and its devices */
     async getRoomData() {
       let rta = await getRoom(this.id)
         .catch((error) => {
@@ -72,10 +74,11 @@ new Vue({
       }
     }
   },
+  /* Retrieves data from URL, makes initial fetch and sets regular fetch */
   async mounted() {
     this.id = location.search.substr(1).split('+')[0];
     this.getRoomData();
-    let timer = setInterval(()=> this.getRoomData(), 1000);
+    setInterval(()=> this.getRoomData(), 1000);
 
   }
 

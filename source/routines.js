@@ -8,6 +8,7 @@ new Vue({
         gotData: false
     }),
     methods: {
+        /* Gets all routines from API */
         async getRoutines() {
             let rta = await getAll("Routine")
                 .catch((error) => {
@@ -25,8 +26,9 @@ new Vue({
             }
         }
     },
+    /* Initial fetch and sets regular fetch */
     mounted() {
         this.getRoutines();
+        setInterval(()=> this.getRoutines(), 1000);
     }
-
 })

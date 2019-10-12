@@ -10,6 +10,7 @@ new Vue({
     rooms: [],
   }),
   methods: {
+    /* Gets devices from the types retrieved on mounted */
     async getDevices() {
       var auxDev = [];
       var auxRooms = [];
@@ -38,12 +39,14 @@ new Vue({
         }
       }
     },
+    /* Checks if room is in arr */
     notContains(room, arr) {
       for (data of arr) {
         if (data.id === room.id) return false;
       }
       return true;
     },
+    /* Retrieves data from URL (types and title) */
     getDataFromUrl() {
       var aux = location.search.substr(2).split('+');
 
@@ -55,10 +58,11 @@ new Vue({
       document.title = this.title;
     }
   },
+  /* Executed when mounted, fetches initial data and sets regular fetch */
   mounted() {
     this.getDataFromUrl();
     this.getDevices();
-    let timer = setInterval(() => this.getDevices(), 3000);
+    setInterval(() => this.getDevices(), 3000);
   }
 
 })

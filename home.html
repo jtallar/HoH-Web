@@ -13,11 +13,14 @@
 <body>
   <div v-cloak id="app">
     <v-app id="inspire">
+      <!-- Toolbar and Panel -->
       <toolbar :tab="0"></toolbar>
       <panel></panel>
+
+      <!-- Content -->
       <v-content v-if="!error">
         <v-container>
-
+          <!-- Displays favorite devices -->
           <div class="mt-4 ml-4 mb-2 title font-weight-bold">Favorite Devices</div>
           <v-slide-group light>
             <v-slide-item v-for="device in favDevices" :key="device.id">
@@ -28,6 +31,7 @@
             </v-slide-item>
           </v-slide-group>
 
+          <!-- Displays favorite rooms -->
           <div class="mt-4 ml-4 mb-2 title font-weight-bold">Favorite Rooms</div>
           <v-slide-group light>
             <v-slide-item v-for="room in favRooms" :key="room.id">
@@ -38,6 +42,7 @@
             </v-slide-item>
           </v-slide-group>
 
+          <!-- Displays favorite routines -->
           <div class="mt-4 ml-4 mb-2 title font-weight-bold">Favorite Routines</div>
           <v-slide-group light>
             <v-slide-item v-for="routine in favRoutines" :key="routine.id">
@@ -47,9 +52,10 @@
               <no-card text="No Favorite Routines!"></no-card>
             </v-slide-item>
           </v-slide-group>
-
         </v-container>
       </v-content>
+
+      <!-- If there is no API conection or JS is deactivated -->
       <v-content v-if="error">
         <v-container>
           <v-row class="justify-center">
@@ -70,7 +76,6 @@
   <script src="./components/list-card.js"></script>
   <script src="./components/list-dev.js"></script>
   <script src="./components/panel.js"></script>
-  
   <script src="source/home.js"></script>
   <noscript>
     <div class="noScriptHeader">

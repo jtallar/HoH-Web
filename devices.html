@@ -13,18 +13,21 @@
 <body>
   <div v-cloak id="app">
     <v-app id="inspire">
+      <!-- Toolbar -->
       <toolbar :tab="2"></toolbar>
+
+      <!-- Content -->
       <v-content>
+        <!-- Displays all categories -->
         <v-row justify="center" class="mt-5">
           <v-col v-for="cat in categories" :key="cat.title" cols="auto">
             <card-btn type="device" :width="width" :title="cat.title" :img_name="cat.img" :id="cat.id"></card-btn>
           </v-col>
         </v-row>
 
+        <!-- Button for adding devices -->
         <add-btn context="device" room=""> </add-btn>
-
       </v-content>
-
     </v-app>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>

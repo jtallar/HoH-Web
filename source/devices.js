@@ -15,6 +15,7 @@ new Vue({
     types: []
   }),
   methods: {
+    /* Gets all the types from API */
     async getTypes() {
       let rta = await getAll("Type")
         .catch((error) => {
@@ -38,6 +39,7 @@ new Vue({
         this.error = true;
       }
     },
+    /* Sorts each type to a new category */
     sortType(type) {
       switch (type.name) {
         case "speaker":
@@ -64,9 +66,10 @@ new Vue({
       }
     }
   },
+  /* Initial fetch and sets regular fetch */
     async mounted() {
       this.getTypes();
-      let timer = setInterval(()=> this.getTypes(), 1000);
+      setInterval(()=> this.getTypes(), 1000);
     }
 
   })

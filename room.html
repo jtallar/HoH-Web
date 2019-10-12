@@ -13,21 +13,25 @@
 <body>
   <div v-cloak id="app">
     <v-app id="inspire">
+      <!-- Toolbar and Panel -->
       <toolbar :tab="1"></toolbar>
       <panel></panel>
+
+      <!-- Content -->
       <v-content>
+        <!-- Specific Room Toolbar -->
         <room-bar :room="room"></room-bar>
         <v-divider class="mx-5"></v-divider>
 
+        <!-- Display of all devices per category -->
         <room-cat v-show="gotData && lighting.length > 0" :devices="lighting" category="Lights"></room-cat>
         <room-cat v-show="gotData && appliances.length > 0" :devices="appliances" category="Appliances"></room-cat>
         <room-cat v-show="gotData && airconditioners.length > 0" :devices="airconditioners" category="Air Conditioners"></room-cat>
         <room-cat v-show="gotData && entertainment.length > 0" :devices="entertainment" category="Entertainment"></room-cat>
         <room-cat v-show="gotData && doorswindows.length > 0" :devices="doorswindows" category="Doors & Windows"></room-cat>
         
+        <!-- Button for adding devices -->
         <add-btn context="device" :room="id"></add-btn>
-  
-
       </v-content>
     </v-app>
   </div>
@@ -39,8 +43,7 @@
   <script src="./components/room-bar.js"></script>
   <script src="./components/panel.js"></script>
   <script src="./components/adders.js"></script>
-  
-  <script src="source/room.js"></script>
+  <script src="./source/room.js"></script>
 
 </body>
 

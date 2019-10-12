@@ -13,17 +13,23 @@
 <body>
   <div v-cloak id="app">
     <v-app id="inspire">
+      <!-- Toolbar and Panel -->
       <toolbar :tab="2"></toolbar>
       <panel></panel>
+
+      <!-- Content -->
       <v-content>
+        <!-- Specific toolbar -->
         <device-bar :title="title"></device-bar>
         <v-divider class="mx-5"></v-divider>
 
+        <!-- Display of all devices per room -->
         <div v-for="room in rooms" :key="room.id">
           <dev-cat :room="room" :devices="devices"></dev-cat>
         </div>
 
-        <add-btn context="device"></add-btn>
+        <!-- Button for adding devices -->
+        <add-btn context="device" room=""></add-btn>
       </v-content>
     </v-app>
   </div>

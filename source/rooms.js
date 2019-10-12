@@ -13,6 +13,7 @@ new Vue({
     errorMsg: ''
   }),
   methods: {
+    /* Gets all rooms from API */
     async getRooms() {
       let rta = await getAll("Room")
         .catch((error) => {
@@ -34,9 +35,10 @@ new Vue({
       }
     }
   },
+  /* Initial fetch and sets regular fetch */
   async mounted() {
     this.getRooms();
-    let timer = setInterval(()=> this.getRooms(), 1000);
+    setInterval(()=> this.getRooms(), 1000);
   }
 
 })

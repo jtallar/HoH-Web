@@ -15,6 +15,7 @@ new Vue({
     errorMsg: ''
   }),
   methods: {
+    /* Gets favorite rooms */
     async getFavRooms() {
       let rta = await getAll("Room")
         .catch((error) => {
@@ -32,12 +33,12 @@ new Vue({
               this.favRooms.push(i);
             }
           }
-          // this.room = this.rooms[0].id;        
         }
       } else {
         this.error = true;
       }
     },
+    /* Gets favorite devices */
     async getFavDevices() {
       let rta = await getAll("Device")
         .catch((error) => {
@@ -57,6 +58,7 @@ new Vue({
         this.error = true;
       }
     },
+    /* Gets favorite routines */
     async getFavRoutines() {
       let rta = await getAll("Routine")
         .catch((error) => {
@@ -79,15 +81,16 @@ new Vue({
         this.error = true;
       }
     },
+    /* Wrapper for all getters */
     async getFavs() {
       this.getFavDevices();
       this.getFavRooms();
       this.getFavRoutines();
     }
   },
+  /* Initial fetch and sets regular fetch */
   async mounted() {
-    // here we extract all the data
     this.getFavs();
-    let timer = setInterval(()=> this.getFavs(), 1000);
+    setInterval(()=> this.getFavs(), 1000);
   }
 })

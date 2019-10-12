@@ -13,8 +13,12 @@
 <body>
   <div v-cloak id="app">
     <v-app id="inspire">
+      <!-- Toolbar -->
       <toolbar :tab="1"></toolbar>
+
+      <!-- Content -->
       <v-content>
+        <!-- Displays all rooms from API -->
         <v-container>
           <v-row justify="center">
             <v-col v-for="room in rooms" :key="room.id" cols="auto"> 
@@ -25,6 +29,8 @@
             </v-col>
           </v-row>
         </v-container>
+
+        <!-- Button for adding rooms -->
         <add-btn context="room"> </add-btn>
       </v-content>
     </v-app>
