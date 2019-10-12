@@ -4,3 +4,4 @@
 {"_id":"6a4c9d84a88a7692","name":"good night","actions":[{"device":{"id":"99c74d51a1557e9d"},"actionName":"turnOff","params":[],"meta":{"img":"sleeping_01.jpg"}}]}
 {"$$deleted":true,"_id":"6a4c9d84a88a7692"}
 {"_id":"a981b892b2056041","name":"good night","actions":[{"device":{"id":"99c74d51a1557e9d"},"actionName":"turnOff","params":[]}],"meta":{"img":"sleeping_01.jpg"}}
+{"_id":"0a1b750546cfab5f","name":"Final","actions":[{"device":{"id":"99c74d51a1557e9d"},"actionName":"turnOn","params":[],"meta":{"desc":"Test"}}],"meta":{"img":"sleeping_01.jpg"}}

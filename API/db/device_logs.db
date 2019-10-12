@@ -36,3 +36,4 @@
 {"_id":"4358514adb4a5b29","timestamp":"2019-10-12T01:08:21.018Z","deviceId":"99c74d51a1557e9d","action":"turnOff","result":true}
 {"_id":"42a72c31c64d40be","timestamp":"2019-10-12T01:08:37.639Z","deviceId":"99c74d51a1557e9d","action":"turnOn","params":[],"result":true}
 {"_id":"b8bb945dcf6cd019","timestamp":"2019-10-12T01:08:46.248Z","deviceId":"99c74d51a1557e9d","action":"turnOff","result":true}
+{"_id":"47c83c0e692cefb1","timestamp":"2019-10-12T05:09:54.902Z","deviceId":"99c74d51a1557e9d","action":"turnOn","result":true}

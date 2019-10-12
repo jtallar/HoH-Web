@@ -379,20 +379,40 @@ Vue.component('add-room', {
 Vue.component('new-routine', {
   data() {
     return {
+      error: false,
+      errorMsg: "",
+
       overlay: true,
-      desc: ' ',
-      name: ' ',
-      snackbarCan: false,
-      snackbarOk: false,
-      sheet: false,
-      rooms: ['Living Room', 'Kitchen', 'Bathroom', 'Garage', 'Bedroom', 'Entertainement'],
-      room: ' ',
-      devices: ['1', '2'],
-      device: ' ',
+      desc: "",
+      name: "",
+      show_param: false,
+      params: undefined,
+      final_param: undefined,
+      rooms: [],
+      room: "",
+      devices: [],
+      device: "",
       options: [],
-      option: ' ',
+      option: "",
       actions: [],
-      chip: true,
+    }
+  },
+  /* When data selected, fetch data */
+  watch: {
+    room(newVal, oldVal) {
+      if (newVal !== "")
+        this.getDevices(newVal);
+    },
+    device(newVal, oldVal) {
+      if (newVal !== "")
+        this.getActions(this.devices.find(x => x.id === newVal).type.id);
+    },
+    option(newVal, oldVal) {
+      if (newVal === "") return;
+      var aux = this.options.find(x => x.name === newVal);
+      if (aux.params.length === 0) return;
+      this.show_param = true;
+      this.params = aux.params;
     }
   },
   template:
@@ -415,16 +435,16 @@ Vue.component('new-routine', {
                   <v-text-field v-model="desc" label="Action Description" required></v-text-field>
                 </v-col>
                 <v-col cols="3" >
-                  <v-select v-model="room" :items="rooms" :value="room" label="Room" required></v-select>
+                  <v-select v-model="room" :items="rooms" item-value="id" item-text="name" :value="room" label="Room" required></v-select>
                 </v-col>
                 <v-col cols="4" >
-                  <v-select v-model="device" :items="devices" :value="device" label="Device" required></v-select>
+                  <v-select v-model="device" :items="devices" item-value="id" item-text="name" :value="device" label="Device" required></v-select>
                 </v-col>
                 <v-col cols="5" >
-                  <v-select v-model="option" :items="options" :value="option" label="Action" required></v-select>
+                  <v-select v-model="option" :items="options" item-value="name" item-text="name" :value="option" label="Action" required></v-select>
                 </v-col>
                 <v-container>
-                    <h1>CAJITA DEL DEVICE CUANDO CORRESPONDA</h1>
+
                 </v-container>
                 <v-col cols="12" >
                   <div class="text-right">
@@ -450,36 +470,151 @@ Vue.component('new-routine', {
               <v-container>
                 <v-row>
                   <v-col v-for="(item, i) in actions" :key="i" cols="12" md="2">
-                    <v-chip v-if="chip" class="mr-2" color="green" outlined>
-                      {{item}} 
+                    <v-chip class="mr-2" color="green" outlined>
+                      {{item.meta.desc}} 
                     </v-chip>
                   </v-col>                            
                 </v-row>
               </v-container>
             </v-card-text>
-            <v-snackbar v-model="snackbarOk" > Successfully created!
-              <v-btn color="green" text @click="snackbarOk = false"> OK </v-btn>
-            </v-snackbar>
-            <v-snackbar v-model="snackbarCan" > Operation cancelled!
-              <v-btn color="red" text @click="snackbarCan = false"> OK </v-btn>
+            <v-snackbar v-model="error" > {{ errorMsg }}
+              <v-btn color="red" text @click="error = false; errorText = false"> OK </v-btn>
             </v-snackbar>
           </v-card> 
         </v-overlay>
       </v-container>`,
+  computed: {
+    getComp() {
+      switch (this.params.type) {
+        case "number":
+        case "integer":
+          return "picker";
+        case "string":
+          if (this.params.name === "color")
+            return "color"
+          return "list";
+        default:
+          return "";
+      }
+    }
+  },
   methods: {
-    create() {
-      this.resetVar();
+    /* Translators of the API intel */
+    getOptionName(name) {
+      var aux = name.split(/(?=[A-Z])/).join(' ');
+      return aux[0].toUpperCase() + aux.substr(1);
+    },
+    getActionName(name) {
+      var aux = name.split(' ').join('');
+      return aux[0].toLowerCase() + aux.substr(1);
+    },
+    /* When routine is created */
+    async create() {
+      this.addRtn();
+      this.resetAll();
       this.$root.$emit('Finished add', 0);
     },
+    /*  When operation is canceled */
     cancel() {
-      this.resetVar();
+      this.resetAll();
       this.$root.$emit('Finished add', 1);
     },
     addAction() {
-      this.actions.push(this.desc + ' - ' + this.device + ' - ' + this.room);
+      this.actions.push({
+        device: { id: this.device },
+        actionName: this.getActionName(this.option),
+        params: [],
+        meta: { desc: this.desc }
+      });
+      console.error(this.actions);
+      this.resetVar();
     },
+    /* Resets properties when action added */
     resetVar() {
+      this.room = "";
+      this.device = "";
+      this.option = "";
+      this.desc = "";
+    },
+    /*  Resets all properties */
+    resetAll() {
+      this.resetVar();
+      this.name = "";
+      this.actions = [];
+      this.options = [];
+      this.devices = [];
       this.overlay = false;
+      this.error = false;
+    },
+    /* Adds routine to API */
+    async addRtn() {
+      let rta = await addRoutine(this.name, this.actions, "sleeping_01.jpg") // TODO addd real handling of image
+        .catch((error) => {
+          this.errorMsg = error[0].toUpperCase() + error.slice(1);
+          console.error(this.errorMsg);
+        });
+      if (!rta) {
+        this.error = true;
+      }
+    },
+    /* Fetches all rooms from API */
+    async getRooms() {
+      let rta = await getAll("Room")
+        .catch((error) => {
+          this.errorMsg = error[0].toUpperCase() + error.slice(1);
+          console.error(this.errorMsg);
+        });
+      if (rta) {
+        for (i of rta.result) {
+          var el = { name: i.name, id: i.id };
+          this.rooms.push(el);
+        }
+        this.overlay = true;
+      } else {
+        this.error = true;
+      }
+    },
+    /* Gets devices given a Room id */
+    async getDevices(id) {
+      if (!this.error) {
+        let rta = await getRoomDevices(id)
+          .catch((error) => {
+            this.errorMsg = error[0].toUpperCase() + error.slice(1);
+            console.error(this.errorMsg);
+          });
+        if (rta) {
+          this.devices = [];
+          for (dev of rta.result) {
+            this.devices.push(dev);
+          }
+          this.overlay = true;
+        } else {
+          this.error = true;
+        }
+      }
+    },
+    /* Gets actions given a device type */
+    async getActions(id) {
+      if (!this.error) {
+        let rta = await getType(id)
+          .catch((error) => {
+            this.errorMsg = error[0].toUpperCase() + error.slice(1);
+            console.error(this.errorMsg);
+          });
+        if (rta) {
+          this.options = rta.result.actions;
+          for (act of this.options) act.name = this.getOptionName(act.name);
+          this.overlay = true;
+        } else {
+          this.error = true;
+        }
+      }
     }
+  },
+  /* Initial room fetch from API */
+  async mounted() {
+    this.getRooms();
+
   }
 })
+

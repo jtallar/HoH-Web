@@ -332,3 +332,8 @@ function addRoutine(name, actions, img) {
 function execRoutine(id) {
   return api.routine.exec(id);
 }
+
+/* Gets specific type */
+function getType(id) {
+  return api.deviceType.get(id);
+}

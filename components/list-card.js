@@ -65,7 +65,6 @@ Vue.component('card-btn', {
   }
 })
 
-// TODO implement functionality here
 /* Component for the routine card button with its  funcitonality */
 Vue.component('routine-btn', {
   props: {
