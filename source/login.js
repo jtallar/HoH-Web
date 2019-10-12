@@ -2,16 +2,6 @@ new Vue({
   el: '#app',
   vuetify: new Vuetify(),
   data: () => ({
-    options: [
-      { title: 'Profiles' },
-      { title: 'Settings' },
-      { title: 'Help' }
-    ],
-    favDevices: [],
-    favRooms: [],
-    favRoutines: [],
-    gotData: false,
-    error: false,
-    errorMsg: ''
+    height: screen.height - 127, // size of the toolbar
   }),
 })

@@ -371,7 +371,6 @@ Vue.component('add-room', {
   }
 })
 
-// TODO complete here when routine is finished
 /* Overlay for adding a routine */
 Vue.component('new-routine', {
   data() {
@@ -623,7 +622,7 @@ Vue.component('new-routine', {
     },
     /* Adds routine to API */
     async addRtn() {
-      let rta = await addRoutine(this.name, this.actions, this.images[this.image]) // TODO addd real handling of image
+      let rta = await addRoutine(this.name, this.actions, this.images[this.image])
         .catch((error) => {
           this.errorMsg = error[0].toUpperCase() + error.slice(1);
           console.error(this.errorMsg);
