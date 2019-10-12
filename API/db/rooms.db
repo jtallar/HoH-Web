@@ -1,15 +1,12 @@
-{"$$indexCreated":{"fieldName":"name","unique":true,"sparse":false}}
-{"_id":"c8765bcb661c56ba","name":"Living Room","meta":{"image":"livingroom3.jpg","favorite":false}}
-{"_id":"7259d10a39e41e04","name":"Master Bedroom","meta":{"image":"bedroom3.jpg","favorite":false}}
-{"_id":"413803f2c6abefc3","name":"Kitchen","meta":{"image":"kitchen.jpg","favorite":false}}
-{"_id":"2d560d014587a3f3","name":"Julis Bedroom","meta":{"image":"bedroom1.jpg","favorite":false}}
-{"_id":"23925078bafcf393","name":"Garage","meta":{"image":"garage.jpg","favorite":false}}
-{"_id":"25f5a2dccc29c115","name":"Suite Bathroom","meta":{"image":"bathroom.jpg","favorite":false}}
-{"_id":"37e3e33be9d9c803","name":"Guests Bathroom","meta":{"image":"bathroom2.jpg","favorite":false}}
-{"_id":"b8fc7b5c589d796c","name":"Guests Bedroom","meta":{"image":"bedroom4.jpg","favorite":false}}
-{"_id":"4c78bfc5d51e9ef8","name":"Game Room","meta":{"image":"gameroom.jpg","favorite":false}}
-{"_id":"7b3605151742a5c8","name":"Garden","meta":{"image":"garden.jpg","favorite":false}}
-{"_id":"ec77f7d09dbe57e3","name":"Entrance","meta":{"image":"hall.jpg","favorite":false}}
-{"_id":"413803f2c6abefc3","name":"Kitchen","meta":{"image":"kitchen.jpg","favorite":true}}
-{"_id":"c8765bcb661c56ba","name":"Living Room","meta":{"image":"livingroom3.jpg","favorite":true}}
 {"_id":"23925078bafcf393","name":"Garage","meta":{"image":"garage.jpg","favorite":true}}
+{"_id":"25f5a2dccc29c115","name":"Suite Bathroom","meta":{"image":"bathroom.jpg","favorite":false}}
+{"_id":"2d560d014587a3f3","name":"Julis Bedroom","meta":{"image":"bedroom1.jpg","favorite":false}}
+{"_id":"37e3e33be9d9c803","name":"Guests Bathroom","meta":{"image":"bathroom2.jpg","favorite":false}}
+{"_id":"413803f2c6abefc3","name":"Kitchen","meta":{"image":"kitchen.jpg","favorite":true}}
+{"_id":"4c78bfc5d51e9ef8","name":"Game Room","meta":{"image":"gameroom.jpg","favorite":false}}
+{"_id":"7259d10a39e41e04","name":"Master Bedroom","meta":{"image":"bedroom3.jpg","favorite":false}}
+{"_id":"7b3605151742a5c8","name":"Garden","meta":{"image":"garden.jpg","favorite":false}}
+{"_id":"b8fc7b5c589d796c","name":"Guests Bedroom","meta":{"image":"bedroom4.jpg","favorite":false}}
+{"_id":"c8765bcb661c56ba","name":"Living Room","meta":{"image":"livingroom3.jpg","favorite":true}}
+{"_id":"ec77f7d09dbe57e3","name":"Entrance","meta":{"image":"hall.jpg","favorite":false}}
+{"$$indexCreated":{"fieldName":"name","unique":true,"sparse":false}}

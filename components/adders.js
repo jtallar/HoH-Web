@@ -601,7 +601,7 @@ Vue.component('new-routine', {
 
       if (this.show_param) {
         this.actions.push({
-          device: { id: this.device.id },
+          device: { id: this.device },
           actionName: this.getActionName(this.option),
           params: [this.final_param],
           meta: { desc: desc }
