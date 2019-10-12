@@ -1,6 +1,6 @@
+{"_id":"0a900868f832b935","name":"123456789012345678901234567890123456789012345678901234567890","meta":{"image":"game_room_01.jpg","favorite":false}}
 {"_id":"7e231e4e91aedea5","name":"Living Room","meta":{"image":"living_01.jpg","favorite":false}}
 {"_id":"a981f48d548e8fb0","name":"Kitchen","meta":{"image":"kitchen_01.jpg","favorite":false}}
 {"_id":"b7c23cc8288d2976","name":"Bedroom","meta":{"image":"bedroom_01.jpg","favorite":false}}
-{"$$indexCreated":{"fieldName":"name","unique":true,"sparse":false}}
-{"_id":"0a900868f832b935","name":"123456789012345678901234567890123456789012345678901234567890","meta":{"image":"game_room_01.jpg","favorite":false}}
 {"_id":"fdd448207b07f00a","name":"Test","meta":{"image":"kitchen_01.jpg","favorite":false}}
+{"$$indexCreated":{"fieldName":"name","unique":true,"sparse":false}}

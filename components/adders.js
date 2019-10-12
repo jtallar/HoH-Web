@@ -383,7 +383,6 @@ Vue.component('new-routine', {
       errorMsg: "",
 
       overlay: true,
-      desc: "",
       name: "",
       show_param: false,
       params: undefined,
@@ -431,9 +430,6 @@ Vue.component('new-routine', {
                 </v-col>
               </v-row>
               <v-row>
-                <v-col cols="12">
-                  <v-text-field v-model="desc" label="Action Description" required></v-text-field>
-                </v-col>
                 <v-col cols="3" >
                   <v-select v-model="room" :items="rooms" item-value="id" item-text="name" :value="room" label="Room" required></v-select>
                 </v-col>
@@ -469,11 +465,11 @@ Vue.component('new-routine', {
             <v-card-text>
               <v-container>
                 <v-row>
-                  <v-col v-for="(item, i) in actions" :key="i" cols="12" md="2">
-                    <v-chip class="mr-2" color="green" outlined>
+                  <div v-for="(item, i) in actions" :key="i">
+                    <v-chip class="ma-2" color="green" outlined>
                       {{item.meta.desc}} 
                     </v-chip>
-                  </v-col>                            
+                  </div>                            
                 </v-row>
               </v-container>
             </v-card-text>
@@ -519,14 +515,18 @@ Vue.component('new-routine', {
       this.resetAll();
       this.$root.$emit('Finished add', 1);
     },
+    /* Generates proper action format and adds it to actions Array */
     addAction() {
+      var room_name = this.rooms.find(x => x.id === this.room).name;
+      var dev_name = this.devices.find(x => x.id === this.device).name;
+      var param_name = (this.show_param) ? " -> " : "";
+      var desc =  room_name + " -> " + dev_name + " -> " + this.option + param_name;
       this.actions.push({
         device: { id: this.device },
         actionName: this.getActionName(this.option),
         params: [],
-        meta: { desc: this.desc }
+        meta: { desc: desc }
       });
-      console.error(this.actions);
       this.resetVar();
     },
     /* Resets properties when action added */
@@ -534,7 +534,6 @@ Vue.component('new-routine', {
       this.room = "";
       this.device = "";
       this.option = "";
-      this.desc = "";
     },
     /*  Resets all properties */
     resetAll() {

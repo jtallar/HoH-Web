@@ -750,7 +750,8 @@ Vue.component('panel-speaker', {
   watch: {
     play(newVal, oldVal) {
       if (newVal)
-        this.sendAction("play", []);
+        if (this.stopped) this.sendAction("play", []);
+        else this.sendAction("resume", []);
       else if (!this.stopped) this.sendAction("pause", []);
     },
     stopped(newVal, oldVal) {
