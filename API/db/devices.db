@@ -1,1 +1,9 @@
 {"$$indexCreated":{"fieldName":"name","unique":true,"sparse":false}}
+{"_id":"fa9a2d3a3ab8685d","name":"Table Light","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"meta":{"favorite":false}}
+{"_id":"fa9a2d3a3ab8685d","name":"Table Light","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"roomId":"f9ae0512d72e4251","meta":{"favorite":false}}
+{"_id":"a950efb245ae1ad4","name":"Tv Light","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"meta":{"favorite":false}}
+{"_id":"a950efb245ae1ad4","name":"Tv Light","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"roomId":"f9ae0512d72e4251","meta":{"favorite":false}}
+{"_id":"04df9733fb17e2cf","name":"Sink Light","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"meta":{"favorite":false}}
+{"_id":"04df9733fb17e2cf","name":"Sink Light","typeId":"go46xmbqeomjrsjr","state":{"status":"off","color":"FFFFFF","brightness":100},"roomId":"8bdd2d9893aa7542","meta":{"favorite":false}}
+{"_id":"d0b6eb15005224d2","name":"Samsung RT200","typeId":"im77xxyulpegfmv8","state":{"status":"off","temperature":90,"heat":"conventional","grill":"off","convection":"off"},"meta":{"favorite":false}}
+{"_id":"d0b6eb15005224d2","name":"Samsung RT200","typeId":"im77xxyulpegfmv8","state":{"status":"off","temperature":90,"heat":"conventional","grill":"off","convection":"off"},"roomId":"8bdd2d9893aa7542","meta":{"favorite":false}}

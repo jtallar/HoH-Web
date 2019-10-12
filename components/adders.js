@@ -91,7 +91,6 @@ Vue.component('add-device', {
   data() {
     return {
       name: '',
-      overlay: false,
       rooms: [],
       room: "",
       types: [],
@@ -105,7 +104,7 @@ Vue.component('add-device', {
   },
   template:
     `<v-container fluid>
-      <v-overlay :value="overlay">
+      <v-overlay>
         <v-card v-show="noRooms == 1" max-width="700" light>
           <v-card-title>
             <span class="headline">Add Device</span>
@@ -114,7 +113,7 @@ Vue.component('add-device', {
             <v-container>
               <v-row>
                 <v-col cols="12">
-                  <v-text-field v-model="name" label="Name" :error="errorText" required hint="Between 3 and 60 letters, numbers or spaces." clearable></v-text-field>
+                  <v-text-field v-model="name" label="Name" :error="errorText" required hint="Between 3 and 20 letters, numbers or spaces." clearable></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="6">
                   <v-select v-model="room" :items="rooms" item-text="name" item-value="id" :value="room" label="Room" required></v-select>
@@ -200,7 +199,6 @@ Vue.component('add-device', {
     },
     /* Resets everything */
     resetVar() {
-      this.overlay = false;
       this.name = '';
       this.error = false;
       this.errorText = false;
@@ -234,7 +232,6 @@ Vue.component('add-device', {
               }
             }
             this.type = this.types[0].id;
-            this.overlay = true;
             this.noRooms = 1;
           } else {
             this.error = true;
@@ -258,7 +255,6 @@ Vue.component('add-room', {
   data() {
     return {
       name: '',
-      overlay: true,
       sheet: false,
       images: ['bedroom_01.jpg', 'bathroom_02.jpg', 'game_room_01.jpg', 'garage_01.jpg', 'kitchen_01.jpg', 'living_01.jpg', 'living_02.jpg', 'kitchen1.jpg'],
       image: undefined,
@@ -269,7 +265,7 @@ Vue.component('add-room', {
   },
   template:
     `<v-container fluid>
-      <v-overlay :value="overlay">
+      <v-overlay>
         <v-card class="add-room-card" light>
           <v-card-title>
             <span class="headline">Add Room</span>
@@ -279,7 +275,7 @@ Vue.component('add-room', {
             <v-container>
               <v-row>
                 <v-col cols="12">
-                  <v-text-field v-model="name" label="Name" :error="errorText" required hint="Between 3 and 60 letters, numbers or spaces." clearable></v-text-field>
+                  <v-text-field v-model="name" label="Name" :error="errorText" required hint="Between 3 and 30 letters, numbers or spaces." clearable></v-text-field>
                 </v-col>
                 <v-row align="center" fixed>
                   <v-col cols="4">
@@ -365,7 +361,6 @@ Vue.component('add-room', {
     },
     /* Reset al variables */
     resetVar() {
-      this.overlay = false;
       this.name = '';
       this.image = undefined;
       this.error = false;
@@ -382,7 +377,6 @@ Vue.component('new-routine', {
       error: false,
       errorMsg: "",
 
-      overlay: true,
       name: "",
       show_param: false,
       params: undefined,
@@ -417,7 +411,7 @@ Vue.component('new-routine', {
   template:
     `<v-container fluid>
 
-      <v-overlay :value="overlay">      
+      <v-overlay>      
         <v-card light max-height="600">
           <v-card-title>
             <span class="headline">New Routine</span>
@@ -542,7 +536,6 @@ Vue.component('new-routine', {
       this.actions = [];
       this.options = [];
       this.devices = [];
-      this.overlay = false;
       this.error = false;
     },
     /* Adds routine to API */
@@ -568,7 +561,6 @@ Vue.component('new-routine', {
           var el = { name: i.name, id: i.id };
           this.rooms.push(el);
         }
-        this.overlay = true;
       } else {
         this.error = true;
       }
@@ -586,7 +578,6 @@ Vue.component('new-routine', {
           for (dev of rta.result) {
             this.devices.push(dev);
           }
-          this.overlay = true;
         } else {
           this.error = true;
         }
@@ -603,7 +594,6 @@ Vue.component('new-routine', {
         if (rta) {
           this.options = rta.result.actions;
           for (act of this.options) act.name = this.getOptionName(act.name);
-          this.overlay = true;
         } else {
           this.error = true;
         }
