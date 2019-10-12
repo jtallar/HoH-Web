@@ -22,7 +22,7 @@
         <v-container>
           <v-row justify="center">
             <v-col v-for="routine in routines" :key="routine.id" cols="auto">
-              <routine-btn :title="routine.name" :img_name="routine.meta.img"></routine-btn>
+              <routine-btn :routine="routine"></routine-btn>
             </v-col>
             <v-col v-if="routines.length === 0 && gotData" cols="auto">
               <no-card text="No Routines created!"></no-card>

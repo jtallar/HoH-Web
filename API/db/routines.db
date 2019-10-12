@@ -1,1 +1,6 @@
 {"$$indexCreated":{"fieldName":"name","unique":true,"sparse":false}}
+{"_id":"501654369ef5835d","name":"good night","actions":[{"device":{"id":"99c74d51a1557e9d"},"actionName":"turnOff","params":[],"meta":{}}]}
+{"$$deleted":true,"_id":"501654369ef5835d"}
+{"_id":"6a4c9d84a88a7692","name":"good night","actions":[{"device":{"id":"99c74d51a1557e9d"},"actionName":"turnOff","params":[],"meta":{"img":"sleeping_01.jpg"}}]}
+{"$$deleted":true,"_id":"6a4c9d84a88a7692"}
+{"_id":"a981b892b2056041","name":"good night","actions":[{"device":{"id":"99c74d51a1557e9d"},"actionName":"turnOff","params":[]}],"meta":{"img":"sleeping_01.jpg"}}

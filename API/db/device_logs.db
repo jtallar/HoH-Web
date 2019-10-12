@@ -28,3 +28,11 @@
 {"_id":"f8c392cdc2c47eda","timestamp":"2019-10-11T21:29:23.918Z","deviceId":"99c74d51a1557e9d","action":"setColor","params":["862929"],"result":"6B3B3B"}
 {"_id":"f9c0c284d10711bd","timestamp":"2019-10-11T21:29:45.906Z","deviceId":"22bce7a908e96f1d","action":"setTemperature","params":[29],"result":24}
 {"_id":"faa174667d986f09","timestamp":"2019-10-11T21:29:25.485Z","deviceId":"99c74d51a1557e9d","action":"setBrightness","params":[55],"result":100}
+{"_id":"88406e055c86fab7","timestamp":"2019-10-12T00:40:40.328Z","deviceId":"99c74d51a1557e9d","action":"turnOff","params":[],"result":true}
+{"_id":"102bf576dd66a155","timestamp":"2019-10-12T00:40:41.822Z","deviceId":"99c74d51a1557e9d","action":"turnOn","params":[],"result":true}
+{"_id":"2e919951db22bca7","timestamp":"2019-10-12T00:40:46.900Z","deviceId":"99c74d51a1557e9d","action":"turnOff","result":true}
+{"_id":"d86953fdffa4d9c6","timestamp":"2019-10-12T00:40:59.813Z","deviceId":"99c74d51a1557e9d","action":"turnOff","result":false}
+{"_id":"0895454e355418b8","timestamp":"2019-10-12T01:07:16.920Z","deviceId":"99c74d51a1557e9d","action":"turnOn","params":[],"result":true}
+{"_id":"4358514adb4a5b29","timestamp":"2019-10-12T01:08:21.018Z","deviceId":"99c74d51a1557e9d","action":"turnOff","result":true}
+{"_id":"42a72c31c64d40be","timestamp":"2019-10-12T01:08:37.639Z","deviceId":"99c74d51a1557e9d","action":"turnOn","params":[],"result":true}
+{"_id":"b8bb945dcf6cd019","timestamp":"2019-10-12T01:08:46.248Z","deviceId":"99c74d51a1557e9d","action":"turnOff","result":true}

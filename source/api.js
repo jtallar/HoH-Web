@@ -215,9 +215,8 @@ api.routine = class {
   }
 
   /* Executes a specific routine */
-  // Para que es el body?? --> En principio para nada
-  static exec(id, param) {
-    return api.put(api.routine.url + id + '/execute', ((param === undefined) ? "{}" : param));
+  static exec(id) {
+    return api.put(api.routine.url + id + '/execute', []);
   }
 }
 
@@ -319,4 +318,17 @@ function getAllFromType(id) {
 /* Executes action on API (post) */
 function execAction(id, action, param) {
   return api.device.execAction(id, action, param);
+}
+
+/* Adds a routine */
+function addRoutine(name, actions, img) {
+  var routine = { name: name,
+                  actions: actions,
+                  meta: {img: img}};
+  return api.routine.add(routine);
+}
+
+/* Executes a routine */
+function execRoutine(id) {
+  return api.routine.exec(id);
 }

@@ -402,12 +402,14 @@ Vue.component('new-routine', {
         <v-card light max-height="600">
           <v-card-title>
             <span class="headline">New Routine</span>
-            <v-col cols="12">
-              <v-text-field outlined v-model="name" label="Routine Name" required></v-text-field>
-            </v-col>
           </v-card-title>
           <v-card-text>
             <v-container>
+              <v-row>
+                <v-col cols="12">
+                  <v-text-field outlined label="Routine Name" v-model="name" required></v-text-field>
+                </v-col>
+              </v-row>
               <v-row>
                 <v-col cols="12">
                   <v-text-field v-model="desc" label="Action Description" required></v-text-field>
@@ -439,6 +441,7 @@ Vue.component('new-routine', {
             </v-container>
           </v-card-text>
         </v-card>
+        <br/>
         <v-card light max-height="300" class="scroll">
           <v-card-title>
             <span class="headline">Added actions</span>

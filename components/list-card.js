@@ -53,7 +53,7 @@ Vue.component('card-btn', {
     },
     /* Sizing of the card given the screen real size */
     getWidth() {
-      return screen.width / this.width; 
+      return screen.width / this.width;
     },
     getHeight() {
       return this.getWidth / this.ratio;
@@ -69,17 +69,13 @@ Vue.component('card-btn', {
 /* Component for the routine card button with its  funcitonality */
 Vue.component('routine-btn', {
   props: {
+    routine: {
+      type: Object,
+      required: true
+    },
     ratio: {
       type: Number,
       default: 2
-    },
-    title: {
-      type: String,
-      required: true
-    },
-    img_name: {
-      type: String,
-      required: true
     },
     width: {
       type: Number,
@@ -91,8 +87,6 @@ Vue.component('routine-btn', {
       snackbarCan: false,
       snackbarOk: false,
       dialog: false,
-      minWidth: 100,
-      maxWidth: 400
     }
   },
   template:
@@ -104,7 +98,7 @@ Vue.component('routine-btn', {
             <v-img :src="getImg" :width="getWidth" :height="getHeight">
               <div class="text-left grey darken-2 mt-5 pl-3 pa-1">
                 <span class="text-uppercase white--text font-weight-light">
-                  {{ title }}      
+                  {{ routine.name }}      
                 </span>
               </div>
             </v-img>
@@ -116,8 +110,8 @@ Vue.component('routine-btn', {
           <v-card-text class="body-1">Are you sure you want to execute this routine?</v-card-text>
           <v-card-actions>
             <div class="flex-grow-1"></div>
-            <v-btn color="red darken-1" text @click="dialog = false, snackbarCan = true">Cancel</v-btn>
-            <v-btn color="green darken-1" text @click="dialog = false, snackbarOk = true">Run Routine</v-btn>
+            <v-btn color="red darken-1" text @click="cancel()">Cancel</v-btn>
+            <v-btn color="green darken-1" text @click="accept()">Run Routine</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -130,24 +124,42 @@ Vue.component('routine-btn', {
       </v-snackbar> 
 
     </v-container>`,
-  methods: {
-    current(name) {
-      this.routine = name;
-      return routine;
-    }
-  },
   computed: {
     /* Sizing of the card given a certain screen */
     getWidth() {
-      return screen.width / this.width; 
+      return screen.width / this.width;
     },
     getHeight() {
       return this.getWidth / this.ratio;
     },
     /* Obtain image source */
     getImg() {
-      return './resources/images/' + this.img_name;
+      return './resources/images/' + this.routine.meta.img;
     }
+  },
+  methods: {
+    /* When the routine gets acepted to run */
+    accept() {
+      this.dialog = false;
+      this.snackbarOk = true;
+      this.runRoutine();
+    },
+    /* When routine gets declined */
+    cancel() {
+      this.dialog = false;
+      this.snackbarCan = true;
+    },
+    /* Executes routine on API */
+    async runRoutine() {
+      let rta = await execRoutine(this.routine.id)
+        .catch((error) => {
+          this.errorMsg = error[0].toUpperCase() + error.slice(1);
+          console.error(this.errorMsg);
+        });
+      if (!rta) {
+        this.error = true;
+      }
+    },
   }
 })
 

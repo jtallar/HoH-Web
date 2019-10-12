@@ -16,6 +16,7 @@ new Vue({
                     console.error(this.errorMsg);
                 });
             if (rta) {
+                this.routines = [];
                 console.log(rta.result);
                 if (rta.result.length >= 1)
                     for (i of rta.result)
