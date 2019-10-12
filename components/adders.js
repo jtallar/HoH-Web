@@ -381,6 +381,12 @@ Vue.component('new-routine', {
       show_param: false,
       params: undefined,
       final_param: undefined,
+      color_param: '#FFFFFF',
+
+      slider: false,
+      color: false,
+      picker: false,
+
       rooms: [],
       room: "",
       devices: [],
@@ -393,26 +399,36 @@ Vue.component('new-routine', {
   /* When data selected, fetch data */
   watch: {
     room(newVal, oldVal) {
-      if (newVal !== "")
-        this.getDevices(newVal);
+      if (newVal === "") return;
+      this.getDevices(newVal);
+      this.option = "";
+      this.resetParams();
     },
     device(newVal, oldVal) {
-      if (newVal !== "")
-        this.getActions(this.devices.find(x => x.id === newVal).type.id);
+      if (newVal === "") return;
+      this.getActions(this.devices.find(x => x.id === newVal).type.id);
+      this.option = "";
+      this.resetParams();
     },
     option(newVal, oldVal) {
       if (newVal === "") return;
+      this.resetParams();
       var aux = this.options.find(x => x.name === newVal);
       if (aux.params.length === 0) return;
       this.show_param = true;
-      this.params = aux.params;
+      this.params = aux.params[0];
+      this.params.name = this.getOptionName(this.params.name);
+      console.error(this.params);
+      if (this.params.name === "Color") this.color = true;
+      else if (this.params.name === "Mode" || this.params.type === "string") this.picker = true;
+      else this.slider = true;
     }
   },
   template:
     `<v-container fluid>
 
       <v-overlay>      
-        <v-card light max-height="600">
+        <v-card light >
           <v-card-title>
             <span class="headline">New Routine</span>
           </v-card-title>
@@ -422,18 +438,25 @@ Vue.component('new-routine', {
                 <v-col cols="12">
                   <v-text-field outlined label="Routine Name" v-model="name" required></v-text-field>
                 </v-col>
-              </v-row>
-              <v-row>
-                <v-col cols="3" >
-                  <v-select v-model="room" :items="rooms" item-value="id" item-text="name" :value="room" label="Room" required></v-select>
+                <v-col cols="4" >
+                  <v-select flex-grow="false" v-model="room" :items="rooms" item-value="id" item-text="name" :value="room" label="Room" required></v-select>
                 </v-col>
                 <v-col cols="4" >
                   <v-select v-model="device" :items="devices" item-value="id" item-text="name" :value="device" label="Device" required></v-select>
                 </v-col>
-                <v-col cols="5" >
+                <v-col cols="4" >
                   <v-select v-model="option" :items="options" item-value="name" item-text="name" :value="option" label="Action" required></v-select>
                 </v-col>
-                <v-container>
+                <v-container v-if="show_param">
+
+                  <v-slider v-if="slider" v-model="final_param" :label="params.name" :min="params.minValue" :max="params.maxValue" 
+                    class="mt-4" thumb-label="always" thumb-size="25" color="orange" track-color="black" thumb-color="orange darken-2"></v-slider>
+
+                  <v-col v-if="picker" cols="auto" >
+                    <v-select v-model="final_param" :items="params.supportedValues" :label="params.name" required></v-select>
+                  </v-col>
+
+                  <v-color-picker v-if="color" v-model="color_param" hide-inputs hide-mode-switch mode.sync="rgba" class="mx-auto" flat></v-color-picker>
 
                 </v-container>
                 <v-col cols="12" >
@@ -452,7 +475,7 @@ Vue.component('new-routine', {
           </v-card-text>
         </v-card>
         <br/>
-        <v-card light max-height="300" class="scroll">
+        <v-card light class="scroll">
           <v-card-title>
             <span class="headline">Added actions</span>
           </v-card-title>
@@ -468,26 +491,11 @@ Vue.component('new-routine', {
               </v-container>
             </v-card-text>
             <v-snackbar v-model="error" > {{ errorMsg }}
-              <v-btn color="red" text @click="error = false; errorText = false"> OK </v-btn>
+              <v-btn color="red" text @click="error = false"> OK </v-btn>
             </v-snackbar>
           </v-card> 
         </v-overlay>
       </v-container>`,
-  computed: {
-    getComp() {
-      switch (this.params.type) {
-        case "number":
-        case "integer":
-          return "picker";
-        case "string":
-          if (this.params.name === "color")
-            return "color"
-          return "list";
-        default:
-          return "";
-      }
-    }
-  },
   methods: {
     /* Translators of the API intel */
     getOptionName(name) {
@@ -498,8 +506,14 @@ Vue.component('new-routine', {
       var aux = name.split(' ').join('');
       return aux[0].toLowerCase() + aux.substr(1);
     },
+
     /* When routine is created */
     async create() {
+      if (this.actions.length === 0) {
+        this.errorMsg = 'Routine has no actions!';
+        this.error = true;
+        return;
+      }
       this.addRtn();
       this.resetAll();
       this.$root.$emit('Finished add', 0);
@@ -513,21 +527,42 @@ Vue.component('new-routine', {
     addAction() {
       var room_name = this.rooms.find(x => x.id === this.room).name;
       var dev_name = this.devices.find(x => x.id === this.device).name;
-      var param_name = (this.show_param) ? " -> " : "";
-      var desc =  room_name + " -> " + dev_name + " -> " + this.option + param_name;
-      this.actions.push({
-        device: { id: this.device },
-        actionName: this.getActionName(this.option),
-        params: [],
-        meta: { desc: desc }
-      });
+      if (this.color) this.final_param = this.color_param.substr(1);
+      var param_name = (this.show_param) ? " -> " + this.final_param : "";
+      var desc = room_name + " -> " + dev_name + " -> " + this.option + param_name;
+
+      if (this.show_param) {
+        this.actions.push({
+          device: { id: this.device },
+          actionName: this.getActionName(this.option),
+          params: [this.final_param],
+          meta: { desc: desc }
+        });
+      } else {
+        this.actions.push({
+          device: { id: this.device },
+          actionName: this.getActionName(this.option),
+          params: [],
+          meta: { desc: desc }
+        });
+      }
+      console.error(this.actions);
       this.resetVar();
+    },
+    /* Resets params view */
+    resetParams() {
+      this.show_param = false;
+      this.picker = false;
+      this.color = false;
+      this.slider = false;
     },
     /* Resets properties when action added */
     resetVar() {
+      this.resetParams();
       this.room = "";
       this.device = "";
       this.option = "";
+      this.final_param = "";
     },
     /*  Resets all properties */
     resetAll() {
