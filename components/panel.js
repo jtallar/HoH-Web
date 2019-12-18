@@ -17,7 +17,7 @@ Vue.component('panel', {
       <template v-slot:prepend >
         <v-list-item two-line class="mb-2 mt-1">
           <v-list-item-avatar tile>
-            <v-img eager :src="getImg" contain/>
+            <v-img eager :src="getImg" contain :alt="device.type.name"/>
           </v-list-item-avatar>
           <v-list-item-content>
             <v-list-item-title class="text-capitalize">{{ device.name }}</v-list-item-title>
@@ -334,7 +334,7 @@ Vue.component('panel-none', {
   },
   template:
     `<v-container fluid>
-      <div class="mt-5 ma-1 title font-weight-bold">Hello Julian Ajax!</div>
+      <div class="mt-5 ma-1 title font-weight-bold">Hello!</div>
       <div class="mb-5 ma-1 ">Welcome to your smart house! Here we have some tips for you.</div>
       
       <v-card dark class="mt-5 mb-5 ma-1">
@@ -1133,7 +1133,7 @@ Vue.component('panel-airconditioner', {
       <v-slider v-model="temperature" class="mt-4" step="1" ticks="always" tick-size="4" min="18" max="38"
           thumb-label="always" thumb-size="25" color="orange" track-color="black" thumb-color="orange darken-2"></v-slider>
     
-      <v-subheader>Mode</v-subheader>
+      <v-subheader class="mt-n6">Mode</v-subheader>
       <v-layout column align-center>
           <v-btn-toggle v-model="mode" tile color="orange darken-2" group mandatory>
               <v-btn>Cold</v-btn>
@@ -1153,7 +1153,7 @@ Vue.component('panel-airconditioner', {
           <v-checkbox label="Auto" color="orange darken-2" v-model="auto_fan_speed"></v-checkbox>
         </v-col>
       </v-row>
-      <v-subheader>Vertical Wings</v-subheader>
+      <v-subheader class="mt-n6">Vertical Wings</v-subheader>
       <v-row>
         <v-col cols="8">
           <v-slider v-model="vertical_wings" class="mt-4" step="22.5" ticks="always" tick-size="4" min="22.5" max="90"
@@ -1164,7 +1164,7 @@ Vue.component('panel-airconditioner', {
           <v-checkbox label="Auto" color="orange darken-2" v-model="auto_vertical_wings"></v-checkbox>
         </v-col>
       </v-row>
-      <v-subheader>Horizontal Wings</v-subheader>
+      <v-subheader class="mt-n6">Horizontal Wings</v-subheader>
       <v-row>
         <v-col cols="8">
           <v-slider v-model="horizontal_wings" class="mt-4" step="45" ticks="always" tick-size="4" min="-90" max="90"

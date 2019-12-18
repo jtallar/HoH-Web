@@ -29,7 +29,7 @@ Vue.component('card-btn', {
   template:
     `<v-col class="text-center">
       <v-btn tile class="ma-3" :width="getWidth" :height="getHeight" :href="getHref">
-        <v-img :src="getImg" :width="getWidth" :height="getHeight">
+        <v-img :src="getImg" :width="getWidth" :height="getHeight" :alt="img_name">
           <div class="text-left grey darken-2 mt-5 pl-3 pa-1">
             <span class="text-uppercase white--text font-weight-light">
               {{ title }}      
@@ -94,7 +94,7 @@ Vue.component('routine-btn', {
       <v-dialog v-model="dialog" persistent width="410">
         <template v-slot:activator="{ on }">
           <v-btn v-on="on" tile class="ma-3" :width="getWidth" :height="getHeight" >
-            <v-img :src="getImg" :width="getWidth" :height="getHeight">
+            <v-img :src="getImg" :width="getWidth" :height="getHeight" :alt="routine.meta.img">
               <div class="text-left grey darken-2 mt-5 pl-3 pa-1">
                 <span class="text-uppercase white--text font-weight-light">
                   {{ routine.name }}      

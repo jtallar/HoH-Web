@@ -15,7 +15,7 @@ Vue.component('dev-btn', {
     `<v-col class="text-center">
       <v-btn class="mb-1" :outlined="!selected" :width="getSize" :height="getSize" fab color="grey darken-4" @click="toggleSelected">
         <div>
-          <v-img eager :max-width="getIconSize" :src="getImg" contain/>
+          <v-img eager :max-width="getIconSize" :src="getImg" contain :alt="device.type.name"/>
         </div>
       </v-btn>
       <div class="text-capitalize black--text font-weight-light mb-1">
@@ -52,13 +52,13 @@ Vue.component('dev-btn', {
           else
             return './resources/icons/web/air_conditioner_off.svg';
         case "door":
-          if (stat === "closed")
-            return './resources/icons/web/door_closed.svg';
+          if (stat === "opened")
+            return './resources/icons/web/door_opened.svg';
           else {
-            if (stat === "opened")
-              return './resources/icons/web/door_opened.svg';
-            else
+            if (this.device.state.lock === "locked")
               return './resources/icons/web/door_locked.svg';
+            else
+              return './resources/icons/web/door_closed.svg';
           }
         case "blinds":
           if (stat === "closed")
@@ -102,8 +102,10 @@ Vue.component('dev-btn', {
     async getData() {
       let rta = await getDevice(this.device.id)
         .catch((error) => {
-          this.errorMsg = error[0].toUpperCase() + error.slice(1);
-          console.error(this.errorMsg);
+          if (!error === undefined) {
+            this.errorMsg = error[0].toUpperCase() + error.slice(1);
+            console.error(this.errorMsg);
+          }
         });
       if (rta) {
         console.log(rta.result);

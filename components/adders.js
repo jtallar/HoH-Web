@@ -134,7 +134,7 @@ Vue.component('add-device', {
           <v-card-title/>
           <v-row class="align-center">
             <v-col class="ml-4" cols="2">
-              <v-img src="./resources/images/error.png" class="error-img-width"></v-img>
+              <v-img src="./resources/images/error.png" class="error-img-width" alt="Error"></v-img>
             </v-col>
             <v-col cols="9">
               <v-card-text class="body-1">Please create a room before adding devices</v-card-text>
@@ -293,13 +293,13 @@ Vue.component('add-room', {
           
           <v-bottom-sheet v-model="sheet">
             <v-sheet  dark class="text-center" >
-              <v-card dark max-width="15000" class="mx-auto">
+              <v-card dark class="mx-auto">
                 <v-container class="pa-1">
                   <v-item-group v-model="image">
                     <v-row>
                       <v-col v-for="(item, i) in images" :key="i" cols="12" md="2">
                         <v-item v-slot:default="{ active, toggle }">
-                          <v-img :src="\`./resources/images/room/\${item}\`" class="text-right pa-2 add-room-img" @click="toggle">
+                          <v-img :src="\`./resources/images/room/\${item}\`" class="text-right pa-2 add-room-img" @click="toggle" :alt="item">
                             <v-btn icon dark >
                               <v-icon color="orange darken-2 ">
                                 {{ active ? 'mdi-check-circle' : 'mdi-circle-outline' }}
@@ -511,13 +511,13 @@ Vue.component('new-routine', {
 
           <v-bottom-sheet v-model="sheet">
             <v-sheet  dark class="text-center" >
-              <v-card dark max-width="15000" class="mx-auto">
+              <v-card dark class="mx-auto">
                 <v-container class="pa-1">
                   <v-item-group v-model="image">
                     <v-row>
                       <v-col v-for="(item, i) in images" :key="i" cols="12" md="2">
                         <v-item v-slot:default="{ active, toggle }">
-                          <v-img :src="\`./resources/images/routine/\${item}\`" class="text-right pa-2 add-room-img" @click="toggle">
+                          <v-img :src="\`./resources/images/routine/\${item}\`" class="text-right pa-2 add-room-img" @click="toggle" :alt="item">
                             <v-btn icon dark >
                               <v-icon color="orange darken-2 ">
                                 {{ active ? 'mdi-check-circle' : 'mdi-circle-outline' }}

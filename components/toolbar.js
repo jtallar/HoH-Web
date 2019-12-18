@@ -22,7 +22,7 @@ Vue.component('toolbar', {
           <!-- button/avatar/image for logo -->
           <v-btn icon href="./home.html">
             <v-avatar size="35">
-              <v-img src="./resources/images/logo.png"></v-img>
+              <v-img src="./resources/images/logo.png" alt="logo"></v-img>
             </v-avatar>
           </v-btn>
   
@@ -69,7 +69,7 @@ Vue.component('toolbar-login', {
       <!-- button/avatar/image for logo -->
         <v-btn icon href="./login.html">
           <v-avatar size="35">
-            <v-img src="./resources/images/logo.png"></v-img>
+            <v-img src="./resources/images/logo.png" alt="logo"></v-img>
           </v-avatar>
         </v-btn>
       <!-- title of toolbar -->

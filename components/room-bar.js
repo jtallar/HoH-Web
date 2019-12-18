@@ -87,7 +87,9 @@ Vue.component('edit-room', {
       name: this.room.name,
       overlay: true,
       sheet: false,
-      images: ['bedroom_01.jpg', 'bathroom_02.jpg', 'game_room_01.jpg', 'garage_01.jpg', 'kitchen_01.jpg', 'living_01.jpg', 'living_02.jpg', 'kitchen1.jpg'],
+      images: ['bathroom.jpg', 'bathroom1.jpg', 'bathroom2.jpg', 'bathroom3.jpg', 'bedroom.jpg', 'bedroom1.jpg', 'bedroom2.jpg', 'bedroom3.jpg', 'bedroom4.jpg',
+                'gameroom.jpg', 'gameroom1.jpg', 'garage.jpg', 'garden.jpg', 'hall.jpg', 'kitchen.jpg', 'kitchen1.jpg', 'livingroom.jpg', 'livingroom1.jpg',
+                'livingroom2.jpg', 'livingroom3.jpg', 'livingroom4.jpg', 'garden1.jpg', 'homeoffice.jpg', 'homeoffice1.jpg'],
       image: 0,
       dialog: false,
       error: false,
@@ -131,13 +133,13 @@ Vue.component('edit-room', {
           
           <v-bottom-sheet v-model="sheet">
             <v-sheet  dark class="text-center">
-              <v-card dark max-width="15000" class="mx-auto">
+              <v-card dark class="mx-auto">
                 <v-container class="pa-1">
                   <v-item-group v-model="image">
                     <v-row>
                       <v-col v-for="(item, i) in images" :key="i" cols="12" md="2">
                         <v-item v-slot:default="{ active, toggle }">
-                          <v-img :src="\`./resources/images/\${item}\`" class="text-right pa-2 add-room-img" @click="toggle">
+                          <v-img :src="\`./resources/images/room/\${item}\`" class="text-right pa-2 add-room-img" @click="toggle" :alt="item">
                             <v-btn icon dark >
                               <v-icon color="orange darken-2 ">
                                 {{ active ? 'mdi-check-circle' : 'mdi-circle-outline' }}
