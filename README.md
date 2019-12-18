@@ -3,15 +3,9 @@
 ### WebApp used to control Smart Home devices
 
 #### Environment setup:
-1. Install the API following :
-  `nasm qemu gcc make`
+1. Install the API following the instructions written on API/README.txt
 
-2. Build the Toolchain (on x64BareBones project directory):
-  `cd Toolchain`
-  `make all`
+2. Run the API:
+  `npm start`
 
-3. Build the Kernel (on x64BareBones project directory):
-  `make all`
-
-4. Run the kernel
-  `./run.sh`
+3. Open index.html in your preferred Web Browser
